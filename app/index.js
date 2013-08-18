@@ -69,10 +69,7 @@ BreiAppGenerator.prototype.askFor = function askFor() {
 
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
-    // this.useBootstrap = features.indexOf('useBootstrap') !== -1;
     this.includeSass = features.indexOf('includeSass') !== -1;
-    // this.includeAngularJS = features.indexOf('includeAngularJS') !== -1;
-    // this.includeRequireJS = features.indexOf('includeRequireJS') !== -1;
     this.autoprefixer = features.indexOf('autoprefixer') !== -1;
     this.deployDirectory = deployDirectory;
 
@@ -146,6 +143,7 @@ BreiAppGenerator.prototype.writeIndex = function writeIndex() {
   var defaults = ['HTML5 Boilerplate'];
   var contentText = [
     '        <div class="container">',
+    '            <h1>Hello World!</h1>'
   ];
 
   // if (!this.includeRequireJS) {

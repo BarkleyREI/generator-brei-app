@@ -26,11 +26,11 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-        // <% if (includeSass) { %>
-        //     compass: {
-        //         files: ['<%%= yeoman.app %>/css/{,*/}*.{scss,sass}'],
-        //         tasks: ['compass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
-        //     },<% } %>
+        <% if (includeSass) { %>
+            compass: {
+                files: ['<%%= yeoman.app %>/css/{,*/}*.{scss,sass}'],
+                tasks: ['compass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
+            },<% } %>
             styles: {
                 files: ['<%%= yeoman.app %>/css/{,*/}*.css'],
                 tasks: ['copy:styles'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
