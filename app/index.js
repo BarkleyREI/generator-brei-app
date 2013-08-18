@@ -101,6 +101,14 @@ BreiAppGenerator.prototype.jshint = function jshint() {
   this.copy('jshintrc', '.jshintrc');
 };
 
+BreiAppGenerator.prototype.addJQuery = function jshint() {
+  
+  this.indexFile = this.appendScripts(this.indexFile, 'js/main.js', [
+    'bower_components/jquery/jquery.js'
+  ]);
+
+};
+
 // We don't care about this
 //
 // BreiAppGenerator.prototype.editorConfig = function editorConfig() {
