@@ -54,7 +54,7 @@ BreiAppGenerator.prototype.askFor = function askFor() {
       name: 'Autoprefixer for your CSS',
       value: 'autoprefixer',
       checked: true
-    }],
+    }]},
     {
       type: 'input',
       name: 'Deploy directory (relative to current path)',
