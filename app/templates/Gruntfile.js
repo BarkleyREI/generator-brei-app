@@ -25,8 +25,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         yeoman: yeomanConfig,
-        watch: {
-        <% if (includeSass) { %>
+        watch: {<% if (includeSass) { %>
             compass: {
                 files: ['<%%= yeoman.app %>/css/{,*/}*.{scss,sass}'],
                 tasks: ['compass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
@@ -99,6 +98,12 @@ module.exports = function (grunt) {
                         '!<%%= yeoman.dist %>/.git*'
                     ]
                 }]
+            },
+            deploy: {
+                options: {
+                    force: true
+                },
+                src: ['<%%= yeoman.deploy %>']
             },
             server: '.tmp'
         },
@@ -351,6 +356,11 @@ module.exports = function (grunt) {
         'copy:dist',
         'rev',
         'usemin'
+    ]);
+
+    grunt.registerTask('deploy', [
+        'clean:deploy',
+        'copy:deploy'
     ]);
 
     grunt.registerTask('default', [
