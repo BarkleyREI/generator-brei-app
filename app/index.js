@@ -60,8 +60,8 @@ BreiAppGenerator.prototype.askFor = function askFor() {
       name: 'Deploy directory (relative to current path)',
       value: 'deployDirectory',
       default: "../../deploy"
-    }]
-  }];
+    }
+  ];
 
   this.prompt(prompts, function (answers) {
     var features = answers.features;
