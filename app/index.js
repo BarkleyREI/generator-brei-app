@@ -74,6 +74,7 @@ BreiAppGenerator.prototype.askFor = function askFor() {
     // this.includeAngularJS = features.indexOf('includeAngularJS') !== -1;
     // this.includeRequireJS = features.indexOf('includeRequireJS') !== -1;
     this.autoprefixer = features.indexOf('autoprefixer') !== -1;
+    this.deployDirectory = deployDirectory;
 
     cb();
   }.bind(this));
