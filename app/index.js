@@ -65,6 +65,7 @@ BreiAppGenerator.prototype.askFor = function askFor() {
 
   this.prompt(prompts, function (answers) {
     var features = answers.features;
+    var deployDirectory = answers.deployDirectory;
 
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
