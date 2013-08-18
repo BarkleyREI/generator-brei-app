@@ -57,8 +57,8 @@ BreiAppGenerator.prototype.askFor = function askFor() {
     }]},
     {
       type: 'input',
-      name: 'Deploy directory (relative to current path)',
-      value: 'deployDirectory',
+      name: 'deployDirectory',
+      message: 'Deploy directory (relative to current path)',
       default: "../../deploy"
     }
   ];
