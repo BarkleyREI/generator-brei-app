@@ -47,27 +47,14 @@ BreiAppGenerator.prototype.askFor = function askFor() {
     name: 'features',
     message: 'What more would you like?',
     choices: [{
-    //   name: 'Twitter Bootstrap',
-    //   value: 'useBootstrap',
-    //   checked: false
-    // }, {
       name: 'Use SASS/Compass',
       value: 'includeSass',
       checked: false
     }, {
-    //   name: 'RequireJS',
-    //   value: 'includeRequireJS',
-    //   checked: false
-    // }, {
-    // Uncomment this when I figure out the best way to add Angular dynamically
-    //   name: 'AngularJS',
-    //   value: 'includeAngularJS',
-    //   checked: false
-    // }, {
       name: 'Autoprefixer for your CSS',
       value: 'autoprefixer',
       checked: true
-    }]},
+    }],
     {
       type: 'input',
       name: 'Deploy directory (relative to current path)',
