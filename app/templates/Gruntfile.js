@@ -114,6 +114,7 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 '<%%= yeoman.app %>/js/{,*/}*.js',
+                '!<%%= yeoman.app %>/js/plugins.js',
                 '!<%%= yeoman.app %>/js/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
@@ -238,7 +239,7 @@ module.exports = function (grunt) {
             // blocks for your CSS. By default, the Usemin block from your
             // `index.html` will take care of minification, e.g.
             //
-            //     <!-- build:css({.tmp,app}) styles/main.css -->
+            //     <!-- build:css({.tmp,app}) css/main.css -->
             //
             // dist: {
             //     files: {
@@ -282,25 +283,26 @@ module.exports = function (grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/*'
+                        'css/{,*/}*.{jpg,gif,png,webp}',
+                        'css/fonts/*'
                     ]
                 }]
             },
-            deploy: {                
-                expand: true,
-                dot: true,
-                cwd: '<%%= yeoman.dist %>',
-                dest: '<%%= yeoman.deploy %>',
-                src: [
-                    '**'
-                ]
-            }
+            deploy: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%%= yeoman.dist %>',
+                    dest: '<%%= yeoman.deploy %>',
+                    src: ['./**']
+                }]
+            },
             styles: {
                 expand: true,
                 dot: true,
                 cwd: '<%%= yeoman.app %>/css',
                 dest: '.tmp/css/',
-                src: '**.css'
+                src: '{,*/}*.css'
             }
         },
         concurrent: {
