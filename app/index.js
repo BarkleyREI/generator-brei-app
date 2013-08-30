@@ -140,7 +140,7 @@ BreiAppGenerator.prototype.addJQuery = function jshint() {
 
 BreiAppGenerator.prototype.mainStylesheet = function mainStylesheet() {
   if (this.includeSass) {
-    this.copy('main.scss', 'app/css/main.scss');
+    this.copy('main.scss', 'app/sass/main.scss');
   } else {
     this.copy('main.css', 'app/css/main.css');
   }
@@ -215,6 +215,14 @@ BreiAppGenerator.prototype.app = function app() {
   this.mkdir('app/js');
   this.mkdir('app/css');
   this.mkdir('app/css/i');
+
+  // adds additional directories for sass
+  if (this.includeSass) {
+    this.mkdir('app/sass');
+    this.mkdir('app/sass/modules');
+    this.mkdir('app/sass/helpers');
+  }
+
   this.mkdir('app/img');
   this.write('app/index.html', this.indexFile);
 
