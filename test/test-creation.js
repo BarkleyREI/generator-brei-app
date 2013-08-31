@@ -4,7 +4,6 @@
 var path    = require('path');
 var helpers = require('yeoman-generator').test;
 
-
 describe('brei-app generator', function () {
   beforeEach(function (done) {
     helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
@@ -21,13 +20,21 @@ describe('brei-app generator', function () {
 
   it('creates expected files', function (done) {
     var expected = [
-      // add files you expect to exist here.
+      'package.json',
+      'bower.json',
+      '.bowerrc',
       '.jshintrc',
-      '.editorconfig'
+      'Gruntfile.js',
+      'index.html',
+      'js/main.js',
+      'bower_components/jquery/jquery.js',
+      'css/main.css',
+      'app/css/normalize.css'
     ];
 
     helpers.mockPrompt(this.app, {
-      'someOption': true
+      features: ['autoprefixer','spriteCSS'],
+      deployDirectory: '../../deploy'
     });
     this.app.options['skip-install'] = true;
     this.app.run({}, function () {

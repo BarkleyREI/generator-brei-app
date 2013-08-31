@@ -1,25 +1,14 @@
 'use strict';
 var util = require('util');
 var path = require('path');
-var spawn = require('child_process').spawn;
 var yeoman = require('yeoman-generator');
+var brei = require('brei-junk');
 
-// The "magic" that starts the module and runs all the prototype functions in the order they are written
-var BreiAppGenerator = module.exports = function BreiAppgenerator(args, options, config) {
+var BreiAppGenerator = module.exports = function BreiAppGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
-  // Mocha is fine
-
-  // setup the test-framework property, Gruntfile template will need this
-  this.testFramework = options['test-framework'] || 'mocha';
-
-  // for hooks to resolve on mocha by default
-  if (!options['test-framework']) {
-    options['test-framework'] = 'mocha';
-  }
-
-  // resolved to mocha by default (could be switched to jasmine for instance)
-  this.hookFor('test-framework', { as: 'app' });
+  // Get our BREI utilities (if any)
+  this.brei = brei;  
 
   // Read in the index file so we can append stuff to it later
   this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
@@ -28,6 +17,9 @@ var BreiAppGenerator = module.exports = function BreiAppgenerator(args, options,
   this.on('end', function () {
     this.installDependencies({ skipInstall: options['skip-install'] });
   });
+
+  // Set app version
+  this.appversion = "0.0.0";
 
   // Read in package info
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -39,6 +31,7 @@ BreiAppGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // welcome message
+  console.log(this.brei.logo());
   console.log(this.yeoman);
   console.log('Out of the box I include HTML5 Boilerplate, jQuery (1.x) and Modernizr.');
 
@@ -54,24 +47,37 @@ BreiAppGenerator.prototype.askFor = function askFor() {
       name: 'Autoprefixer for your CSS',
       value: 'autoprefixer',
       checked: true
+    }, {
+      name: 'Sprite images in CSS folder (css/i)',
+      value: 'spriteCSS',
+      checked: true
     }]},
     {
       type: 'input',
       name: 'deployDirectory',
       message: 'Deploy directory (relative to current path)',
       default: "../../deploy"
+    },
+    {
+      type: 'input',
+      name: 'appVersion',
+      message: 'App version',
+      default: "0.0.0"
     }
   ];
 
   this.prompt(prompts, function (answers) {
     var features = answers.features;
     var deployDirectory = answers.deployDirectory;
+    var appVersion = answers.appVersion;
 
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.includeSass = features.indexOf('includeSass') !== -1;
     this.autoprefixer = features.indexOf('autoprefixer') !== -1;
+    this.spriteCSS = features.indexOf('spriteCSS') !== -1;
     this.deployDirectory = deployDirectory;
+    this.appversion = appVersion;
 
     cb();
   }.bind(this));
@@ -84,13 +90,6 @@ BreiAppGenerator.prototype.gruntfile = function gruntfile() {
 BreiAppGenerator.prototype.packageJSON = function packageJSON() {
   this.template('_package.json', 'package.json');
 };
-
-// We use SVN
-//
-// BreiAppGenerator.prototype.git = function git() {
-//   this.copy('gitignore', '.gitignore');
-//   this.copy('gitattributes', '.gitattributes');
-// };
 
 BreiAppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
@@ -109,40 +108,13 @@ BreiAppGenerator.prototype.addJQuery = function jshint() {
 
 };
 
-// We don't care about this
-//
-// BreiAppGenerator.prototype.editorConfig = function editorConfig() {
-//   this.copy('editorconfig', '.editorconfig');
-// };
-//
-// or this
-//
-// BreiAppGenerator.prototype.h5bp = function h5bp() {
-//   this.copy('favicon.ico', 'app/favicon.ico');
-//   this.copy('404.html', 'app/404.html');
-//   this.copy('robots.txt', 'app/robots.txt');
-//   this.copy('htaccess', 'app/.htaccess');
-// };
-
-// BreiAppGenerator.prototype.bootstrapImg = function bootstrapImg() {
-//   if (this.compassBootstrap) {
-//     this.copy('glyphicons-halflings.png', 'app/img/glyphicons-halflings.png');
-//     this.copy('glyphicons-halflings-white.png', 'app/img/glyphicons-halflings-white.png');
-//   }
-// };
-
-// BreiAppGenerator.prototype.bootstrapJs = function bootstrapJs() {
-//   // TODO: create a Bower component for this
-//   if (this.useBootstrap) {
-//     this.copy('bootstrap.js', 'app/js/vendor/bootstrap.js');
-//   }
-// };
-
 BreiAppGenerator.prototype.mainStylesheet = function mainStylesheet() {
   if (this.includeSass) {
     this.copy('main.scss', 'app/sass/main.scss');
+    this.copy('normalize.css', 'app/sass/normalize.scss');
   } else {
     this.copy('main.css', 'app/css/main.css');
+    this.copy('normalize.css', 'app/css/normalize.css');
   }
 };
 
@@ -153,53 +125,6 @@ BreiAppGenerator.prototype.writeIndex = function writeIndex() {
     '        <div class="container">',
     '            <h1>Hello World!</h1>'
   ];
-
-  // if (!this.includeRequireJS) {
-  //   this.indexFile = this.appendScripts(this.indexFile, 'js/main.js', [
-  //     'bower_components/jquery/jquery.js',
-  //     'js/main.js'
-  //   ]);
-
-  //   this.indexFile = this.appendFiles({
-  //     html: this.indexFile,
-  //     fileType: 'js',
-  //     optimizedPath: 'js/coffee.js',
-  //     sourceFileList: ['js/hello.js'],
-  //     searchPath: '.tmp'
-  //   });
-  // }
-
-  // if (this.compassBootstrap) {
-  //   defaults.push('Twitter Bootstrap');
-  // }
-
-  // if (this.compassBootstrap && !this.includeRequireJS) {
-  //   // wire Twitter Bootstrap plugins
-  //   this.indexFile = this.appendScripts(this.indexFile, 'js/plugins.js', [
-  //     'bower_components/sass-bootstrap/js/bootstrap-affix.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-alert.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-dropdown.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-tooltip.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-modal.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-transition.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-button.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-popover.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-typeahead.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-carousel.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-scrollspy.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-collapse.js',
-  //     'bower_components/sass-bootstrap/js/bootstrap-tab.js'
-  //   ]);
-  // }
-
-  // if (this.includeRequireJS) {
-  //   defaults.push('RequireJS');
-  // }
-
-  // iterate over defaults and create content string
-  // defaults.forEach(function (el) {
-  //   contentText.push('                    <li>' + el  +'</li>');
-  // });
 
   contentText = contentText.concat([
     '        </div>',
@@ -214,7 +139,9 @@ BreiAppGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.mkdir('app/js');
   this.mkdir('app/css');
-  this.mkdir('app/css/i');
+  if (this.spriteCSS) {
+    this.mkdir('app/css/i'); // Used for sprite images. Optional
+  }
 
   // adds additional directories for sass
   if (this.includeSass) {
