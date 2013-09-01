@@ -129,16 +129,16 @@ module.exports = function (grunt) {
         },<% if (includeSass) { %>
         compass: {
             options: {
-                sassDir: '<%%= yeoman.app %>/css',
+                sassDir: '<%%= yeoman.app %>/sass',
                 cssDir: '.tmp/css',
                 generatedImagesDir: '.tmp/img/generated',
                 imagesDir: '<%%= yeoman.app %>/img',
                 javascriptsDir: '<%%= yeoman.app %>/js',
-                fontsDir: '<%%= yeoman.app %>/css/fonts',
+                fontsDir: '<%%= yeoman.app %>/sass/fonts',
                 importPath: '<%%= yeoman.app %>/bower_components',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
-                httpFontsPath: '/css/fonts',
+                httpFontsPath: '/sass/fonts',
                 relativeAssets: false
             },
             dist: {
@@ -275,7 +275,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
+                        'img/{,*/}*.{webp,gif}',
                         'css/{,*/}*.{jpg,gif,png,webp}',
                         'css/fonts/*'
                     ]
