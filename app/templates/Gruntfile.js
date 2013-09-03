@@ -118,7 +118,7 @@ module.exports = function (grunt) {
                 '!<%%= yeoman.app %>/js/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
-        },<% if (testFramework === 'mocha') { %>
+        },
         mocha: {
             all: {
                 options: {
@@ -126,26 +126,19 @@ module.exports = function (grunt) {
                     urls: ['http://localhost:<%%= connect.options.port %>/index.html']
                 }
             }
-        },<% } else if (testFramework === 'jasmine') { %>
-        jasmine: {
-            all: {
-                options: {
-                    specs: 'test/spec/{,*/}*.js'
-                }
-            }
-        },<% } %><% if (includeSass) { %>
+        },<% if (includeSass) { %>
         compass: {
             options: {
-                sassDir: '<%%= yeoman.app %>/css',
+                sassDir: '<%%= yeoman.app %>/sass',
                 cssDir: '.tmp/css',
                 generatedImagesDir: '.tmp/img/generated',
                 imagesDir: '<%%= yeoman.app %>/img',
                 javascriptsDir: '<%%= yeoman.app %>/js',
-                fontsDir: '<%%= yeoman.app %>/css/fonts',
+                fontsDir: '<%%= yeoman.app %>/sass/fonts',
                 importPath: '<%%= yeoman.app %>/bower_components',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
-                httpFontsPath: '/css/fonts',
+                httpFontsPath: '/sass/fonts',
                 relativeAssets: false
             },
             dist: {
@@ -215,13 +208,13 @@ module.exports = function (grunt) {
                     cwd: '<%%= yeoman.app %>/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
                     dest: '<%%= yeoman.dist %>/img'
-                },
+                }<% if (spriteCSS) { %>,
                 {
                     expand: true,
                     cwd: '<%%= yeoman.app %>/css/i',
                     src: '{,*/}*.{png,jpg,jpeg,gif,webp}',
                     dest: '<%%= yeoman.dist %>/css/i'
-                }]
+                }<% } %>]
             }
         },
         svgmin: {
@@ -282,7 +275,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
+                        'img/{,*/}*.{webp,gif}',
                         'css/{,*/}*.{jpg,gif,png,webp}',
                         'css/fonts/*'
                     ]
@@ -342,9 +335,8 @@ module.exports = function (grunt) {
         'clean:server',
         'concurrent:test',<% if (autoprefixer) { %>
         'autoprefixer',<% } %>
-        'connect:test',<% if (testFramework === 'mocha') { %>
-        'mocha'<% } else if (testFramework === 'jasmine') { %>
-        'jasmine'<% } %>
+        'connect:test',
+        'mocha'
     ]);
 
     grunt.registerTask('build', [
