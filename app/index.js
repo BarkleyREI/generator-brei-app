@@ -61,25 +61,18 @@ BreiAppGenerator.prototype.askFor = function askFor() {
 		name: 'deployDirectory',
 		message: 'Deploy directory (relative to current path)',
 		default: "../../deploy"
-	}, {
-		type: 'input',
-		name: 'appVersion',
-		message: 'App version',
-		default: "0.0.0"
 	}];
 
 	this.prompt(prompts, function (answers) {
 		var features = answers.features;
 		var deployDirectory = answers.deployDirectory;
-		var appVersion = answers.appVersion;
 
 		// manually deal with the response, get back and store the results.
 		// we change a bit this way of doing to automatically do this in the self.prompt() method.
 		this.includeSass = features.indexOf('includeSass') !== -1;
 		this.autoprefixer = features.indexOf('autoprefixer') !== -1;
-		this.spriteCSS = features.indexOf('spriteCSS') !== -1;
+		this.spriteCSS = features.indexOf('spriteCSS') !== -1 && !this.includeSass;
 		this.deployDirectory = deployDirectory;
-		this.appversion = appVersion;
 
 		cb();
 	}.bind(this));
@@ -135,11 +128,8 @@ BreiAppGenerator.prototype.addJQuery = function jshint() {
 
 };
 
-BreiAppGenerator.prototype.mainStylesheet = function mainStylesheet() {
-	if (this.includeSass) {
-		this.copy('main.scss', 'app/sass/main.scss');
-		this.copy('normalize.css', 'app/sass/normalize.scss');
-	} else {
+BreiAppGenerator.prototype.mainStylesheets = function mainStylesheet() {
+	if (!this.includeSass) {
 		this.copy('main.css', 'app/css/main.css');
 		this.copy('normalize.css', 'app/css/normalize.css');
 	}
@@ -148,21 +138,35 @@ BreiAppGenerator.prototype.mainStylesheet = function mainStylesheet() {
 BreiAppGenerator.prototype.app = function app() {
 	this.mkdir('app');
 	this.mkdir('app/js');
-	this.mkdir('app/css');
+	
 	if (this.spriteCSS) {
 		this.mkdir('app/css/i'); // Used for sprite images. Optional
 	}
 
 	// adds additional directories for sass
 	if (this.includeSass) {
-		this.mkdir('app/sass');
-		this.mkdir('app/sass/modules');
-		this.mkdir('app/sass/helpers');		
-	} 
+		var cb = this.async();
+
+		this.remote('BarkleyREI', 'sass_boilerplate', function (err, remote) {
+			if (err) {
+				return cb(err);
+			}
+
+			remote.directory('.', 'app/sass');
+
+			cb();
+		});		
+
+	} else {
+		this.mkdir('app/css');
+	}
 
 	this.write('app/index.html', this.indexFile);
 
 	this.mkdir('app/img');
+	if (this.includeSass) {
+		this.copy('rocket.png', 'app/img/rocket.png');
+	}
 
 	this.write('app/js/main.js', '// Main JavaScript file');
 

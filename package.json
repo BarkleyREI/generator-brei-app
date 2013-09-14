@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"description": "A generator for BarkleyREI projects",
 	"keywords": [
 		"yeoman-generator",
@@ -16,11 +16,14 @@
 	},
 	"contributors": [{
 		"name": "Ian Moffitt",
-		"email": "nessthehero@gmail.com"
+		"email": "nessthehero@gmail.com",
+		"url": "https://github.com/nessthehero"
 	}, {
-		"name": "Ryan Sprake"
+		"name": "Ryan Sprake",
+		"url": "https://github.com/eightdotthree"
 	}, {
-		"name": "Eric Miller"
+		"name": "Eric Miller",
+		"url": "https://github.com/ericmller29"
 	}],
 	"main": "app/index.js",
 	"repository": {
