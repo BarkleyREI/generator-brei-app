@@ -27,7 +27,10 @@ module.exports = function (grunt) {
         yeoman: yeomanConfig,
         watch: {<% if (includeSass) { %>
             compass: {
-                files: ['<%%= yeoman.app %>/css/{,*/}*.{scss,sass}'],
+                files: [
+                    '<%%= yeoman.app %>/sass/{,*/}*.{scss,sass}',
+                    '<%= yeoman.app %>/img/{,*/}*.png'
+                ],
                 tasks: ['compass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
             },<% } %>
             styles: {
@@ -139,11 +142,15 @@ module.exports = function (grunt) {
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
                 httpFontsPath: '/sass/fonts',
-                relativeAssets: false
+                relativeAssets: false,
+                outputStyle: 'compact',
+                debugInfo: false
             },
             dist: {
                 options: {
-                    generatedImagesDir: '<%%= yeoman.dist %>/img/generated'
+                    generatedImagesDir: '<%%= yeoman.dist %>/img/generated',
+                    debugInfo: false,
+                    outputStyle: 'compressed'
                 }
             },
             server: {
@@ -176,18 +183,6 @@ module.exports = function (grunt) {
         /*uglify: {
             dist: {}
         },*/
-        rev: {
-            dist: {
-                files: {
-                    src: [
-                        '<%%= yeoman.dist %>/js/{,*/}*.js',
-                        '<%%= yeoman.dist %>/css/{,*/}*.css',
-                        '<%%= yeoman.dist %>/img/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                        '<%%= yeoman.dist %>/css/fonts/*'
-                    ]
-                }
-            }
-        },
         useminPrepare: {
             options: {
                 dest: '<%%= yeoman.dist %>'
@@ -208,7 +203,7 @@ module.exports = function (grunt) {
                     cwd: '<%%= yeoman.app %>/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
                     dest: '<%%= yeoman.dist %>/img'
-                }<% if (spriteCSS) { %>,
+                }<% if (spriteCSS && !includeSass) { %>,
                 {
                     expand: true,
                     cwd: '<%%= yeoman.app %>/css/i',
@@ -300,14 +295,14 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [<% if (includeSass) { %>
-                'compass',<% } %>
+                'compass:server',<% } %>
                 'copy:styles'
             ],
             test: [
                 'copy:styles'
             ],
             dist: [<% if (includeSass) { %>
-                'compass',<% } %>
+                'compass:dist',<% } %>
                 'copy:styles',
                 'imagemin',
                 'svgmin',
@@ -348,7 +343,6 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy:dist',
-        'rev',
         'usemin'
     ]);
 
