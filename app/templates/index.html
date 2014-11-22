@@ -6,27 +6,55 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title></title>
+        <title><%= appname %></title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width" />
+
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
         <!-- build:css(.tmp) css/main.css -->
-        <link rel="stylesheet" href="css/normalize.css" />
         <link rel="stylesheet" href="css/main.css" />
         <!-- endbuild -->
-        <!-- build:js js/vendor/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
+
+        <style type="text/css">
+            html, body { text-align: center; }
+            .container { max-width: 768px; text-align: left; margin: 0 auto; padding: 20px; }
+            .container h1,
+            .container h2 { line-height: 1.000em; color: #333; }
+            .container h1 { text-align: center; font-size: 2em; }
+            .container h2 { font-size: 1.5em; border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 1em; }
+            .zebra-striping { list-style: none; margin: 0; padding: 0 0; }
+            .zebra-striping li:nth-child(odd) { background-color: #eee; }
+            .zebra-striping li:hover { background-color: #ccc; }
+            .zebra-striping li a:link,
+            .zebra-striping li a:visited { display: block; color: #333; text-decoration: none; padding: 5px 15px; }
+            .zebra-striping li a:hover { font-weight: bold; }
+        </style>
+
+        <!-- build:js js/plugins/modernizr.js -->
+        <script src="js/plugins/modernizr.optimized.js"></script>
         <!-- endbuild -->
+
     </head>
     <body>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+
+        <div class="container">
+
+            <h1><%= appname %></h1>
+
+            <h2>Templates</h2>
+            <ul class="zebra-striping">
+            </ul>
+
+            <h2>Modules</h2>
+            <ul class="zebra-striping">
+            </ul>
+
+        </div>
+
+        <!-- build:js js/main.js -->
+        <script src="plugins/jquery/dist/jquery.js"></script>
+        <!-- endbuild -->
+
     </body>
 </html>

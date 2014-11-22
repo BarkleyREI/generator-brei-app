@@ -3,7 +3,8 @@
   "version": "<%= appversion %>",
   "dependencies": {
     "modernizr": "*",
-    "jquery": "~1.x"
+    "jquery": "~2.x",
+    "foundation": "~5.4.7"
   },
   "devDependencies": {}
 }
