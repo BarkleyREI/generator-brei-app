@@ -1,7 +1,6 @@
-# generator-brei-app [![Build Status](https://secure.travis-ci.org/BarkleyREI/generator-brei-app.png?branch=master)](https://travis-ci.org/BarkleyREI/generator-brei-app)
+# generator-brei-app
 
-A generator for [Yeoman](http://yeoman.io).
-
+> [Yeoman](http://yeoman.io) generator
 
 ## Getting Started
 
@@ -15,8 +14,8 @@ Basically, he wears a top hat, lives in your computer, and waits for you to tell
 
 Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
-```
-$ npm install -g yo
+```bash
+npm install -g yo
 ```
 
 ### Yeoman Generators
@@ -25,14 +24,14 @@ Yeoman travels light. He didn't pack any generators when he moved in. You can th
 
 To install generator-brei-app from npm, run:
 
-```
-$ npm install -g generator-brei-app
+```bash
+npm install -g generator-brei-app
 ```
 
 Finally, initiate the generator:
 
-```
-$ yo brei-app
+```bash
+yo brei-app
 ```
 
 ### Getting To Know Yeoman
@@ -44,4 +43,4 @@ If you'd like to get to know Yeoman better and meet some of his friends, [Grunt]
 
 ## License
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+MIT

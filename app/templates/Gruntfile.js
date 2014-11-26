@@ -13,8 +13,15 @@ var mountFolder = function (connect, dir) {
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+
+    // build a custom version of modernizr
+    grunt.loadNpmTasks('grunt-modernizr');
+
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+    // Show elapsed time after tasks run
+    require('time-grunt')(grunt);
 
     // configurable paths
     var yeomanConfig = {
@@ -25,17 +32,73 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         yeoman: yeomanConfig,
-        watch: {<% if (includeSass) { %>
+        modernizr: {
+            dist: {
+                // [REQUIRED] Path to the build you're using for development.
+                'devFile' : 'app/plugins/modernizr/modernizr.js',
+
+                // [REQUIRED] Path to save out the built file.
+                'outputFile' : 'app/js/plugins/modernizr.optimized.js',
+
+                // Based on default settings on http://modernizr.com/download/
+                'extra' : {
+                    'shiv' : true,
+                    'printshiv' : false,
+                    'load' : false,
+                    'mq' : false,
+                    'cssclasses' : true
+                },
+
+                // Based on default settings on http://modernizr.com/download/
+                'extensibility' : {
+                    'addtest' : false,
+                    'prefixed' : false,
+                    'teststyles' : false,
+                    'testprops' : false,
+                    'testallprops' : false,
+                    'hasevents' : false,
+                    'prefixes' : false,
+                    'domprefixes' : false
+                },
+
+                // By default, source is uglified before saving
+                'uglify' : true,
+
+                // Define any tests you want to implicitly include.
+                'tests' : [],
+
+                // By default, this task will crawl your project for references to Modernizr tests.
+                // Set to false to disable.
+                'parseFiles' : true,
+
+                // When parseFiles = true, this task will crawl all *.js, *.css, *.scss files, except files that are in node_modules/.
+                // You can override this by defining a 'files' array below.
+                'files' : {
+                    'src': [
+                        '<%= yeoman.app %>/js/**/*.js',
+                        '<%= yeoman.app %>/css/**/*.css'
+                    ]
+                },
+
+                // When parseFiles = true, matchCommunityTests = true will attempt to
+                // match user-contributed tests.
+                'matchCommunityTests' : false,
+
+                // Have custom Modernizr tests? Add paths to their location here.
+                'customTests' : []
+            }
+        },
+        watch: {
             compass: {
                 files: [
                     '<%%= yeoman.app %>/sass/{,*/}*.{scss,sass}',
                     '<%= yeoman.app %>/img/{,*/}*.png'
                 ],
-                tasks: ['compass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
-            },<% } %>
+                tasks: ['compass:server', 'autoprefixer']
+            },
             styles: {
                 files: ['<%%= yeoman.app %>/css/{,*/}*.css'],
-                tasks: ['copy:styles'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
+                tasks: ['copy:styles', 'autoprefixer']
             },
             livereload: {
                 options: {
@@ -43,6 +106,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%%= yeoman.app %>/*.html',
+                    '<%%= yeoman.app %>/modules/*.html',
                     '.tmp/css/{,*/}*.css',
                     '{.tmp,<%%= yeoman.app %>}/js/{,*/}*.js',
                     '<%%= yeoman.app %>/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -118,6 +182,7 @@ module.exports = function (grunt) {
                 'Gruntfile.js',
                 '<%%= yeoman.app %>/js/{,*/}*.js',
                 '!<%%= yeoman.app %>/js/plugins.js',
+                '!<%%= yeoman.app %>/js/plugins/*',
                 '!<%%= yeoman.app %>/js/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
@@ -129,7 +194,7 @@ module.exports = function (grunt) {
                     urls: ['http://localhost:<%%= connect.options.port %>/index.html']
                 }
             }
-        },<% if (includeSass) { %>
+        },
         compass: {
             options: {
                 sassDir: '<%%= yeoman.app %>/sass',
@@ -138,7 +203,7 @@ module.exports = function (grunt) {
                 imagesDir: '<%%= yeoman.app %>/img',
                 javascriptsDir: '<%%= yeoman.app %>/js',
                 fontsDir: '<%%= yeoman.app %>/sass/fonts',
-                importPath: '<%%= yeoman.app %>/bower_components',
+                importPath: '<%%= yeoman.app %>/plugins',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
                 httpFontsPath: '/sass/fonts',
@@ -158,7 +223,7 @@ module.exports = function (grunt) {
                     debugInfo: true
                 }
             }
-        },<% } %><% if (autoprefixer) { %>
+        },
         autoprefixer: {
             options: {
                 browsers: ['last 2 versions', 'ie 8', 'ie 9']
@@ -171,7 +236,7 @@ module.exports = function (grunt) {
                     dest: '.tmp/css/'
                 }]
             }
-        },<% } %>
+        },
         // not used since Uglify task does concat,
         // but still available if needed
         /*concat: {
@@ -203,13 +268,7 @@ module.exports = function (grunt) {
                     cwd: '<%%= yeoman.app %>/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
                     dest: '<%%= yeoman.dist %>/img'
-                }<% if (spriteCSS && !includeSass) { %>,
-                {
-                    expand: true,
-                    cwd: '<%%= yeoman.app %>/css/i',
-                    src: '{,*/}*.{png,jpg,jpeg,gif,webp}',
-                    dest: '<%%= yeoman.dist %>/css/i'
-                }<% } %>]
+                }]
             }
         },
         svgmin: {
@@ -272,7 +331,8 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'img/{,*/}*.{webp,gif}',
                         'css/{,*/}*.{jpg,gif,png,webp}',
-                        'css/fonts/*'
+                        'css/fonts/*',
+                        'modules/*'
                     ]
                 }]
             },
@@ -294,15 +354,15 @@ module.exports = function (grunt) {
             }
         },
         concurrent: {
-            server: [<% if (includeSass) { %>
-                'compass:server',<% } %>
+            server: [
+                'compass:server',
                 'copy:styles'
             ],
             test: [
                 'copy:styles'
             ],
-            dist: [<% if (includeSass) { %>
-                'compass:dist',<% } %>
+            dist: [
+                'compass:dist',
                 'copy:styles',
                 'imagemin',
                 'svgmin',
@@ -318,27 +378,24 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
-            'concurrent:server',<% if (autoprefixer) { %>
-            'autoprefixer',<% } %>
+            'concurrent:server',
+            'autoprefixer',
             'connect:livereload',
             'open',
             'watch'
         ]);
     });
 
-    grunt.registerTask('test', [
-        'clean:server',
-        'concurrent:test',<% if (autoprefixer) { %>
-        'autoprefixer',<% } %>
-        'connect:test',
-        'mocha'
+    grunt.registerTask('check', [
+        'jshint'
     ]);
 
     grunt.registerTask('build', [
+        'modernizr:dist',
         'clean:dist',
         'useminPrepare',
-        'concurrent:dist',<% if (autoprefixer) { %>
-        'autoprefixer',<% } %>
+        'concurrent:dist',
+        'autoprefixer',
         'concat',
         'cssmin',
         'uglify',
@@ -353,7 +410,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'jshint',
-        'test',
         'build'
     ]);
+
 };

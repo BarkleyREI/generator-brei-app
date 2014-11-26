@@ -2,172 +2,103 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
+var yosay = require('yosay');
 var brei = require('brei-junk');
 
-var BreiAppGenerator = module.exports = function BreiAppGenerator(args, options, config) {
-	yeoman.generators.Base.apply(this, arguments);
+var BreiAppGenerator = yeoman.generators.Base.extend({
+	initializing: function () {
+		this.pkg = require('../package.json');
+	},
 
-	// Get our BREI utilities (if any)
-	this.brei = brei;
+	prompting: function () {
+		var done = this.async();
 
-	// resolved to mocha by default (could be switched to jasmine for instance)
-	this.hookFor('mocha', {
-		as: 'app'
-	});
-	
-	// Install bower stuff
-	this.on('end', function () {
-		this.installDependencies({
-			skipInstall: options['skip-install']
-		});
-	});
-
-	// Set app version
-	this.appversion = "0.0.0";
-
-	// Read in package info
-	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
-};
-
-util.inherits(BreiAppGenerator, yeoman.generators.Base);
-
-BreiAppGenerator.prototype.askFor = function askFor() {
-	var cb = this.async();
-
-	// welcome message
-	console.log(this.brei.logo());
-	console.log(this.yeoman);
-	console.log('Out of the box I include HTML5 Boilerplate, jQuery (1.x) and Modernizr.');
-
-	var prompts = [{
-		type: 'checkbox',
-		name: 'features',
-		message: 'What more would you like?',
-		choices: [{
-			name: 'Use SASS/Compass',
-			value: 'includeSass',
-			checked: false
+		// Have Yeoman greet the user.
+		this.log(yosay(
+			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Modernizr, Foundation, and autoprefixer'
+		));
+		var prompts = [{
+			type: 'input',
+			name: 'appname',
+			message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
+			default: 'static'
 		}, {
-			name: 'Autoprefixer for your CSS',
-			value: 'autoprefixer',
-			checked: true
+			type: 'input',
+			name: 'appversion',
+			message: 'Version of App',
+			default: '0.0.1'
 		}, {
-			name: 'Sprite images in CSS folder (css/i)',
-			value: 'spriteCSS',
-			checked: true
-		}]
-	}, {
-		type: 'input',
-		name: 'deployDirectory',
-		message: 'Deploy directory (relative to current path)',
-		default: "../../deploy"
-	}];
+			type: 'input',
+			name: 'deployDirectory',
+			message: 'Deploy directory (relative to current path)',
+			default: '../../deploy'
+		}];
 
-	this.prompt(prompts, function (answers) {
-		var features = answers.features;
-		var deployDirectory = answers.deployDirectory;
+		this.prompt(prompts, function (props) {
+			this.someOption = props.someOption;
 
-		// manually deal with the response, get back and store the results.
-		// we change a bit this way of doing to automatically do this in the self.prompt() method.
-		this.includeSass = features.indexOf('includeSass') !== -1;
-		this.autoprefixer = features.indexOf('autoprefixer') !== -1;
-		this.spriteCSS = features.indexOf('spriteCSS') !== -1 && !this.includeSass;
-		this.deployDirectory = deployDirectory;
+			var appname = props.appname;
+			var appversion = props.appversion;
+			var deployDirectory = props.deployDirectory;
 
-		cb();
-	}.bind(this));
-};
+			this.appname = appname;
+			this.appversion = appversion;
+			this.deployDirectory = deployDirectory;
 
-BreiAppGenerator.prototype.gruntfile = function gruntfile() {
-	this.template('Gruntfile.js');
-};
+			done();
+		}.bind(this));
+	},
 
-BreiAppGenerator.prototype.packageJSON = function packageJSON() {
-	this.template('_package.json', 'package.json');
-};
+	writing: {
+		app: function () {
+			this.dest.mkdir('app');
+			this.dest.mkdir('app/modules');
+			this.dest.mkdir('app/css');
+			this.dest.mkdir('app/js');
+			this.dest.mkdir('app/img');
 
-BreiAppGenerator.prototype.bower = function bower() {
-	this.copy('bowerrc', '.bowerrc');
-	this.copy('_bower.json', 'bower.json');
-};
+			this.src.copy('rocket.png', 'app/img/rocket.png');
 
-BreiAppGenerator.prototype.jshint = function jshint() {
-	this.copy('jshintrc', '.jshintrc');
-};
+			this.dest.mkdir('app/plugins');
 
-BreiAppGenerator.prototype.writeIndex = function writeIndex() {
+			this.template('_package.json', 'package.json');
+			this.template('_bower.json', 'bower.json');
+			this.template('Gruntfile.js', 'Gruntfile.js');
+			this.template('README.md', 'README.md');
+		},
 
-	// Read in the index file so we can append stuff to it later
-	if (this.includeSass) {
-		this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index_sass.html'));
-	} else {
-		this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
+		html: function () {
+			this.template('index.html', 'app/index.html');
+			this.template('template.html', 'app/template.html');
+		},
+
+		sass: function () {
+
+			var cb = this.async();
+
+			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
+				if (err) {
+					return cb(err);
+				}
+
+				remote.directory('.', 'app/sass');
+
+				cb();
+			}, true);
+
+		},
+
+		projectfiles: function () {
+			this.src.copy('jshintrc', '.jshintrc');
+			this.src.copy('bowerrc', '.bowerrc');
+		}
+	},
+
+	end: function () {
+		this.installDependencies();
+
+		this.config.save();
 	}
+});
 
-	// prepare default content text
-	var defaults = ['HTML5 Boilerplate'];
-	var contentText = [
-		'        <div class="container">',
-		'            <h1>Hello World!</h1>'
-	];
-
-	contentText = contentText.concat([
-		'        </div>',
-		''
-	]);
-
-	// append the default content
-	this.indexFile = this.indexFile.replace('<body>', '<body>\n' + contentText.join('\n'));
-};
-
-BreiAppGenerator.prototype.addJQuery = function jshint() {
-
-	this.indexFile = this.appendScripts(this.indexFile, 'js/main.js', [
-		'bower_components/jquery/jquery.js'
-	]);
-
-};
-
-BreiAppGenerator.prototype.mainStylesheets = function mainStylesheet() {
-	if (!this.includeSass) {
-		this.copy('main.css', 'app/css/main.css');
-		this.copy('normalize.css', 'app/css/normalize.css');
-	}
-};
-
-BreiAppGenerator.prototype.app = function app() {
-	this.mkdir('app');
-	this.mkdir('app/js');
-	
-	if (this.spriteCSS) {
-		this.mkdir('app/css/i'); // Used for sprite images. Optional
-	}
-
-	// adds additional directories for sass
-	if (this.includeSass) {
-		var cb = this.async();
-
-		this.remote('BarkleyREI', 'sass_boilerplate', function (err, remote) {
-			if (err) {
-				return cb(err);
-			}
-
-			remote.directory('.', 'app/sass');
-
-			cb();
-		});		
-
-	} else {
-		this.mkdir('app/css');
-	}
-
-	this.write('app/index.html', this.indexFile);
-
-	this.mkdir('app/img');
-	if (this.includeSass) {
-		this.copy('rocket.png', 'app/img/rocket.png');
-	}
-
-	this.write('app/js/main.js', '// Main JavaScript file');
-
-};
+module.exports = BreiAppGenerator;
