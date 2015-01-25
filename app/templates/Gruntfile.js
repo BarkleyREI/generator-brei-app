@@ -188,14 +188,6 @@ module.exports = function (grunt) {
                 'test/spec/{,*/}*.js'
             ]
         },
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://localhost:<%%= connect.options.port %>/index.html']
-                }
-            }
-        },
         compass: {
             options: {
                 sassDir: '<%%= yeoman.app %>/sass',
@@ -238,17 +230,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        // not used since Uglify task does concat,
-        // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
-        // not enabled since usemin task does concat and uglify
-        // check index.html to edit your build targets
-        // enable this task if you prefer defining your build targets here
-        /*uglify: {
-            dist: {}
-        },*/
         useminPrepare: {
             options: {
                 dest: '<%%= yeoman.dist %>'
