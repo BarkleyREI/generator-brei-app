@@ -23,6 +23,9 @@ module.exports = function (grunt) {
     // Show elapsed time after tasks run
     require('time-grunt')(grunt);
 
+    // Assemble!
+    grunt.loadNpmTasks('assemble');
+
     // configurable paths
     var yeomanConfig = {
         app: 'app',
@@ -101,6 +104,10 @@ module.exports = function (grunt) {
                 files: ['<%%= yeoman.app %>/css/**/*.css'],
                 tasks: ['copy:styles', 'autoprefixer']
             },
+            assemble: {
+                files: ['<%= yeoman.app %>/assemble/**/*.hbs'],
+                tasks: ['clean:assemble', 'assemble']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
@@ -173,7 +180,10 @@ module.exports = function (grunt) {
                 },
                 src: ['<%%= yeoman.deploy %>']
             },
-            server: '.tmp'
+            server: '.tmp',
+            assemble: {
+                src: ['<%= yeoman.app %>/*.html', '<%= yeoman.app %>/modules/*.html']
+            }
         },
         jshint: {
             options: {
@@ -365,8 +375,11 @@ module.exports = function (grunt) {
                 layout: 'default.hbs',
                 layoutdir: '<%= yeoman.app %>/assemble/layouts/',
                 helpers: '<%= yeoman.app %>/assemble/helpers/**/*.js',
-                partials: ['<%= yeoman.app %>/assemble/partials/{,*/}*.hbs', '<%= yeoman.app %>/assemble/modules/**/*'],
-            data: '<%= yeoman.app %>/assemble/fixtures/{,*/}*.json'
+                partials: [
+                    '<%= yeoman.app %>/assemble/partials/{,*/}*.hbs',
+                    '<%= yeoman.app %>/assemble/modules/**/*'
+                ],
+                data: '<%= yeoman.app %>/assemble/fixtures/{,*/}*.json'
             },
             templates: {
                 files: [{

@@ -52,8 +52,13 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	writing: {
 		app: function () {
 			this.dest.mkdir('app');
-			// Assemble
-			this.dest.mkdir('app/assemble');
+
+			this.template('_package.json', 'package.json');
+			this.template('_bower.json', 'bower.json');
+			this.template('Gruntfile.js', 'Gruntfile.js');
+			this.template('README.md', 'README.md');
+
+
 			// Assembled HTML
 			this.dest.mkdir('app/modules');
 			// Compiled CSS
@@ -64,19 +69,11 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			this.dest.mkdir('app/js/modules');
 			this.dest.mkdir('app/js/lib');
 
-			this.template('.gitkeep', 'app/js');
-			this.template('.gitkeep', 'app/js/plugins');
-			this.template('.gitkeep', 'app/js/modules');
-			this.template('.gitkeep', 'app/js/lib');
 			// Images
 			this.dest.mkdir('app/img');
 
 			this.src.copy('rocket.png', 'app/img/rocket.png');
 
-			this.template('_package.json', 'package.json');
-			this.template('_bower.json', 'bower.json');
-			this.template('Gruntfile.js', 'Gruntfile.js');
-			this.template('README.md', 'README.md');
 		},
 
 		html: function () {
@@ -98,8 +95,13 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 				cb();
 			}, true);
 
-			// Helpers
+		},
+
+		helpers: function () {
+			var cb = this.async();
+
 			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+
 				if (err) {
 					return cb(err);
 				}
@@ -111,7 +113,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		},
 
 		sass: function () {
-
 			var cb = this.async();
 
 			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
@@ -123,7 +124,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 				cb();
 			}, true);
-
 		},
 
 		projectfiles: function () {
@@ -132,10 +132,9 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		}
 	},
 
-	end: function () {
-		this.installDependencies();
-
-		this.config.save();
+end: function () {
+	this.installDependencies();
+	this.config.save();
 	}
 });
 
