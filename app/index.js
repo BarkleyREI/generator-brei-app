@@ -15,7 +15,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		// Have Yeoman greet the user.
 		this.log(yosay(
-			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Modernizr, Foundation, and autoprefixer'
+			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Assemble.io, Modernizr, Foundation, and autoprefixer.'
 		));
 		var prompts = [{
 			type: 'input',
@@ -52,14 +52,26 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	writing: {
 		app: function () {
 			this.dest.mkdir('app');
+			// Assemble
+			this.dest.mkdir('app/assemble');
+			// Assembled HTML
 			this.dest.mkdir('app/modules');
+			// Compiled CSS
 			this.dest.mkdir('app/css');
+			// Your scripts
 			this.dest.mkdir('app/js');
+			this.dest.mkdir('app/js/plugins');
+			this.dest.mkdir('app/js/modules');
+			this.dest.mkdir('app/js/lib');
+
+			this.template('.gitkeep', 'app/js');
+			this.template('.gitkeep', 'app/js/plugins');
+			this.template('.gitkeep', 'app/js/modules');
+			this.template('.gitkeep', 'app/js/lib');
+			// Images
 			this.dest.mkdir('app/img');
 
 			this.src.copy('rocket.png', 'app/img/rocket.png');
-
-			this.dest.mkdir('app/plugins');
 
 			this.template('_package.json', 'package.json');
 			this.template('_bower.json', 'bower.json');
@@ -68,8 +80,34 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		},
 
 		html: function () {
-			this.template('index.html', 'app/index.html');
-			this.template('template.html', 'app/template.html');
+			// this.template('index.html', 'app/index.html');
+			// this.template('template.html', 'app/template.html');
+		},
+
+		assemble: function () {
+			var cb = this.async();
+
+			// Directory Structure
+			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+				if (err) {
+					return cb(err);
+				}
+
+				remote.directory('.', 'app/assemble');
+
+				cb();
+			}, true);
+
+			// Helpers
+			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+				if (err) {
+					return cb(err);
+				}
+
+				remote.directory('helpers.js', 'app/assemble/helpers');
+
+				cb();
+			}, true);
 		},
 
 		sass: function () {
