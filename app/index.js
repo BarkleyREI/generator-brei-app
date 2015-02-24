@@ -15,7 +15,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		// Have Yeoman greet the user.
 		this.log(yosay(
-			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Modernizr, Foundation, and autoprefixer'
+			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Assemble.io, Modernizr, Foundation, and autoprefixer.'
 		));
 		var prompts = [{
 			type: 'input',
@@ -50,30 +50,70 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	},
 
 	writing: {
-		app: function () {
+		folders: function () {
 			this.dest.mkdir('app');
+
+			// Assembled HTML
 			this.dest.mkdir('app/modules');
+			// Compiled CSS
 			this.dest.mkdir('app/css');
+			// Your scripts
 			this.dest.mkdir('app/js');
+			this.dest.mkdir('app/js/plugins');
+			this.dest.mkdir('app/js/modules');
+			this.dest.mkdir('app/js/lib');
+
+			// Images
 			this.dest.mkdir('app/img');
 
-			this.src.copy('rocket.png', 'app/img/rocket.png');
+		},
 
-			this.dest.mkdir('app/plugins');
-
+		app: function () {
 			this.template('_package.json', 'package.json');
 			this.template('_bower.json', 'bower.json');
 			this.template('Gruntfile.js', 'Gruntfile.js');
 			this.template('README.md', 'README.md');
+			this.template('.gitignore', '.gitignore');
+
+			// Add .gitkeep file to maintain file structure
+			this.src.copy('.gitkeep', 'app/js/plugins/.gitkeep');
+			this.src.copy('.gitkeep', 'app/js/modules/.gitkeep');
+			this.src.copy('.gitkeep', 'app/js/lib/.gitkeep');
+
+			this.src.copy('rocket.png', 'app/img/rocket.png');
 		},
 
-		html: function () {
-			this.template('index.html', 'app/index.html');
-			this.template('template.html', 'app/template.html');
+		assemble: function () {
+			var cb = this.async();
+
+			// Directory Structure
+			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+				if (err) {
+					return cb(err);
+				}
+
+				remote.directory('.', 'app/assemble');
+
+				cb();
+			}, true);
+
+		},
+
+		helpers: function () {
+			var cb = this.async();
+
+			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+				if (err) {
+					return cb(err);
+				}
+
+				remote.directory('.', 'app/assemble/helpers');
+
+				cb();
+			}, true);
 		},
 
 		sass: function () {
-
 			var cb = this.async();
 
 			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
@@ -85,7 +125,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 				cb();
 			}, true);
-
 		},
 
 		projectfiles: function () {
@@ -94,10 +133,9 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		}
 	},
 
-	end: function () {
-		this.installDependencies();
-
-		this.config.save();
+end: function () {
+	this.installDependencies();
+	this.config.save();
 	}
 });
 

@@ -23,6 +23,9 @@ module.exports = function (grunt) {
     // Show elapsed time after tasks run
     require('time-grunt')(grunt);
 
+    // Assemble!
+    grunt.loadNpmTasks('assemble');
+
     // configurable paths
     var yeomanConfig = {
         app: 'app',
@@ -101,6 +104,10 @@ module.exports = function (grunt) {
                 files: ['<%%= yeoman.app %>/css/**/*.css'],
                 tasks: ['copy:styles', 'autoprefixer']
             },
+            assemble: {
+                files: ['<%= yeoman.app %>/assemble/**/*.hbs'],
+                tasks: ['clean:assemble', 'assemble']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
@@ -173,7 +180,10 @@ module.exports = function (grunt) {
                 },
                 src: ['<%%= yeoman.deploy %>']
             },
-            server: '.tmp'
+            server: '.tmp',
+            assemble: {
+                src: ['<%= yeoman.app %>/*.html', '<%= yeoman.app %>/modules/*.html']
+            }
         },
         jshint: {
             options: {
@@ -187,14 +197,6 @@ module.exports = function (grunt) {
                 '!<%%= yeoman.app %>/js/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
-        },
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://localhost:<%%= connect.options.port %>/index.html']
-                }
-            }
         },
         compass: {
             options: {
@@ -238,17 +240,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        // not used since Uglify task does concat,
-        // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
-        // not enabled since usemin task does concat and uglify
-        // check index.html to edit your build targets
-        // enable this task if you prefer defining your build targets here
-        /*uglify: {
-            dist: {}
-        },*/
         useminPrepare: {
             options: {
                 dest: '<%%= yeoman.dist %>'
@@ -369,6 +360,45 @@ module.exports = function (grunt) {
                 'svgmin',
                 'htmlmin'
             ]
+        },
+        assemble: {
+            options: {
+                collections: [{
+                    name: 'module',
+                    sortby: 'title',
+                    sortorder: 'ascending'
+                }, {
+                    name: 'template',
+                    sortby: 'title',
+                    sortorder: 'ascending'
+                }],
+                layout: 'default.hbs',
+                layoutdir: '<%%= yeoman.app %>/assemble/layouts/',
+                helpers: '<%%= yeoman.app %>/assemble/helpers/**/*.js',
+                partials: [
+                    '<%%= yeoman.app %>/assemble/partials/{,*/}*.hbs',
+                    '<%%= yeoman.app %>/assemble/modules/**/*'
+                ],
+                data: '<%%= yeoman.app %>/assemble/fixtures/{,*/}*.json'
+            },
+            templates: {
+                files: [{
+                    cwd: '<%%= yeoman.app %>/assemble/modules/',
+                    dest: '<%%= yeoman.app %>/modules/',
+                    expand: true,
+                    src: ['**/*.hbs']
+                }, {
+                    cwd: '<%%= yeoman.app %>/assemble/',
+                    dest: '<%%= yeoman.app %>/',
+                    expand: true,
+                    src: ['*.hbs', '!index.hbs']
+                }, {
+                    cwd: '<%%= yeoman.app %>/assemble/',
+                    dest: '<%%= yeoman.app %>/',
+                    expand: true,
+                    src: ['index.hbs']
+                }]
+            }
         }
     });
 
@@ -378,6 +408,8 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
+            'clean:assemble',
+            'assemble',
             'clean:server',
             'concurrent:server',
             'autoprefixer',
@@ -410,6 +442,8 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
+        'clean:assemble',
+        'assemble',
         'jshint',
         'build'
     ]);
