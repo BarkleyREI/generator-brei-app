@@ -101,15 +101,15 @@ module.exports = function (grunt) {
                     '<%%= yeoman.app %>/sass/**/*.{scss,sass}',
                     '<%%= yeoman.app %>/img/**/*.png'
                 ],
-                tasks: ['compass:server', 'autoprefixer', 'execute:target']
+                tasks: ['compass:server', 'autoprefixer']
             },
             styles: {
                 files: ['<%%= yeoman.app %>/css/**/*.css'],
                 tasks: ['copy:styles', 'autoprefixer']
             },
             assemble: {
-                files: ['<%= yeoman.app %>/assemble/**/*.hbs'],
-                tasks: ['clean:assemble', 'assemble', 'execute:target']
+                files: ['<%%= yeoman.app %>/assemble/**/*.hbs'],
+                tasks: ['clean:assemble', 'assemble']
             },
             livereload: {
                 options: {
@@ -122,6 +122,13 @@ module.exports = function (grunt) {
                     '{.tmp,<%%= yeoman.app %>}/js/**/*.js',
                     '<%%= yeoman.app %>/img/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
+            },
+            execute: {
+                files: [
+                    '<%%= yeoman.app %>/assemble/modules/*.hbs',
+                    '<%%= yeoman.app %>/assemble/partials/*.hbs',
+                ],
+                tasks: ['execute:target']
             }
         },
         connect: {
@@ -185,7 +192,7 @@ module.exports = function (grunt) {
             },
             server: '.tmp',
             assemble: {
-                src: ['<%= yeoman.app %>/*.html', '<%= yeoman.app %>/modules/*.html']
+                src: ['<%%= yeoman.app %>/*.html', '<%%= yeoman.app %>/modules/*.html']
             }
         },
         jshint: {
