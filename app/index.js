@@ -50,14 +50,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	},
 
 	writing: {
-		app: function () {
+		folders: function () {
 			this.dest.mkdir('app');
-
-			this.template('_package.json', 'package.json');
-			this.template('_bower.json', 'bower.json');
-			this.template('Gruntfile.js', 'Gruntfile.js');
-			this.template('README.md', 'README.md');
-
 
 			// Assembled HTML
 			this.dest.mkdir('app/modules');
@@ -72,13 +66,20 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			// Images
 			this.dest.mkdir('app/img');
 
-			this.src.copy('rocket.png', 'app/img/rocket.png');
-
 		},
 
-		html: function () {
-			// this.template('index.html', 'app/index.html');
-			// this.template('template.html', 'app/template.html');
+		app: function () {
+			this.template('_package.json', 'package.json');
+			this.template('_bower.json', 'bower.json');
+			this.template('Gruntfile.js', 'Gruntfile.js');
+			this.template('README.md', 'README.md');
+
+			// Add .gitkeep file to maintain file structure
+			this.src.copy('.gitkeep', 'app/js/plugins/.gitkeep');
+			this.src.copy('.gitkeep', 'app/js/modules/.gitkeep');
+			this.src.copy('.gitkeep', 'app/js/lib/.gitkeep');
+
+			this.src.copy('rocket.png', 'app/img/rocket.png');
 		},
 
 		assemble: function () {
@@ -101,7 +102,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			var cb = this.async();
 
 			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
-
 				if (err) {
 					return cb(err);
 				}
