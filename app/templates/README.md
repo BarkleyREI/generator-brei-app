@@ -1,5 +1,18 @@
 # <%= appname %>
 
+CMS:
+
+Confulence:
+
+JIRA:
+
+Epic:
+
+##Project Info:
+
+###SVN
+Add `dist`, `.sass-cache', `node_modules` to SVN ignore if not already ignored.
+
 ##READ THIS
 
 Setup:
