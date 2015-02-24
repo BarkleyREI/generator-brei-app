@@ -106,7 +106,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 					return cb(err);
 				}
 
-				remote.directory('helpers.js', 'app/assemble/helpers');
+				remote.directory('.', 'app/assemble/helpers');
 
 				cb();
 			}, true);
