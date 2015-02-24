@@ -24,7 +24,8 @@
     "connect-livereload": "~0.5.1",
     "grunt-modernizr": "~0.6.0",
     "time-grunt": "~1.0.0",
-    "assemble": "~0.4.42"
+    "assemble": "~0.4.42",
+    "grunt-execute": "^0.2.2"
   },
   "engines": {
     "node": ">=0.8.0"

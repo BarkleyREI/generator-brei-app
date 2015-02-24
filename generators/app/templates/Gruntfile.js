@@ -26,6 +26,9 @@ module.exports = function (grunt) {
     // Assemble!
     grunt.loadNpmTasks('assemble');
 
+    // For executing the updateScss.js script in app/assemble/helpers
+    grunt.loadNpmTasks('grunt-execute');
+
     // configurable paths
     var yeomanConfig = {
         app: 'app',
@@ -98,7 +101,7 @@ module.exports = function (grunt) {
                     '<%%= yeoman.app %>/sass/**/*.{scss,sass}',
                     '<%%= yeoman.app %>/img/**/*.png'
                 ],
-                tasks: ['compass:server', 'autoprefixer']
+                tasks: ['compass:server', 'autoprefixer', 'execute:target']
             },
             styles: {
                 files: ['<%%= yeoman.app %>/css/**/*.css'],
@@ -106,7 +109,7 @@ module.exports = function (grunt) {
             },
             assemble: {
                 files: ['<%= yeoman.app %>/assemble/**/*.hbs'],
-                tasks: ['clean:assemble', 'assemble']
+                tasks: ['clean:assemble', 'assemble', 'execute:target']
             },
             livereload: {
                 options: {
@@ -398,6 +401,11 @@ module.exports = function (grunt) {
                     expand: true,
                     src: ['index.hbs']
                 }]
+            }
+        },
+        execute: {
+            target: {
+                src: ['<%%= yeoman.app %>/assemble/helpers/updateScss.js']
             }
         }
     });
