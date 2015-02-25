@@ -38,8 +38,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 				moduleName = moduleName.replace(/_/g, '-');
 			}
 			// Remove any file extensions
-			if (/\..+/.test(partialName)) {
-				partialName = partialName.replace(/\..+/, '');
+			if (/\..+/.test(moduleName)) {
+				moduleName = moduleName.replace(/\..+/, '');
 			}
 
 			this.moduleName = moduleName;
