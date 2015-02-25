@@ -41,7 +41,7 @@ module.exports = function (grunt) {
         modernizr: {
             dist: {
                 // [REQUIRED] Path to the build you're using for development.
-                'devFile' : 'app/plugins/modernizr/modernizr.js',
+                'devFile' : 'app/bower_components/modernizr/modernizr.js',
 
                 // [REQUIRED] Path to save out the built file.
                 'outputFile' : 'dist/js/plugins/modernizr.optimized.js',
@@ -216,7 +216,7 @@ module.exports = function (grunt) {
                 imagesDir: '<%%= yeoman.app %>/img',
                 javascriptsDir: '<%%= yeoman.app %>/js',
                 fontsDir: '<%%= yeoman.app %>/sass/fonts',
-                importPath: '<%%= yeoman.app %>/plugins',
+                importPath: '<%%= yeoman.app %>/bower_components',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
                 httpFontsPath: '/sass/fonts',
