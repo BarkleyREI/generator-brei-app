@@ -73,12 +73,12 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			this.template('_bower.json', 'bower.json');
 			this.template('Gruntfile.js', 'Gruntfile.js');
 			this.template('README.md', 'README.md');
-			this.template('.gitignore', '.gitignore');
+			this.template('gitignore', '.gitignore');
 
 			// Add .gitkeep file to maintain file structure
-			this.src.copy('.gitkeep', 'app/js/plugins/.gitkeep');
-			this.src.copy('.gitkeep', 'app/js/modules/.gitkeep');
-			this.src.copy('.gitkeep', 'app/js/lib/.gitkeep');
+			this.src.copy('gitkeep', 'app/js/plugins/.gitkeep');
+			this.src.copy('gitkeep', 'app/js/modules/.gitkeep');
+			this.src.copy('gitkeep', 'app/js/lib/.gitkeep');
 
 			this.src.copy('rocket.png', 'app/img/rocket.png');
 		},
