@@ -55,7 +55,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		scss: function () {
 			this.template('module.scss', 'app/sass/modules/_' + this.moduleName + '.scss');
-		},
+		}
 
 		// mainScss: function () {
 		// ??
