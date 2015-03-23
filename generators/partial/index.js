@@ -26,20 +26,20 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			var partialName = props.partialName;
 
 			// Remove the first _ (or __)
-			if (/^_/.test(partialName)) {
-				partialName = partialName.replace(/^_+/, '');
+			if (/^_/g.test(partialName)) {
+				partialName = partialName.replace(/^_+/g, '');
 			}
 			// Change all whitespace to -
 			if (/\s/g.test(partialName)) {
-				partialName = partialName.replace(/\s/, '-');
+				partialName = partialName.replace(/\s/g, '-');
 			}
 			// Change all remaining _ to -
 			if (/_/g.test(partialName)) {
 				partialName = partialName.replace(/_/g, '-');
 			}
 			// Remove any file extensions
-			if (/\..+/.test(partialName)) {
-				partialName = partialName.replace(/\..+/, '');
+			if (/\..+/g.test(partialName)) {
+				partialName = partialName.replace(/\..+/g, '');
 			}
 
 			this.partialName = partialName;
