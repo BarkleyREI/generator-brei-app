@@ -26,12 +26,12 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			var moduleName = props.moduleName;
 
 			// Remove the first _ (or __)
-			if (/^_/.test(moduleName)) {
-				moduleName = moduleName.replace(/^_+/, '');
+			if (/^_/g.test(moduleName)) {
+				moduleName = moduleName.replace(/^_+/g, '');
 			}
 			// Change all whitespace to -
 			if (/\s/g.test(moduleName)) {
-				moduleName = moduleName.replace(/\s/, '-');
+				moduleName = moduleName.replace(/\s/g, '-');
 			}
 			// Change all remaining _ to -
 			if (/_/g.test(moduleName)) {
@@ -39,7 +39,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			}
 			// Remove any file extensions
 			if (/\..+/.test(moduleName)) {
-				moduleName = moduleName.replace(/\..+/, '');
+				moduleName = moduleName.replace(/\..+/g, '');
 			}
 
 			this.moduleName = moduleName;
