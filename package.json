@@ -1,6 +1,6 @@
 {
     "name": "generator-brei-app",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Yeoman generator",
     "license": "MIT",
     "main": "generators/app/index.js",
