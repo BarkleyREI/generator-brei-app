@@ -33,6 +33,8 @@
 	"scripts": {
 		"test": "mocha"
 	},
+	"pre-commit": [
+	],
 	"pre-push": [
 		"npm test"
 	],
