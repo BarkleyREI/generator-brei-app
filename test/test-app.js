@@ -1,4 +1,5 @@
-/*global describe, beforeEach, it*/
+/*global describe, before, it*/
+
 'use strict';
 
 var path = require('path');
@@ -130,95 +131,97 @@ describe('BREI-APP PROJECT GENERATOR', function(){
       });
     });
   });
-});
 
+  describe('Module Sub-Generator', function () {
+    describe('Create new module', function() {
+      before(function (done) {
+        helpers.run(path.join(__dirname, '../generators/module'))
+          .inDir(path.join(os.tmpdir(), './temp/module'))
+          .withOptions({
+            'skip-install': true
+          })
+          .withPrompt({
+            moduleName: 'test module'
+          })
+          .on('end', done);
+      });
 
-describe('Module Sub-Generator', function () {
-  describe('Create new module', function() {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/module'))
-        .inDir(path.join(os.tmpdir(), './temp/module'))
-        .withOptions({
-          'skip-install': true
-        })
-        .withPrompt({
-          moduleName: 'test module'
-        })
-        .on('end', done);
-    });
-
-    it('Created _test-module.hbs and _test-module.scss', function() {
-      assert.file([
-        'app/assemble/modules/_test-module.hbs',
-        'app/sass/modules/_test-module.scss'
-      ]);
-    });
-
-    it('Test-module .hbs && .scss have the right content', function() {
-      assert.fileContent([
-        ['app/assemble/modules/_test-module.hbs', /title\:\stest-module|\s+test-module/],
-        ['app/sass/modules/_test-module.scss', /\.test-module {\n\s+\/\/\sAwesome styles\n}/]
-      ]);
-    });
-  });
-
-  describe('Test updateScss.js', function() {
-    it('Created no-scss.scss', function() {
-      fs.writeFileSync('app/assemble/modules/_no-scss.hbs', 'no-scss');
-      setTimeout(function() {
+      it('Created _test-module.hbs and _test-module.scss', function() {
         assert.file([
-          'app/assemble/modules/_no-scss.hbs',
-          'app/sass/modules/_no-scss.scss'
+          'app/assemble/modules/_test-module.hbs',
+          'app/sass/modules/_test-module.scss'
         ]);
+      });
 
-        assert.fileContent('app/sass/modules/_assemble-modules.scss', /@import\s+"test-module.scss";\n@import\s+"no-scss";/);
-
-      }, 100);
-    });
-  });
-});
-
-describe('Partial Sub-Generator', function () {
-  describe('Create new partial', function() {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/partial'))
-        .inDir(path.join(os.tmpdir(), './temp/partial'))
-        .withOptions({
-          'skip-install': true
-        })
-        .withPrompt({
-          partialName: 'test partial'
-        })
-        .on('end', done);
+      it('Test-module .hbs && .scss have the right content', function() {
+        assert.fileContent([
+          ['app/assemble/modules/_test-module.hbs', /title\:\stest-module|\s+test-module/],
+          ['app/sass/modules/_test-module.scss', /\.test-module {\n\s+\/\/\sAwesome styles\n}/]
+        ]);
+      });
     });
 
-    it('Created test-partial.hbs and _test-partial.scss', function() {
-      assert.file([
-        'app/assemble/partials/test-partial.hbs',
-        'app/sass/partials/_test-partial.scss'
-      ]);
-    });
+    describe('Test updateScss.js', function() {
+      it('Created no-scss.scss', function() {
+        fs.writeFileSync('app/assemble/modules/_no-scss.hbs', 'no-scss');
+        setTimeout(function() {
+          assert.file([
+            'app/assemble/modules/_no-scss.hbs',
+            'app/sass/modules/_no-scss.scss'
+          ]);
 
-    it('Test-partial .hbs && .scss have the right content', function() {
-      assert.fileContent([
-        ['app/assemble/partials/test-partial.hbs', /title\:\stest-partial|\s+test-partial/],
-        ['app/sass/partials/_test-partial.scss', /\.test-partial {\n\s+\/\/\sAwesome styles\n}/]
-      ]);
+          assert.fileContent('app/sass/modules/_assemble-modules.scss', /@import\s+"test-module.scss";\n@import\s+"no-scss";/);
+
+        }, 100);
+      });
     });
   });
 
-  describe('Test updateScss.js', function() {
-    it('Created no-scss.scss', function() {
-      fs.writeFileSync('app/assemble/partials/_no-scss.hbs', 'no-scss');
-      setTimeout(function() {
+  describe('Partial Sub-Generator', function () {
+    describe('Create new partial', function() {
+      before(function (done) {
+        helpers.run(path.join(__dirname, '../generators/partial'))
+          .inDir(path.join(os.tmpdir(), './temp/partial'))
+          .withOptions({
+            'skip-install': true
+          })
+          .withPrompt({
+            partialName: 'test partial'
+          })
+          .on('end', done);
+      });
+
+      it('Created test-partial.hbs and _test-partial.scss', function() {
         assert.file([
-          'app/assemble/partials/no-scss.hbs',
-          'app/sass/partials/_no-scss.scss'
+          'app/assemble/partials/test-partial.hbs',
+          'app/sass/partials/_test-partial.scss'
         ]);
+      });
 
-        assert.fileContent('app/sass/partials/_assemble-partials.scss', /@import\s+"test-partial.scss";\n@import\s+"no-scss";/);
+      it('Test-partial .hbs && .scss have the right content', function() {
+        assert.fileContent([
+          ['app/assemble/partials/test-partial.hbs', /title\:\stest-partial|\s+test-partial/],
+          ['app/sass/partials/_test-partial.scss', /\.test-partial {\n\s+\/\/\sAwesome styles\n}/]
+        ]);
+      });
+    });
 
-      }, 100);
+    describe('Test updateScss.js', function() {
+      it('Created no-scss.scss', function() {
+        fs.writeFileSync('app/assemble/partials/_no-scss.hbs', 'no-scss');
+        setTimeout(function() {
+          assert.file([
+            'app/assemble/partials/no-scss.hbs',
+            'app/sass/partials/_no-scss.scss'
+          ]);
+
+          assert.fileContent('app/sass/partials/_assemble-partials.scss', /@import\s+"test-partial.scss";\n@import\s+"no-scss";/);
+
+        }, 100);
+      });
     });
   });
+
 });
+
+

@@ -32,10 +32,12 @@
   },
   "scripts": {
     "test": "mocha",
-    "jshint": "jshint ./**/*.js",
+    "jshintG": "jshint ./generators/**/*.js",
+    "jshintT": "jshint ./test/test-app.js"
   },
   "pre-commit": [
-  	"jshint"
+  	"jshintG",
+  	"jshintT"
   ],
   "files": [
     "generators"
