@@ -4,4 +4,3 @@ node_js:
 before_install:
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-brei-app' ]; then cd .. && eval "mv $currentfolder generator-brei-app" && cd generator-brei-app; fi
-

@@ -12,34 +12,34 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		var prompts = [{
 			type: 'input',
-			name: 'moduleName',
-			message: 'Module name ("_global-slider", "news-feed")',
+			name: 'templateName',
+			message: 'Template name ("level-page", "column_content-one")',
 			default: ''
 		}];
 
 		this.prompt(prompts, function (props) {
 			this.someOption = props.someOption;
 
-			var moduleName = props.moduleName;
+			var templateName = props.templateName;
 
 			// Remove the first _ (or __)
-			if (/^_/g.test(moduleName)) {
-				moduleName = moduleName.replace(/^_+/g, '');
+			if (/^_/g.test(templateName)) {
+				templateName = templateName.replace(/^_+/, '');
 			}
 			// Change all whitespace to -
-			if (/\s/g.test(moduleName)) {
-				moduleName = moduleName.replace(/\s/g, '-');
+			if (/\s/g.test(templateName)) {
+				templateName = templateName.replace(/\s/g, '-');
 			}
 			// Change all remaining _ to -
-			if (/_/g.test(moduleName)) {
-				moduleName = moduleName.replace(/_/g, '-');
+			if (/_/g.test(templateName)) {
+				templateName = templateName.replace(/_/g, '-');
 			}
 			// Remove any file extensions
-			if (/\..+/.test(moduleName)) {
-				moduleName = moduleName.replace(/\..+/g, '');
+			if (/\..+/g.test(templateName)) {
+				templateName = templateName.replace(/\..+/g, '');
 			}
 
-			this.moduleName = moduleName;
+			this.templateName = templateName;
 
 			done();
 		}.bind(this));
@@ -47,15 +47,15 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 	writing: {
 		hbs: function () {
-			this.template('module.hbs', 'app/assemble/modules/_' + this.moduleName + '.hbs');
+			this.template('template.hbs', 'app/assemble/' + this.templateName + '.hbs');
 		},
 
 		scss: function () {
-			this.template('module.scss', 'app/sass/modules/_' + this.moduleName + '.scss');
-		}
+			this.template('template.scss', 'app/sass/templates/' + this.templateName + '.scss');
+		},
 
 		// mainScss: function () {
-		// ??
+		//	??
 		// }
 	}
 });
