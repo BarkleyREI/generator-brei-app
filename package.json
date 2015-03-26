@@ -1,43 +1,43 @@
 {
     "name": "generator-brei-app",
-    "version": "1.1.1",
+    "version": "1.2.4",
     "description": "Yeoman generator",
     "license": "MIT",
-    "main": "app/index.js",
+    "main": "generators/app/index.js",
     "repository": "BarkleyREI/generator-brei-app",
-	"bugs": "https://github.com/BarkleyREI/generator-brei-app/issues",
+    "bugs": "https://github.com/BarkleyREI/generator-brei-app/issues",
     "author": {
         "name": "Ian Moffitt",
         "email": "nessthehero@gmail.com",
         "url": "https://github.com/nessthehero"
     },
     "contributors": [{
-		"name": "Ian Moffitt",
-		"email": "nessthehero@gmail.com",
-		"url": "https://github.com/nessthehero"
-	}, {
-		"name": "Ryan Sprake",
-		"url": "https://github.com/eightdotthree"
-	},{
+        "name": "Ian Moffitt",
+        "email": "nessthehero@gmail.com",
+        "url": "https://github.com/nessthehero"
+    }, {
+        "name": "Ryan Sprake",
+        "url": "https://github.com/eightdotthree"
+    },{
         "name": "Joseph Dillon",
         "url": "https://github.com/jdillon522"
         }
     ],
     "engines": {
         "node": ">=0.10.0",
-		"npm": ">=1.2.10"
+        "npm": ">=1.2.10"
     },
     "scripts": {
         "test": "mocha"
     },
     "files": [
-        "app"
+        "generators"
     ],
     "keywords": [
-		"yeoman-generator",
-		"barkleyrei",
-		"brei"
-	],
+        "yeoman-generator",
+        "barkleyrei",
+        "brei"
+    ],
     "dependencies": {
         "yeoman-generator": "^0.17.0",
         "chalk": "^0.5.0",
@@ -49,6 +49,6 @@
     },
     "peerDependencies": {
         "yo": ">=1.0.0",
-		"generator-mocha": ">=0.1.1"
+        "generator-mocha": ">=0.1.1"
     }
 }

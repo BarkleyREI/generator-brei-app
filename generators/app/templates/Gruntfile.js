@@ -26,6 +26,9 @@ module.exports = function (grunt) {
     // Assemble!
     grunt.loadNpmTasks('assemble');
 
+    // For executing the updateScss.js script in app/assemble/helpers
+    grunt.loadNpmTasks('grunt-execute');
+
     // configurable paths
     var yeomanConfig = {
         app: 'app',
@@ -38,7 +41,7 @@ module.exports = function (grunt) {
         modernizr: {
             dist: {
                 // [REQUIRED] Path to the build you're using for development.
-                'devFile' : 'app/plugins/modernizr/modernizr.js',
+                'devFile' : 'app/bower_components/modernizr/modernizr.js',
 
                 // [REQUIRED] Path to save out the built file.
                 'outputFile' : 'dist/js/plugins/modernizr.optimized.js',
@@ -105,7 +108,7 @@ module.exports = function (grunt) {
                 tasks: ['copy:styles', 'autoprefixer']
             },
             assemble: {
-                files: ['<%= yeoman.app %>/assemble/**/*.hbs'],
+                files: ['<%%= yeoman.app %>/assemble/**/*.hbs'],
                 tasks: ['clean:assemble', 'assemble']
             },
             livereload: {
@@ -119,6 +122,13 @@ module.exports = function (grunt) {
                     '{.tmp,<%%= yeoman.app %>}/js/**/*.js',
                     '<%%= yeoman.app %>/img/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
+            },
+            execute: {
+                files: [
+                    '<%%= yeoman.app %>/assemble/modules/*.hbs',
+                    '<%%= yeoman.app %>/assemble/partials/*.hbs',
+                ],
+                tasks: ['execute:target']
             }
         },
         connect: {
@@ -182,7 +192,7 @@ module.exports = function (grunt) {
             },
             server: '.tmp',
             assemble: {
-                src: ['<%= yeoman.app %>/*.html', '<%= yeoman.app %>/modules/*.html']
+                src: ['<%%= yeoman.app %>/*.html', '<%%= yeoman.app %>/modules/*.html']
             }
         },
         jshint: {
@@ -206,7 +216,7 @@ module.exports = function (grunt) {
                 imagesDir: '<%%= yeoman.app %>/img',
                 javascriptsDir: '<%%= yeoman.app %>/js',
                 fontsDir: '<%%= yeoman.app %>/sass/fonts',
-                importPath: '<%%= yeoman.app %>/plugins',
+                importPath: '<%%= yeoman.app %>/bower_components',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img/generated',
                 httpFontsPath: '/sass/fonts',
@@ -398,6 +408,11 @@ module.exports = function (grunt) {
                     expand: true,
                     src: ['index.hbs']
                 }]
+            }
+        },
+        execute: {
+            target: {
+                src: ['<%%= yeoman.app %>/assemble/helpers/updateScss.js']
             }
         }
     });
