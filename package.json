@@ -33,6 +33,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "pre-commit": [
+  	"jshint ./generators/**/*.js",
+  	"jshint ./test/test-app.js"
+  ],
   "files": [
     "generators"
   ],
