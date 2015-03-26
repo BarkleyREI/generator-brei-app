@@ -41,8 +41,15 @@ yo brei-app:partial
 ```
 
 ## Testing
-#### This generator has hook that will forcefully run the tests
+#### This generator has git pre-commit hook that will forcefully run the tests and jshint
 
+Prerequisites:
+
+```bash
+npm install -g jshint
+```
+
+To Test:
 ```bash
 npm test
 ```

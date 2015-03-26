@@ -37,7 +37,8 @@
   },
   "pre-commit": [
   	"jshintG",
-  	"jshintT"
+  	"jshintT",
+  	"test"
   ],
   "files": [
     "generators"
