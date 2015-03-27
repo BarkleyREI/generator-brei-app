@@ -1,9 +1,7 @@
 'use strict';
-var util = require('util');
-var path = require('path');
+
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
-var brei = require('brei-junk');
 
 var BreiAppGenerator = yeoman.generators.Base.extend({
 	initializing: function () {
