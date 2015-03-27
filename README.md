@@ -1,6 +1,8 @@
 # generator-brei-app
+[![Version npm][version]](http://browsenpm.org/package/generator-brei-app)
+[![Build Status](https://travis-ci.org/BarkleyREI/generator-brei-app.svg?branch=master)](https://travis-ci.org/BarkleyREI/generator-brei-app)
 
-> [Yeoman](http://yeoman.io) generator
+[version]: http://img.shields.io/npm/v/generator-brei-app.svg?style=flat-square
 
 ## Getting Started
 
