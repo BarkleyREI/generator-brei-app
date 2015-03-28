@@ -87,7 +87,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			// Directory Structure
 			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
 				if (err) {
-					console.log('--ERROR!!', err);
+					console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
 					return cb(err);
 				}
 
@@ -103,6 +103,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
 				if (err) {
+					console.log('--ERROR WHILE GETTING HELPERS!!', err);
 					return cb(err);
 				}
 
@@ -117,6 +118,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
 				if (err) {
+					console.log('--ERROR WHILE GETTING SASS!!', err);
 					return cb(err);
 				}
 
