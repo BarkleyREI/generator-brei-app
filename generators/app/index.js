@@ -87,6 +87,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			// Directory Structure
 			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
 				if (err) {
+					console.log('--ERROR!!', err);
 					return cb(err);
 				}
 
