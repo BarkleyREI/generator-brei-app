@@ -85,6 +85,30 @@ describe('BREI-APP PROJECT GENERATOR', function(){
         'app/sass/templates/_assemble-templates.scss'
       ]);
     });
+
+    it('Created Grunt Configuration Files', function(){
+      assert.file([
+        'grunt-config/assemble.js',
+        'grunt-config/autoprefixer.js',
+        'grunt-config/clean.js',
+        'grunt-config/compass.js',
+        'grunt-config/concurrent.js',
+        'grunt-config/connect.js',
+        'grunt-config/copy.js',
+        'grunt-config/cssmin.js',
+        'grunt-config/execute.js',
+        'grunt-config/htmlmin.js',
+        'grunt-config/imagemin.js',
+        'grunt-config/jshint.js',
+        'grunt-config/modernizr.js',
+        'grunt-config/open.js',
+        'grunt-config/svgmin.js',
+        'grunt-config/usemin.js',
+        'grunt-config/useminPrepare.js',
+        'grunt-config/watch.js',
+        'grunt-config/yeoman.js'
+      ]);
+    });
   });
 
   describe('Template Sub-Generator', function () {

@@ -50,7 +50,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	writing: {
 		folders: function () {
 			this.dest.mkdir('app');
-
+			// All the grunt configuration files
+			this.dest.mkdir('grunt-config');
 			// Assembled HTML
 			this.dest.mkdir('app/modules');
 			// Compiled CSS
@@ -60,10 +61,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			this.dest.mkdir('app/js/plugins');
 			this.dest.mkdir('app/js/modules');
 			this.dest.mkdir('app/js/lib');
-
 			// Images
 			this.dest.mkdir('app/img');
-
 		},
 
 		app: function () {
@@ -81,6 +80,28 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			this.src.copy('rocket.png', 'app/img/rocket.png');
 		},
 
+		gruntConfig: function () {
+			this.src.copy('grunt-config/assemble.js', 'grunt-config/assemble.js');
+			this.src.copy('grunt-config/autoprefixer.js', 'grunt-config/autoprefixer.js');
+			this.src.copy('grunt-config/clean.js', 'grunt-config/clean.js');
+			this.src.copy('grunt-config/compass.js', 'grunt-config/compass.js');
+			this.src.copy('grunt-config/concurrent.js', 'grunt-config/concurrent.js');
+			this.src.copy('grunt-config/connect.js', 'grunt-config/connect.js');
+			this.src.copy('grunt-config/copy.js', 'grunt-config/copy.js');
+			this.src.copy('grunt-config/cssmin.js', 'grunt-config/cssmin.js');
+			this.src.copy('grunt-config/execute.js', 'grunt-config/execute.js');
+			this.src.copy('grunt-config/htmlmin.js', 'grunt-config/htmlmin.js');
+			this.src.copy('grunt-config/imagemin.js', 'grunt-config/imagemin.js');
+			this.src.copy('grunt-config/jshint.js', 'grunt-config/jshint.js');
+			this.src.copy('grunt-config/modernizr.js', 'grunt-config/modernizr.js');
+			this.src.copy('grunt-config/open.js', 'grunt-config/open.js');
+			this.src.copy('grunt-config/svgmin.js', 'grunt-config/svgmin.js');
+			this.src.copy('grunt-config/usemin.js', 'grunt-config/usemin.js');
+			this.src.copy('grunt-config/useminPrepare.js', 'grunt-config/useminPrepare.js');
+			this.src.copy('grunt-config/watch.js', 'grunt-config/watch.js');
+			this.src.copy('grunt-config/yeoman.js', 'grunt-config/yeoman.js');
+		},
+
 		assemble: function () {
 			var cb = this.async();
 
@@ -95,7 +116,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 				cb();
 			}, true);
-
 		},
 
 		helpers: function () {
