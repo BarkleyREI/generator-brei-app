@@ -6,7 +6,7 @@ var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var os = require('os');
-var fs = require('fs');
+// var fs = require('fs');
 
 /**
  * Test basic file generation,
@@ -14,7 +14,7 @@ var fs = require('fs');
  */
 describe('BREI-APP PROJECT GENERATOR', function(){
   describe('Main Generator', function () {
-    before(function (done) {
+    before(function mainGenerator(done) {
       helpers.run(path.join(__dirname, '../generators/app'))
         .inDir(path.join(os.tmpdir(), './temp'))
         .withOptions({
@@ -113,12 +113,8 @@ describe('BREI-APP PROJECT GENERATOR', function(){
 
   describe('Template Sub-Generator', function () {
     describe('Create new template', function() {
-      before(function (done) {
+      before(function template(done) {
         helpers.run(path.join(__dirname, '../generators/template'))
-          .inDir(path.join(os.tmpdir(), './temp/template'))
-          .withOptions({
-            'skip-install': true
-          })
           .withPrompt({
             templateName: 'test template'
           })
@@ -140,30 +136,26 @@ describe('BREI-APP PROJECT GENERATOR', function(){
       });
     });
 
-    describe('Test updateScss.js', function() {
-      it('Created no-scss.scss', function() {
-        fs.writeFileSync('app/assemble/no-scss.hbs', 'no-scss');
-        setTimeout(function() {
-          assert.file([
-            'app/assemble/no-scss.hbs',
-            'app/sass/templates/no-scss.scss'
-          ]);
+    // describe('Test updateScss.js', function() {
+    //   it('Created no-scss.scss', function() {
+    //     fs.writeFileSync('app/assemble/no-scss.hbs', 'no-scss');
+    //     setTimeout(function() {
+    //       assert.file([
+    //         'app/assemble/no-scss.hbs',
+    //         'app/sass/templates/_no-scss.scss'
+    //       ]);
 
-          assert.fileContent('app/sass/templates/_assemble-templates.scss', /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
+    //       assert.fileContent('app/sass/templates/_assemble-templates.scss', /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
 
-        }, 100);
-      });
-    });
+    //     }, 100);
+    //   });
+    // });
   });
 
   describe('Module Sub-Generator', function () {
     describe('Create new module', function() {
-      before(function (done) {
+      before(function module(done) {
         helpers.run(path.join(__dirname, '../generators/module'))
-          .inDir(path.join(os.tmpdir(), './temp/module'))
-          .withOptions({
-            'skip-install': true
-          })
           .withPrompt({
             moduleName: 'test module'
           })
@@ -185,30 +177,26 @@ describe('BREI-APP PROJECT GENERATOR', function(){
       });
     });
 
-    describe('Test updateScss.js', function() {
-      it('Created no-scss.scss', function() {
-        fs.writeFileSync('app/assemble/modules/_no-scss.hbs', 'no-scss');
-        setTimeout(function() {
-          assert.file([
-            'app/assemble/modules/_no-scss.hbs',
-            'app/sass/modules/_no-scss.scss'
-          ]);
+    // describe('Test updateScss.js', function() {
+    //   it('Created no-scss.scss', function() {
+    //     fs.writeFileSync('app/assemble/modules/_no-scss.hbs', 'no-scss');
+    //     setTimeout(function() {
+    //       assert.file([
+    //         'app/assemble/modules/_no-scss.hbs',
+    //         'app/sass/modules/_no-scss.scss'
+    //       ]);
 
-          assert.fileContent('app/sass/modules/_assemble-modules.scss', /@import\s+"test-module.scss";\n@import\s+"no-scss";/);
+    //       assert.fileContent('app/sass/modules/_assemble-modules.scss', /@import\s+"test-module.scss";\n@import\s+"no-scss";/);
 
-        }, 100);
-      });
-    });
+    //     }, 100);
+    //   });
+    // });
   });
 
   describe('Partial Sub-Generator', function () {
     describe('Create new partial', function() {
-      before(function (done) {
+      before(function partial(done) {
         helpers.run(path.join(__dirname, '../generators/partial'))
-          .inDir(path.join(os.tmpdir(), './temp/partial'))
-          .withOptions({
-            'skip-install': true
-          })
           .withPrompt({
             partialName: 'test partial'
           })
@@ -230,20 +218,112 @@ describe('BREI-APP PROJECT GENERATOR', function(){
       });
     });
 
-    describe('Test updateScss.js', function() {
-      it('Created no-scss.scss', function() {
-        fs.writeFileSync('app/assemble/partials/_no-scss.hbs', 'no-scss');
-        setTimeout(function() {
-          assert.file([
-            'app/assemble/partials/no-scss.hbs',
-            'app/sass/partials/_no-scss.scss'
-          ]);
+    // describe('Test updateScss.js', function() {
+    //   it('Created no-scss.scss', function() {
+    //     fs.writeFileSync('app/assemble/partials/_no-scss.hbs', 'no-scss');
+    //     setTimeout(function() {
+    //       assert.file([
+    //         'app/assemble/partials/no-scss.hbs',
+    //         'app/sass/partials/_no-scss.scss'
+    //       ]);
 
-          assert.fileContent('app/sass/partials/_assemble-partials.scss', /@import\s+"test-partial.scss";\n@import\s+"no-scss";/);
+    //       assert.fileContent('app/sass/partials/_assemble-partials.scss', /@import\s+"test-partial.scss";\n@import\s+"no-scss";/);
 
-        }, 100);
+    //     }, 100);
+    //   });
+    // });
+  });
+
+  describe('Pattern Library Sub-Generator', function () {
+    describe('Import Partial Pattern', function() {
+      before(function partialPattern(done) {
+        helpers.run(path.join(__dirname, '../generators/pattern'))
+          .withPrompt({
+            type: 'partials',
+            name: 'test pattern partial'
+          })
+          .on('end', done);
+      });
+
+      it('Created test-partial.hbs and _test-partial.scss', function() {
+        assert.file([
+          'app/assemble/partials/test-partial.hbs',
+          'app/sass/partials/_test-partial.scss'
+        ]);
+      });
+
+      it('Test-pattern-partial .hbs && .scss have the right content', function() {
+        assert.fileContent([
+          ['app/assemble/partials/test-pattern-partial.hbs', /test-pattern-partial/],
+          ['app/sass/partials/_test-pattern-partial.scss', /\.test-pattern-partial {\n\s+\/\/\sAwesome styles\n}/]
+        ]);
       });
     });
+
+    describe('Import Module Pattern', function() {
+      before(function modulePattern(done) {
+        helpers.run(path.join(__dirname, '../generators/pattern'))
+          .withPrompt({
+            type: 'modules',
+            name: 'test pattern module'
+          })
+          .on('end', done);
+      });
+
+      it('Created test-pattern-modules.hbs and _test-pattern-modules.scss', function() {
+        assert.file([
+          'app/assemble/moduless/test-pattern-modules.hbs',
+          'app/sass/moduless/_test-pattern-modules.scss'
+        ]);
+      });
+
+      it('Test-pattern-modules .hbs && .scss have the right content', function() {
+        assert.fileContent([
+          ['app/assemble/moduless/test-pattern-modules.hbs', /title\:\stest-pattern-modules|\s+test-pattern-modules/],
+          ['app/sass/moduless/_test-pattern-modules.scss', /\.test-pattern-modules {\n\s+\/\/\sAwesome styles\n}/]
+        ]);
+      });
+    });
+
+    describe('Import Template Pattern', function() {
+      before(function templatePattern(done) {
+        helpers.run(path.join(__dirname, '../generators/pattern'))
+          .withPrompt({
+            type: 'template',
+            name: 'test pattern template'
+          })
+          .on('end', done);
+      });
+
+      it('Created test-pattern-template.hbs and _test-pattern-template.scss', function() {
+        assert.file([
+          'app/assemble/templates/test-pattern-template.hbs',
+          'app/sass/templates/_test-pattern-template.scss'
+        ]);
+      });
+
+      it('Test-pattern-template .hbs && .scss have the right content', function() {
+        assert.fileContent([
+          ['app/assemble/templates/test-pattern-template.hbs', /title\:\stest-pattern-template|\s+test-pattern-template/],
+          ['app/sass/templates/_test-pattern-template.scss', /\.test-pattern-template {\n\s+\/\/\sAwesome styles\n}/]
+        ]);
+      });
+    });
+
+    // describe('Test updateScss.js', function() {
+    //   it('Created no-scss.scss', function() {
+    //     fs.writeFileSync('app/assemble/partials/no-scss.hbs', 'no-scss');
+    //     setTimeout(function() {
+    //       assert.file([
+    //         'app/assemble/partials/no-scss.hbs',
+    //         'app/sass/partials/_no-scss.scss'
+    //       ]);
+
+    //       assert.fileContent('app/sass/partials/_assemble-partials.scss', /@import\s+"test-partial.scss";\n@import\s+"no-scss";/);
+
+    //     }, 100);
+    //   });
+    // });
   });
 
 });
