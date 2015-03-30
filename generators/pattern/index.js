@@ -67,18 +67,24 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 	writing: {
 		pattern: function () {
-			var cb = this.async();
-			var path = this.type + '/' + this.name + '/';
 			var self = this;
+			var cb = this.async();
+			var fromPath = this.type + '/' + this.name + '/';
+
+			var toPathHBS = this.type !== 'templates' ?
+											'app/assemble/' + self.type + '/' + self.formattedNameHBS :
+											'app/assemble/' + self.formattedNameHBS;
+			var toPathSCSS = 'app/sass/' + self.type + '/' + self.formattedNameSASS;
+
 			// Directory Structure
-			this.remote('jdillon522', 'brei-pattern-library', 'master', function (err, remote) {
+			this.remote('BarkleyREI', 'brei-pattern-library', 'master', function (err, remote) {
 				if (err) {
 					console.log('ERROR WHILE FETCHING PATTER', err);
 					return cb(err);
 				}
 
-				remote.copy(path + self.formattedNameHBS, 'app/assemble/' + self.type + '/' + self.formattedNameHBS);
-				remote.copy(path + self.formattedNameSASS, 'app/sass/' + self.type + '/' + self.formattedNameSASS);
+				remote.copy(fromPath + self.formattedNameHBS, toPathHBS);
+				remote.copy(fromPath + self.formattedNameSASS, toPathSCSS);
 
 				cb();
 			}, true);

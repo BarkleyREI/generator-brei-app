@@ -1,3 +1,4 @@
---reporter spec
+--reporter list
+--inline-diffs
 --timeout 16000
 --bail
