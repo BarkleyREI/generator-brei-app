@@ -30,17 +30,32 @@ yo brei-app
 Create a new Template:
 ```bash
 yo brei-app:template
+
+#  @param {String} the name of your template
 ```
 
 Create a new Module
 ```bash
 yo brei-app:module
+
+#  @param {String} the name of your module
 ```
 
 Create a new Partial
 ```bash
 yo brei-app:partial
+
+#  @param {String} the name of your partial
 ```
+
+Add a pattern from the [BREI Pattern Library](https://github.com/BarkleyREI/brei-pattern-library)
+```bash
+yo brei-app:pattern
+
+#  @param {String} The type of pattern (template, module, partial)
+#  @param {String} The name of the pattern (the pattern must exists)
+```
+
 
 ## Testing
 #### This generator has git pre-commit hook that will forcefully run the tests and jshint
