@@ -68,7 +68,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		app: function () {
 			this.template('_package.json', 'package.json');
 			this.template('_bower.json', 'bower.json');
-			// this.template('Gruntfile.js', 'Gruntfile.js');
 			this.template('README.md', 'README.md');
 			this.template('gitignore', '.gitignore');
 

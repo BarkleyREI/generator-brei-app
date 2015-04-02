@@ -105,8 +105,7 @@ describe('Main Generator', function () {
       'grunt-config/svgmin.js',
       'grunt-config/usemin.js',
       'grunt-config/useminPrepare.js',
-      'grunt-config/watch.js',
-      'grunt-config/yeoman.js'
+      'grunt-config/watch.js'
     ]);
   });
 });
