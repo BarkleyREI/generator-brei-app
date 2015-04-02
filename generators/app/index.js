@@ -68,7 +68,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		app: function () {
 			this.template('_package.json', 'package.json');
 			this.template('_bower.json', 'bower.json');
-			this.template('Gruntfile.js', 'Gruntfile.js');
 			this.template('README.md', 'README.md');
 			this.template('gitignore', '.gitignore');
 
@@ -81,25 +80,20 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		},
 
 		gruntConfig: function () {
-			this.src.copy('grunt-config/assemble.js', 'grunt-config/assemble.js');
-			this.src.copy('grunt-config/autoprefixer.js', 'grunt-config/autoprefixer.js');
-			this.src.copy('grunt-config/clean.js', 'grunt-config/clean.js');
-			this.src.copy('grunt-config/compass.js', 'grunt-config/compass.js');
-			this.src.copy('grunt-config/concurrent.js', 'grunt-config/concurrent.js');
-			this.src.copy('grunt-config/connect.js', 'grunt-config/connect.js');
-			this.src.copy('grunt-config/copy.js', 'grunt-config/copy.js');
-			this.src.copy('grunt-config/cssmin.js', 'grunt-config/cssmin.js');
-			this.src.copy('grunt-config/execute.js', 'grunt-config/execute.js');
-			this.src.copy('grunt-config/htmlmin.js', 'grunt-config/htmlmin.js');
-			this.src.copy('grunt-config/imagemin.js', 'grunt-config/imagemin.js');
-			this.src.copy('grunt-config/jshint.js', 'grunt-config/jshint.js');
-			this.src.copy('grunt-config/modernizr.js', 'grunt-config/modernizr.js');
-			this.src.copy('grunt-config/open.js', 'grunt-config/open.js');
-			this.src.copy('grunt-config/svgmin.js', 'grunt-config/svgmin.js');
-			this.src.copy('grunt-config/usemin.js', 'grunt-config/usemin.js');
-			this.src.copy('grunt-config/useminPrepare.js', 'grunt-config/useminPrepare.js');
-			this.src.copy('grunt-config/watch.js', 'grunt-config/watch.js');
-			this.src.copy('grunt-config/yeoman.js', 'grunt-config/yeoman.js');
+			var cb = this.async();
+
+			// Directory Structure
+			this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
+					return cb(err);
+				}
+
+				remote.directory('grunt-config', 'grunt-config');
+				remote.src.copy('Gruntfile.js', 'Gruntfile.js');
+
+				cb();
+			}, true);
 		},
 
 		assemble: function () {
