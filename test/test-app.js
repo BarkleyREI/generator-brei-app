@@ -48,7 +48,12 @@ describe('Main Generator', function () {
       'app/assemble/layouts/index.hbs',
       'app/assemble/layouts/module.hbs',
       'app/assemble/modules/.gitkeep',
-      'app/assemble/partials/.gitkeep'
+      'app/assemble/partials/.gitkeep',
+      'app/assemble/includes/_css-main.hbs',
+      'app/assemble/includes/_fonts.hbs',
+      'app/assemble/includes/_js-main.hbs',
+      'app/assemble/includes/_js-modernizr.hbs',
+      'app/assemble/includes/_meta.hbs'
     ]);
   });
 

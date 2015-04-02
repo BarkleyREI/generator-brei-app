@@ -83,7 +83,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			var cb = this.async();
 
 			// Directory Structure
-			this.remote('JDillon522', 'brei-grunt-config', 'master', function (err, remote) {
+			this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
 				if (err) {
 					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
 					return cb(err);
