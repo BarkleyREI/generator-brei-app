@@ -199,7 +199,7 @@ describe('Pattern Library Sub-Generator - ', function () {
       helpers.run(path.join(__dirname, '../generators/pattern'))
         .withPrompt({
           type: 'partials',
-          name: 'test pattern partial'
+          name: 'test-pattern-partial'
         })
         .on('end', done);
     });
@@ -224,7 +224,7 @@ describe('Pattern Library Sub-Generator - ', function () {
       helpers.run(path.join(__dirname, '../generators/pattern'))
         .withPrompt({
           type: 'modules',
-          name: 'test pattern module'
+          name: 'test-pattern-module'
         })
         .on('end', done);
     });
@@ -248,8 +248,8 @@ describe('Pattern Library Sub-Generator - ', function () {
     before(function templatePattern(done) {
       helpers.run(path.join(__dirname, '../generators/pattern'))
         .withPrompt({
-          type: 'template',
-          name: 'test pattern template'
+          type: 'templates',
+          name: 'test-pattern-template'
         })
         .on('end', done);
     });
