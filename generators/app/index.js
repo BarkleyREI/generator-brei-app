@@ -9,149 +9,47 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	},
 
 	prompting: function () {
-		var done = this.async();
-
-		// Have Yeoman greet the user.
 		this.log(yosay(
-			'Welcome to the BarkleyREI project generator! Comes with HTML5 Boilerplate, SASS, jQuery (2.x), Assemble.io, Modernizr, Foundation, and autoprefixer.'
+			'Welcome to the BarkleyREI project generator!'
 		));
-		var prompts = [{
-			type: 'input',
-			name: 'appname',
-			message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
-			default: 'static'
-		}, {
-			type: 'input',
-			name: 'appversion',
-			message: 'Version of App',
-			default: '0.0.1'
-		}, {
-			type: 'input',
-			name: 'deployDirectory',
-			message: 'Deploy directory (relative to current path)',
-			default: '../../deploy'
-		}];
 
-		this.prompt(prompts, function (props) {
-			this.someOption = props.someOption;
+		this.prompt({
+			type: 'list',
+			name: 'command',
+			message: 'What would you like to do?',
+			default: 'Create a New Project',
+			choices: [
+				'Create a New Project',
+				'Create a Partial',
+				'Create a Module',
+				'Create a Template',
+				'Import a Pattern',
+				'Update Your Project']
+		}, function(answer) {
 
-			var appname = props.appname;
-			var appversion = props.appversion;
-			var deployDirectory = props.deployDirectory;
+			switch (answer.command) {
+				case 'Create a Partial':
+					this.invoke('brei-app:partial', {});
+					break;
+				case 'Create a Module':
+					this.invoke('brei-app:module', {});
+					break;
+				case 'Create a Template':
+					this.invoke('brei-app:template', {});
+					break;
+				case 'Import a Pattern':
+					this.invoke('brei-app:pattern', {});
+					break;
+				case 'Update Your Project':
+					this.invoke('brei-app:update', {});
+					break;
+				default: //'Create a New Project'
+					this.invoke('brei-app:new', {});
+					break;
+			}
 
-			this.appname = appname;
-			this.appversion = appversion;
-			this.deployDirectory = deployDirectory;
-
-			done();
 		}.bind(this));
 	},
-
-	writing: {
-		folders: function () {
-			this.dest.mkdir('app');
-			// All the grunt configuration files
-			this.dest.mkdir('grunt-config');
-			// Assembled HTML
-			this.dest.mkdir('app/modules');
-			// Compiled CSS
-			this.dest.mkdir('app/css');
-			// Your scripts
-			this.dest.mkdir('app/js');
-			this.dest.mkdir('app/js/plugins');
-			this.dest.mkdir('app/js/modules');
-			this.dest.mkdir('app/js/lib');
-			// Images
-			this.dest.mkdir('app/img');
-		},
-
-		app: function () {
-			this.template('_package.json', 'package.json');
-			this.template('_bower.json', 'bower.json');
-			this.template('README.md', 'README.md');
-			this.template('gitignore', '.gitignore');
-
-			// Add .gitkeep file to maintain file structure
-			this.src.copy('gitkeep', 'app/js/plugins/.gitkeep');
-			this.src.copy('gitkeep', 'app/js/modules/.gitkeep');
-			this.src.copy('gitkeep', 'app/js/lib/.gitkeep');
-
-			this.src.copy('rocket.png', 'app/img/rocket.png');
-		},
-
-		gruntConfig: function () {
-			var cb = this.async();
-
-			// Directory Structure
-			this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
-					return cb(err);
-				}
-
-				remote.directory('grunt-config', 'grunt-config');
-				remote.src.copy('Gruntfile.js', 'Gruntfile.js');
-
-				cb();
-			}, true);
-		},
-
-		assemble: function () {
-			var cb = this.async();
-
-			// Directory Structure
-			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-					return cb(err);
-				}
-
-				remote.directory('.', 'app/assemble');
-
-				cb();
-			}, true);
-		},
-
-		helpers: function () {
-			var cb = this.async();
-
-			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING HELPERS!!', err);
-					return cb(err);
-				}
-
-				remote.directory('.', 'app/assemble/helpers');
-
-				cb();
-			}, true);
-		},
-
-		sass: function () {
-			var cb = this.async();
-
-			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING SASS!!', err);
-					return cb(err);
-				}
-
-				remote.directory('.', 'app/sass');
-
-				cb();
-			}, true);
-		},
-
-		projectfiles: function () {
-			this.src.copy('jshintrc', '.jshintrc');
-			this.src.copy('bowerrc', '.bowerrc');
-		}
-	},
-
-end: function () {
-	this.installDependencies();
-	this.config.save();
-	}
 });
 
 module.exports = BreiAppGenerator;
