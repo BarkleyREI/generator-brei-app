@@ -45,7 +45,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			} ,function (nameAnswer) {
 
 				var name = nameAnswer.name;
-				var type = typeAnswer.type;
+				var type = typeAnswer.type.toLowerCase() + 's';
 				var formattedNameSASS, formattedNameHBS;
 
 				if (type === 'modules') {

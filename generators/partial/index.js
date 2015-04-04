@@ -1,6 +1,7 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
+var util = require('../../lib/utils.js');
 
 var BreiAppGenerator = yeoman.generators.Base.extend({
 	initializing: function () {
@@ -12,34 +13,17 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		var prompts = [{
 			type: 'input',
-			name: 'partialName',
+			name: 'name',
 			message: 'Partial name ("_green-button", "header-logo")',
 			default: ''
 		}];
 
 		this.prompt(prompts, function (props) {
-			this.someOption = props.someOption;
+			var name = props.name;
 
-			var partialName = props.partialName;
+			name = util._format_input(name);
 
-			// Remove the first _ (or __)
-			if (/^_/g.test(partialName)) {
-				partialName = partialName.replace(/^_+/g, '');
-			}
-			// Change all whitespace to -
-			if (/\s/g.test(partialName)) {
-				partialName = partialName.replace(/\s/g, '-');
-			}
-			// Change all remaining _ to -
-			if (/_/g.test(partialName)) {
-				partialName = partialName.replace(/_/g, '-');
-			}
-			// Remove any file extensions
-			if (/\..+/g.test(partialName)) {
-				partialName = partialName.replace(/\..+/g, '');
-			}
-
-			this.partialName = partialName;
+			this.name = name;
 
 			done();
 		}.bind(this));
@@ -47,16 +31,12 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 	writing: {
 		hbs: function () {
-			this.template('partial.hbs', 'app/assemble/partials/' + this.partialName + '.hbs');
+			this.template('partial.hbs', 'app/assemble/partials/' + this.name + '.hbs');
 		},
 
 		scss: function () {
-			this.template('partial.scss', 'app/sass/partials/_' + this.partialName + '.scss');
-		},
-
-		// mainScss: function () {
-		//	??
-		// }
+			this.template('partial.scss', 'app/sass/partials/_' + this.name + '.scss');
+		}
 	}
 });
 
