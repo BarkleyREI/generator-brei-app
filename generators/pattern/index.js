@@ -45,8 +45,13 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			} ,function (nameAnswer) {
 
 				var name = nameAnswer.name;
-				var type = typeAnswer.type.toLowerCase() + 's';
+				var type = typeAnswer.type;
 				var formattedNameSASS, formattedNameHBS;
+
+				// Really only to help with tests
+				if (!/s$/.test(type)) {
+					type = type + 's';
+				}
 
 				if (type === 'modules') {
 					formattedNameHBS = '_' + name + '.hbs';
