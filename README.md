@@ -23,9 +23,27 @@ Finally, initiate the generator:
 yo brei-app
 ```
 
+From here you will be presented with a series of options:
+```bash
+What would you like to do? (Use arrow keys)
+❯ Create a New Project
+  Create a Partial
+  Create a Module
+  Create a Template
+  Import a Pattern
+  Update Your Project
+  ```
+Just follow the promps and off you go!
+
 ## Sub-Generators
 #### All Sub-Generators install the properly formatted .hbs and .scss file. All according to conventions. Woot.
 
+#### Note: you can either run `yo brei-app` and select the desired sub generator task, or you can use the following commands to do it manually.
+
+Create a new Project:
+```bash
+yo brei-app:new
+```
 
 Create a new Template:
 ```bash
@@ -58,9 +76,15 @@ yo brei-app:pattern
 - You will be provided a list of available patterns, so long as the library's `pattern.json` is up to date.
 This will help prevent issues of spelling the name wrong.
 
+Update part of your project
+```bash
+yo brei-app:update
+```
+- This will provide you with options on which segment of the project you would like to update.
+ - Tips: when a conflict occurs, hit "d" to see a diff of changes, hit "y" to overwrite, hit "n" to not overwrite.
 
 ## Testing
-#### This generator has git pre-commit hook that will forcefully run the tests and jshint
+#### This generator has git pre-commit hook that will forcefully run the tests and jshint whenever you seek to make a commit
 
 Prerequisites:
 
