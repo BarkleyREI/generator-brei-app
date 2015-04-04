@@ -55,6 +55,8 @@ yo brei-app:pattern
 #  @param {String} The type of pattern (template, module, partial)
 #  @param {String} The name of the pattern (the pattern must exists)
 ```
+- You will be provided a list of available patterns, so long as the library's `pattern.json` is up to date.
+This will help prevent issues of spelling the name wrong.
 
 
 ## Testing

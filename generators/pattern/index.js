@@ -2,66 +2,67 @@
 
 var yeoman = require('yeoman-generator');
 
+
 var BreiAppGenerator = yeoman.generators.Base.extend({
 	initializing: function () {
-		this.pkg = require('../../package.json');
+		var cb = this.async();
+		var self = this;
+		self.pkg = require('../../package.json');
+
+		// Get available templates
+		self.remote('BarkleyREI', 'brei-pattern-library', 'master', function (err, remote) {
+			if (err) {
+				console.log('ERROR WHILE FETCHING PATTER', err);
+				return cb(err);
+			}
+
+			self.patterns = remote.src.readJSON('patterns.json');
+
+			cb();
+		}, true);
 	},
 
 	prompting: function () {
 		var done = this.async();
 
-		var prompts = [{
-			type: 'input',
+		this.prompt({
+			type: 'list',
 			name: 'type',
-			message: 'Pattern type: module, partial, or template',
-			default: 'module'
-		},
-		{
-			type: 'input',
-			name: 'name',
-			message: 'Pattern Name: basic-footer, breadcrumbs, etc',
-			default: 'basic'
-		}];
+			message: 'Pattern type:',
+			default: 'Module',
+			choices: ['Module', 'Partial', 'Template'],
+			filter: function(val) { return val.toLowerCase() + 's'; }
+		}, function(typeAnswer) {
 
-		this.prompt(prompts, function (props) {
-			var name = props.name;
-			var type = props.type;
-			var formattedNameSASS, formattedNameHBS;
+			var type = typeAnswer.type;
 
-			if (!/s$/.test(type)) {
-				type = type + 's';
-			}
+			this.prompt({
+				type: 'list',
+				name: 'name',
+				message: 'Pattern Name: basic-footer, breadcrumbs, etc',
+				default: 'basic-footer',
+				choices: this.patterns[type]
+			} ,function (nameAnswer) {
 
-			// // Remove the first _ (or __)
-			if (/^_/g.test(name)) {
-				name = name.replace(/^_+/, '');
-			}
-			// Change all whitespace to -
-			if (/\s/g.test(name)) {
-				name = name.replace(/\s/g, '-');
-			}
-			// Change all remaining _ to -
-			if (/_/g.test(name)) {
-				name = name.replace(/_/g, '-');
-			}
-			// Remove any file extensions
-			if (/\..+/g.test(name)) {
-				name = name.replace(/\..+/g, '');
-			}
+				var name = nameAnswer.name;
+				var type = typeAnswer.type.toLowerCase() + 's';
+				var formattedNameSASS, formattedNameHBS;
 
-			if (type === 'modules') {
-				formattedNameHBS = '_' + name + '.hbs';
-			} else {
-				formattedNameHBS = name + '.hbs';
-			}
-			formattedNameSASS = '_' + name + '.scss';
+				if (type === 'modules') {
+					formattedNameHBS = '_' + name + '.hbs';
+				} else {
+					formattedNameHBS = name + '.hbs';
+				}
+				formattedNameSASS = '_' + name + '.scss';
 
-			this.type = type;
-			this.name = name;
-			this.formattedNameHBS = formattedNameHBS;
-			this.formattedNameSASS = formattedNameSASS;
+				this.type = type;
+				this.name = name;
+				this.formattedNameHBS = formattedNameHBS;
+				this.formattedNameSASS = formattedNameSASS;
 
-			done();
+				done();
+			}.bind(this));
+
 		}.bind(this));
 	},
 
