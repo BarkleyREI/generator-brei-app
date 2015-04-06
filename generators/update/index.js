@@ -1,7 +1,6 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 
 var BreiAppGenerator = yeoman.generators.Base.extend({
 	initializing: function () {
@@ -9,9 +8,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 	},
 
 	prompting: function () {
-		this.log(yosay(
-			'Welcome to the BarkleyREI project generator!'
-		));
+		var done = this.async();
 
 		this.prompt({
 			type: 'list',
@@ -25,9 +22,17 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 				'Grunt Configuration Files'
 				]
 		}, function(answer) {
-			var cb = this.async();
 
-			switch (answer.update) {
+			this.update = answer.update;
+			done();
+		}.bind(this));
+	},
+
+	writing: {
+		update: function() {
+			var cb = this.async();
+			var update = this.update;
+			switch (update) {
 				case 'Assemble Project Structure':
 					this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
 						if (err) {
@@ -78,9 +83,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 					}, true);
 					break;
 			}
-
-		}.bind(this));
-	},
+		}
+	}
 });
 
 module.exports = BreiAppGenerator;
