@@ -41,7 +41,8 @@
   	"test"
   ],
   "files": [
-    "generators"
+    "generators",
+    "lib"
   ],
   "keywords": [
     "yeoman-generator",
