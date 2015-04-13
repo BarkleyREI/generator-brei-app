@@ -51,5 +51,7 @@ Deploy:
  - ex: `sass/partials/header/_contact-header.scss`
 - Add partial and module sass files in `main.scss` under their respective "partials" or "modules" sections.
 
+(Note: Use generators to produce new modules, partials, and templates, as they help enforce conventions.)
+
 3) Never write static text. Always reference JSON (or possibly XML) data via a helper
  - ex: `<p>{{company.name.first-name}}</p>` instead of `<p>Barkley</p>
