@@ -1,6 +1,7 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
+var util = require('../../lib/utils.js');
 
 var BreiAppGenerator = yeoman.generators.Base.extend({
 	initializing: function () {
@@ -12,34 +13,17 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		var prompts = [{
 			type: 'input',
-			name: 'moduleName',
+			name: 'name',
 			message: 'Module name ("_global-slider", "news-feed")',
 			default: ''
 		}];
 
 		this.prompt(prompts, function (props) {
-			this.someOption = props.someOption;
+			var name = props.name;
 
-			var moduleName = props.moduleName;
+			name = util._format_input(name);
 
-			// Remove the first _ (or __)
-			if (/^_/g.test(moduleName)) {
-				moduleName = moduleName.replace(/^_+/g, '');
-			}
-			// Change all whitespace to -
-			if (/\s/g.test(moduleName)) {
-				moduleName = moduleName.replace(/\s/g, '-');
-			}
-			// Change all remaining _ to -
-			if (/_/g.test(moduleName)) {
-				moduleName = moduleName.replace(/_/g, '-');
-			}
-			// Remove any file extensions
-			if (/\..+/.test(moduleName)) {
-				moduleName = moduleName.replace(/\..+/g, '');
-			}
-
-			this.moduleName = moduleName;
+			this.name = name;
 
 			done();
 		}.bind(this));
@@ -47,16 +31,12 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 	writing: {
 		hbs: function () {
-			this.template('module.hbs', 'app/assemble/modules/_' + this.moduleName + '.hbs');
+			this.template('module.hbs', 'app/assemble/modules/_' + this.name + '.hbs');
 		},
 
 		scss: function () {
-			this.template('module.scss', 'app/sass/modules/_' + this.moduleName + '.scss');
+			this.template('module.scss', 'app/sass/modules/_' + this.name + '.scss');
 		}
-
-		// mainScss: function () {
-		// ??
-		// }
 	}
 });
 
