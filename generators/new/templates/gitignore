@@ -4,4 +4,4 @@
 *bower_components*
 *.log*
 *.orig*
-assemble-*.scss
+*_assemble-*.scss
