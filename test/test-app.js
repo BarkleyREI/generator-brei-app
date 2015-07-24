@@ -68,17 +68,26 @@ describe('Main Generator', function () {
   it('Created SASS Files', function() {
     assert.file([
       'app/sass/README.md',
-      'app/sass/helpers/_access.scss',
-      'app/sass/helpers/_animate.scss',
-      'app/sass/helpers/_common.scss',
-      'app/sass/helpers/_mixins.scss',
-      'app/sass/helpers/_normalize.scss',
-      'app/sass/helpers/_theme-variables.scss',
       'app/sass/helpers/color-palette/_color-map.scss',
       'app/sass/helpers/color-palette/_color.scss',
-      'app/sass/helpers/mixins/_layout-mixins.scss',
-      'app/sass/helpers/mixins/_margin.scss',
-      'app/sass/helpers/mixins/_padding.scss',
+      'app/sass/helpers/common/_body.scss',
+      'app/sass/helpers/common/_defaults.scss',
+      'app/sass/helpers/common/_forms.scss',
+      'app/sass/helpers/common/_headings.scss',
+      'app/sass/helpers/common/_hr.scss',
+      'app/sass/helpers/common/_images.scss',
+      'app/sass/helpers/common/_links.scss',
+      'app/sass/helpers/common/_lists.scss',
+      'app/sass/helpers/common/_selection.scss',
+      'app/sass/helpers/common/_tables.scss',
+      'app/sass/helpers/mixins/_layout.scss',
+      'app/sass/helpers/_access.scss',
+      'app/sass/helpers/_animate.scss',
+      'app/sass/helpers/_mixins.scss',
+      'app/sass/helpers/_normalize.scss',
+      'app/sass/helpers/_placeholders.scss',
+      'app/sass/helpers/_theme-variables.scss',
+      'app/sass/icons/_style.scss',
       'app/sass/layout/_layout.scss',
       'app/sass/main.scss',
       'app/sass/modules/_assemble-modules.scss',
@@ -87,6 +96,16 @@ describe('Main Generator', function () {
       'app/sass/partials/_assemble-partials.scss',
       'app/sass/print/_default.scss',
       'app/sass/templates/_assemble-templates.scss'
+    ]);
+  });
+
+  it('SASS directories have icomoon fonts', function() {
+    assert.file([
+      'app/sass/icons/fonts/icomoon.eot',
+      'app/sass/icons/fonts/icomoon.svg',
+      'app/sass/icons/fonts/icomoon.ttf',
+      'app/sass/icons/fonts/icomoon.woff',
+      'app/sass/icons/fonts/icomoon.woff2'
     ]);
   });
 
