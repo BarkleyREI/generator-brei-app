@@ -1,6 +1,6 @@
 {
   "name": "generator-brei-app",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "generators/app/index.js",
@@ -36,9 +36,9 @@
     "jshintT": "jshint ./test/test-app.js"
   },
   "pre-commit": [
-  	"jshintG",
-  	"jshintT",
-  	"test"
+    "jshintG",
+    "jshintT",
+    "test"
   ],
   "files": [
     "generators",
