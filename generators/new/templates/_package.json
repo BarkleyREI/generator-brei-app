@@ -19,6 +19,7 @@
     "grunt-usemin": "~2.6.2",
     "grunt-open": "~0.2.3",
     "grunt-svgmin": "~2.0.0",
+    "grunt-scss-lint": "~0.3.8",
     "grunt-concurrent": "~1.0.0",
     "load-grunt-configs": "^0.4.2",
     "matchdep": "~0.3.0",

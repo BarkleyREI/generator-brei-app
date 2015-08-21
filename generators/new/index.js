@@ -63,6 +63,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		app: function () {
 			this.template('_package.json', 'package.json');
 			this.template('_bower.json', 'bower.json');
+			this.template('_scss-lint.yml', '.scss-lint.yml');
 			this.template('README.md', 'README.md');
 			this.template('gitignore', '.gitignore');
 
@@ -137,16 +138,21 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			}, true);
 		},
 
+		sassLint: function () {
+			this.src.copy('_scss-lint.yml', 'scss-lint.yml');
+		},
+
 		projectfiles: function () {
 			this.src.copy('jshintrc', '.jshintrc');
 			this.src.copy('bowerrc', '.bowerrc');
 		}
 	},
 
-end: function () {
-	this.installDependencies();
-	this.config.save();
+	end: function () {
+		this.installDependencies();
+		this.config.save();
 	}
+
 });
 
 module.exports = BreiAppGenerator;
