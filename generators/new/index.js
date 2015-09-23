@@ -85,7 +85,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 				}
 
 				remote.directory('grunt-config', 'grunt-config');
-				remote.src.copy('Gruntfile.js', 'Gruntfile.js');
+				remote.template('Gruntfile.js', 'Gruntfile.js');
 
 				cb();
 			}, true);
@@ -143,10 +143,11 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		}
 	},
 
-end: function () {
-	this.installDependencies();
-	this.config.save();
+	end: function () {
+		this.installDependencies();
+		this.config.save();
 	}
+
 });
 
 module.exports = BreiAppGenerator;
