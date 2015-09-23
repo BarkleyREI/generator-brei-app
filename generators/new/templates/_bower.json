@@ -2,7 +2,7 @@
   "name": "<%= _.slugify(appname) %>",
   "version": "<%= appversion %>",
   "dependencies": {
-    "modernizr": "*",
+    "modernizr": "~2.8.3",
     "jquery": "~2.x",
     "foundation": "~5.4.7"
   },
