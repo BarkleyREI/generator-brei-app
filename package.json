@@ -50,7 +50,7 @@
     "brei"
   ],
   "dependencies": {
-    "yeoman-generator": "0.17.7",
+    "yeoman-generator": "0.20.3",
     "chalk": "0.5.1",
     "yosay": "0.3.0",
     "jshint": "2.8.0"
