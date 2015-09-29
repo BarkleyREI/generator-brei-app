@@ -51,7 +51,7 @@
   ],
   "dependencies": {
     "yeoman-generator": "0.17.7",
-    "chalk": "0.5.1",
+    "chalk": "1.1.1",
     "yosay": "0.3.0",
     "jshint": "2.8.0"
   },
