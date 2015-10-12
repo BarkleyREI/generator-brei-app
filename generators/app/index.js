@@ -29,22 +29,22 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 			switch (answer.command) {
 				case 'Create a Partial':
-					this.invoke('brei-app:partial', {});
+					this.composeWith('brei-app:partial', {});
 					break;
 				case 'Create a Module':
-					this.invoke('brei-app:module', {});
+					this.composeWith('brei-app:module', {});
 					break;
 				case 'Create a Template':
-					this.invoke('brei-app:template', {});
+					this.composeWith('brei-app:template', {});
 					break;
 				case 'Import a Pattern':
-					this.invoke('brei-app:pattern', {});
+					this.composeWith('brei-app:pattern', {});
 					break;
 				case 'Update Your Project':
-					this.invoke('brei-app:update', {});
+					this.composeWith('brei-app:update', {});
 					break;
 				default: //'Create a New Project'
-					this.invoke('brei-app:new', {});
+					this.composeWith('brei-app:new', {});
 					break;
 			}
 

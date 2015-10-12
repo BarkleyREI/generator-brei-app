@@ -1,153 +1,391 @@
 'use strict';
+var generators = require('yeoman-generator');
+var yosay = require('yosay');
+var chalk = require('chalk');
+var wiredep = require('wiredep');
+var mkdirp = require('mkdirp');
+var _s = require('underscore.string');
 
-var yeoman = require('yeoman-generator');
+module.exports = generators.Base.extend({
+  constructor: function () {
+    var testLocal;
 
-var BreiAppGenerator = yeoman.generators.Base.extend({
-	initializing: function () {
-		this.pkg = require('../../package.json');
-	},
+    generators.Base.apply(this, arguments);
 
-	prompting: function () {
-		var done = this.async();
+    // this.option('skip-welcome-message', {
+    //   desc: 'Skips the welcome message',
+    //   type: Boolean
+    // });
 
-		var prompts = [{
-			type: 'input',
-			name: 'appname',
-			message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
-			default: 'static'
-		}, {
-			type: 'input',
-			name: 'appversion',
-			message: 'Version of App',
-			default: '0.0.1'
-		}, {
-			type: 'input',
-			name: 'deployDirectory',
-			message: 'Deploy directory (relative to current path)',
-			default: '../../web'
-		}];
+    // this.option('skip-install-message', {
+    //   desc: 'Skips the message after the installation of dependencies',
+    //   type: Boolean
+    // });
 
-		this.prompt(prompts, function (props) {
-			this.someOption = props.someOption;
+    // setup the test-framework property, Gruntfile template will need this
+    this.option('test-framework', {
+      desc: 'Test framework to be invoked',
+      type: String,
+      defaults: 'mocha'
+    });
 
-			var appname = props.appname;
-			var appversion = props.appversion;
-			var deployDirectory = props.deployDirectory;
+    // this.option('babel', {
+    //   desc: 'Use Babel',
+    //   type: Boolean,
+    //   defaults: true
+    // });
 
-			this.appname = appname;
-			this.appversion = appversion;
-			this.deployDirectory = deployDirectory;
+    if (this.options['test-framework'] === 'mocha') {
+      testLocal = require.resolve('generator-mocha/generators/app/index.js');
+    } else if (this.options['test-framework'] === 'jasmine') {
+      testLocal = require.resolve('generator-jasmine/generators/app/index.js');
+    }
 
-			done();
-		}.bind(this));
-	},
+    this.composeWith(this.options['test-framework'] + ':app', {
+      options: {
+        'skip-install': this.options['skip-install']
+      }
+    }, {
+      local: testLocal
+    });
+  },
 
-	writing: {
-		folders: function () {
-			this.dest.mkdir('app');
-			// All the grunt configuration files
-			this.dest.mkdir('grunt-config');
-			// Assembled HTML
-			this.dest.mkdir('app/modules');
-			// Compiled CSS
-			this.dest.mkdir('app/css');
-			// Your scripts
-			this.dest.mkdir('app/js');
-			this.dest.mkdir('app/js/plugins');
-			this.dest.mkdir('app/js/modules');
-			this.dest.mkdir('app/js/lib');
-			// Images
-			this.dest.mkdir('app/img');
-		},
+  // initializing: function () {
+  //   this.pkg = require('../package.json');
+  // },
 
-		app: function () {
-			this.template('_package.json', 'package.json');
-			this.template('_bower.json', 'bower.json');
-			this.template('README.md', 'README.md');
-			this.template('gitignore', '.gitignore');
+  askFor: function () {
+    var done = this.async();
 
-			// Add .gitkeep file to maintain file structure
-			this.src.copy('gitkeep', 'app/js/plugins/.gitkeep');
-			this.src.copy('gitkeep', 'app/js/modules/.gitkeep');
-			this.src.copy('gitkeep', 'app/js/lib/.gitkeep');
+    var prompts = [{
+      type: 'input',
+      name: 'appname',
+      message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
+      default: 'static'
+    }, {
+      type: 'input',
+      name: 'appversion',
+      message: 'Version of App',
+      default: '0.0.1'
+    }, {
+      type: 'input',
+      name: 'deployDirectory',
+      message: 'Deploy directory (relative to current path)',
+      default: '../../web'
+    }];
 
-			this.src.copy('rocket.png', 'app/img/rocket.png');
-		},
+    this.prompt(prompts, function (answers) {
+      var features = answers.features;
 
-		gruntConfig: function () {
-			var cb = this.async();
+      function hasFeature(feat) {
+        return features && features.indexOf(feat) !== -1;
+      }
 
-			// Directory Structure
-			this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
-					return cb(err);
-				}
+      // this.includeSass = hasFeature('includeSass');
+      // this.includeBootstrap = hasFeature('includeBootstrap');
+      // this.includeModernizr = hasFeature('includeModernizr');
+      // this.includeJQuery = answers.includeJQuery;
 
-				remote.directory('grunt-config', 'grunt-config');
-				remote.template('Gruntfile.js', 'Gruntfile.js');
+      this.appname = answers.appname;
+      this.appversion = answers.appversion;
+      this.deployDirectory = answers.deployDirectory;
 
-				cb();
-			}, true);
-		},
+      done();
+    }.bind(this));
+  },
 
-		assemble: function () {
-			var cb = this.async();
+  writing: {
 
-			// Directory Structure
-			this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-					return cb(err);
-				}
+    folders: function () {
 
-				remote.directory('.', 'app/assemble');
+      mkdirp('app');
+      // All the grunt configuration files
+      mkdirp('grunt-config');
+      // Assembled HTML
+      mkdirp('app/modules');
+      // Compiled CSS
+      mkdirp('app/css');
+      // Your scripts
+      mkdirp('app/js');
+      mkdirp('app/js/plugins');
+      mkdirp('app/js/modules');
+      mkdirp('app/js/lib');
+      // Images
+      mkdirp('app/img');
 
-				cb();
-			}, true);
-		},
+    },
 
-		helpers: function () {
-			var cb = this.async();
+    gruntConfig: function () {
+      var cb = this.async();
 
-			this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING HELPERS!!', err);
-					return cb(err);
-				}
+      // Directory Structure
+      this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
+        if (err) {
+          console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
+          return cb(err);
+        }
 
-				remote.directory('.', 'app/assemble/helpers');
+        remote.directory('grunt-config', 'grunt-config');
+        remote.copy('Gruntfile.js', 'Gruntfile.js');
 
-				cb();
-			}, true);
-		},
+        cb();
+      }, true);
+    },
 
-		sass: function () {
-			var cb = this.async();
+    assemble: function () {
+      var cb = this.async();
 
-			this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
-				if (err) {
-					console.log('--ERROR WHILE GETTING SASS!!', err);
-					return cb(err);
-				}
+      // Directory Structure
+      this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+        if (err) {
+          console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
+          return cb(err);
+        }
 
-				remote.directory('.', 'app/sass');
+        remote.directory('.', 'app/assemble');
 
-				cb();
-			}, true);
-		},
+        cb();
+      }, true);
+    },
 
-		projectfiles: function () {
-			this.src.copy('jshintrc', '.jshintrc');
-			this.src.copy('bowerrc', '.bowerrc');
-		}
-	},
+    helpers: function () {
+      var cb = this.async();
 
-	end: function () {
-		this.installDependencies();
-		this.config.save();
-	}
+      this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+        if (err) {
+          console.log('--ERROR WHILE GETTING HELPERS!!', err);
+          return cb(err);
+        }
 
+        remote.directory('.', 'app/assemble/helpers');
+
+        cb();
+      }, true);
+    },
+
+    sass: function () {
+      var cb = this.async();
+
+      this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
+        if (err) {
+          console.log('--ERROR WHILE GETTING SASS!!', err);
+          return cb(err);
+        }
+
+        remote.directory('.', 'app/sass');
+
+        cb();
+      }, true);
+    },
+
+    projectFiles: function () {
+      this.fs.copyTpl(
+        this.templatePath('jshintrc'),
+        this.destinationPath('.jshintrc'),
+        {}
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('bowerrc'),
+        this.destinationPath('.bowerrc'),
+        {}
+      );
+    },
+
+    readme: function () {
+
+      this.fs.copyTpl(
+        this.templatePath('README.md'),
+        this.destinationPath('README.md'),
+        {
+          appname: _s.slugify(this.appname)
+        }
+      );
+
+    },
+
+    // gruntfile: function () {
+    //   this.fs.copyTpl(
+    //     this.templatePath('Gruntfile.js'),
+    //     this.destinationPath('Gruntfile.js'),
+    //     {
+    //       pkg: this.pkg,
+    //       includeSass: this.includeSass,
+    //       includeBootstrap: this.includeBootstrap,
+    //       includeModernizr: this.includeModernizr,
+    //       testFramework: this.options['test-framework'],
+    //       useBabel: this.options['babel']
+    //     }
+    //   );
+    // },
+
+    packageJSON: function () {
+      this.fs.copyTpl(
+        this.templatePath('_package.json'),
+        this.destinationPath('package.json'),
+        {
+          appname: _s.slugify(this.appname),
+          appversion: this.appversion
+        }
+      )
+    },
+
+    git: function () {
+      this.fs.copy(
+        this.templatePath('gitignore'),
+        this.destinationPath('.gitignore')
+      );
+
+      // this.fs.copy(
+      //   this.templatePath('gitattributes'),
+      //   this.destinationPath('.gitattributes')
+      // );
+    },
+
+    bower: function () {
+      this.fs.copy(
+        this.templatePath('_bower.json'),
+        this.destinationPath('bower.json'),
+        {
+          appname: _s.slugify(this.appname),
+          appversion: this.appversion
+        }
+      );
+    },
+
+    // editorConfig: function () {
+    //   this.fs.copy(
+    //     this.templatePath('editorconfig'),
+    //     this.destinationPath('.editorconfig')
+    //   );
+    // },
+
+    // scripts: function () {
+    //   this.fs.copy(
+    //     this.templatePath('main.js'),
+    //     this.destinationPath('app/scripts/main.js')
+    //   );
+    // },
+
+    // styles: function () {
+    //   var stylesheet;
+
+    //   if (this.includeSass) {
+    //     stylesheet = 'main.scss';
+    //   } else {
+    //     stylesheet = 'main.css';
+    //   }
+
+    //   this.fs.copyTpl(
+    //     this.templatePath(stylesheet),
+    //     this.destinationPath('app/styles/' + stylesheet),
+    //     {
+    //       includeBootstrap: this.includeBootstrap
+    //     }
+    //   )
+    // },
+
+    // html: function () {
+    //   var bsPath;
+
+    //   // path prefix for Bootstrap JS files
+    //   if (this.includeBootstrap) {
+    //     if (this.includeSass) {
+    //       bsPath = '/bower_components/bootstrap-sass/assets/javascripts/bootstrap/';
+    //     } else {
+    //       bsPath = '/bower_components/bootstrap/js/';
+    //     }
+    //   }
+
+    //   this.fs.copyTpl(
+    //     this.templatePath('index.html'),
+    //     this.destinationPath('app/index.html'),
+    //     {
+    //       appname: this.appname,
+    //       includeSass: this.includeSass,
+    //       includeBootstrap: this.includeBootstrap,
+    //       includeModernizr: this.includeModernizr,
+    //       bsPath: bsPath,
+    //       bsPlugins: [
+    //         'affix',
+    //         'alert',
+    //         'dropdown',
+    //         'tooltip',
+    //         'modal',
+    //         'transition',
+    //         'button',
+    //         'popover',
+    //         'carousel',
+    //         'scrollspy',
+    //         'collapse',
+    //         'tab'
+    //       ]
+    //     }
+    //   );
+    // },
+
+    // icons: function () {
+    //   this.fs.copy(
+    //     this.templatePath('favicon.ico'),
+    //     this.destinationPath('app/favicon.ico')
+    //   );
+
+    //   this.fs.copy(
+    //     this.templatePath('apple-touch-icon.png'),
+    //     this.destinationPath('app/apple-touch-icon.png')
+    //   );
+    // },
+
+    // robots: function () {
+    //   this.fs.copy(
+    //     this.templatePath('robots.txt'),
+    //     this.destinationPath('app/robots.txt')
+    //   );
+    // },
+
+    // misc: function () {
+    //   mkdirp('app/images');
+    //   mkdirp('app/fonts');
+    // }
+  },
+
+  install: function () {
+    this.installDependencies({
+      skipInstall: this.options['skip-install'],
+      skipMessage: this.options['skip-install-message']
+    });
+  },
+
+  end: function () {
+    var bowerJson = this.fs.readJSON(this.destinationPath('bower.json'));
+    var howToInstall =
+      '\nAfter running ' +
+      chalk.yellow.bold('npm install & bower install') +
+      ', inject your' +
+      '\nfront end dependencies by running ' +
+      chalk.yellow.bold('grunt wiredep') +
+      '.';
+
+    if (this.options['skip-install']) {
+      this.log(howToInstall);
+      return;
+    }
+
+    // wire Bower packages to .html
+    // wiredep({
+    //   bowerJson: bowerJson,
+    //   src: 'app/index.html',
+    //   exclude: ['bootstrap.js'],
+    //   ignorePath: /^(\.\.\/)*\.\./
+    // });
+
+
+      // wire Bower packages to .scss
+      // wiredep({
+      //   bowerJson: bowerJson,
+      //   src: 'app/styles/*.scss',
+      //   ignorePath: /^(\.\.\/)+/
+      // });
+
+  }
 });
-
-module.exports = BreiAppGenerator;

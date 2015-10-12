@@ -16,7 +16,8 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 				return cb(err);
 			}
 
-			self.patterns = remote.src.readJSON('patterns.json');
+			remote.copy('patterns.json', 'patterns.json');
+			self.patterns = JSON.parse(self.fs.read('patterns.json'));
 
 			cb();
 		}, true);
@@ -36,13 +37,15 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 			var type = typeAnswer.type;
 
+			// console.log(this.patterns);
+
 			this.prompt({
 				type: 'list',
 				name: 'name',
 				message: 'Pattern Name: basic-footer, breadcrumbs, etc',
 				default: 'basic-footer',
 				choices: this.patterns[type]
-			} ,function (nameAnswer) {
+			}, function (nameAnswer) {
 
 				var name = nameAnswer.name;
 				var type = typeAnswer.type;
@@ -85,7 +88,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			// Directory Structure
 			this.remote('BarkleyREI', 'brei-pattern-library', 'master', function (err, remote) {
 				if (err) {
-					console.log('ERROR WHILE FETCHING PATTER', err);
+					console.log('ERROR WHILE FETCHING PATTERN', err);
 					return cb(err);
 				}
 
