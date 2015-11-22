@@ -119,7 +119,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-grunt-config', 'next', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
           return cb(err);
@@ -166,7 +166,7 @@ module.exports = generators.Base.extend({
     sass: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'next', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING SASS!!', err);
           return cb(err);
