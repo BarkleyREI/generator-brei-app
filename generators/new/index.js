@@ -166,7 +166,7 @@ module.exports = generators.Base.extend({
     sass: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING SASS!!', err);
           return cb(err);
