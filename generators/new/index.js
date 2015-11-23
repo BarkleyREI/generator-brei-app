@@ -136,7 +136,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-assemble-structure', 'next', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
           return cb(err);
@@ -151,7 +151,7 @@ module.exports = generators.Base.extend({
     helpers: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-assemble-helpers', 'next', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING HELPERS!!', err);
           return cb(err);
@@ -188,6 +188,12 @@ module.exports = generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('bowerrc'),
         this.destinationPath('.bowerrc'),
+        {}
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('scss-lint.yml'),
+        this.destinationPath('.scss-lint.yml'),
         {}
       );
     },
