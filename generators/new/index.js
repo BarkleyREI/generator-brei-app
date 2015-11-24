@@ -178,6 +178,21 @@ module.exports = generators.Base.extend({
       }, true);
     },
 
+    mixins: function () {
+      var cb = this.async();
+
+      this.remote('BarkleyREI', 'brei-sass-mixins', 'master', function (err, remote) {
+        if (err) {
+          console.log('--ERROR WHILE GETTING MIXINS!!', err);
+          return cb(err);
+        }
+
+        remote.directory('.', 'app/sass/helpers/mixins');
+
+        cb();
+      }, true);
+    },
+
     projectFiles: function () {
       this.fs.copyTpl(
         this.templatePath('jshintrc'),
