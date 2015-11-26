@@ -16,11 +16,6 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			name: 'name',
 			message: 'Partial name ("_green-button", "header-logo")',
 			default: ''
-		}, {
-			type: 'input',
-			name: 'tag',
-			message: 'Parent tag (Default: div)',
-			default: 'div'
 		}];
 
 		this.prompt(prompts, function (props) {
