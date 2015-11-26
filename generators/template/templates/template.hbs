@@ -3,8 +3,10 @@ title: <%= name %>
 template: true
 ---
 
-<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\" data-template=\"" + name + "\">\n    " + name + "\n</" + tag + ">" %><% } else { %>
-<div class="<%= name %>" data-template="<%= name %>">
+<!-- template:<%= name %> -->
+<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + name + "\n</" + tag + ">" %><% } else { %>
+<div class="<%= name %>">
 	<%= name %>
 </div>
 <% } %>
+<!-- end template:<%= name %> -->

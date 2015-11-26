@@ -4,8 +4,10 @@ layout: module.hbs
 module: true
 ---
 
-<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\" data-module=\"" + name + "\">\n    " + name + "\n</" + tag + ">" %><% } else { %>
-<div class="<%= name %>" data-module="<%= name %>">
+<!-- module:<%= name %> -->
+<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + name + "\n</" + tag + ">" %><% } else { %>
+<div class="<%= name %>">
 	<%= name %>
 </div>
 <% } %>
+<!-- end module:<%= name %> -->
