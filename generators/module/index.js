@@ -43,6 +43,10 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 
 		scss: function () {
 			this.template('module.scss', 'app/sass/modules/_' + this.name + '.scss');
+		},
+
+		fixture: function () {
+			this.template('module.json', 'app/assemble/fixtures/' + this.name + '.json');
 		}
 	}
 });
