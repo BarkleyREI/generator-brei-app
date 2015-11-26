@@ -26,10 +26,13 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 		this.prompt(prompts, function (props) {
 			var name = props.name;
 			var tag = props.tag;
+			var pretty = name;
 
 			name = util._format_input(name);
+			pretty = util._prettify_input(name);
 
 			this.name = name;
+			this.pretty = pretty;
 			this.tag = tag;
 
 			done();
