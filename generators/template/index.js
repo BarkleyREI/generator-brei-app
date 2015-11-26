@@ -16,14 +16,21 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			name: 'name',
 			message: 'Template name ("level-page", "column_content-one")',
 			default: ''
+		}, {
+			type: 'input',
+			name: 'tag',
+			message: 'Parent tag (Default: div)',
+			default: 'div'
 		}];
 
 		this.prompt(prompts, function (props) {
 			var name = props.name;
+			var tag = props.tag;
 
 			name = util._format_input(name);
 
 			this.name = name;
+			this.tag = tag;
 
 			done();
 		}.bind(this));

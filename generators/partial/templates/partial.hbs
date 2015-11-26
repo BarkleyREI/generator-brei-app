@@ -1,3 +1,5 @@
+<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\" data-partial=\"" + name + "\">\n    " + name + "\n</" + tag + ">" %><% } else { %>
 <div class="<%= name %>" data-partial="<%= name %>">
 	<%= name %>
 </div>
+<% } %>
