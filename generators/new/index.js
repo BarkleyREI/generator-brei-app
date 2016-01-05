@@ -181,7 +181,7 @@ module.exports = generators.Base.extend({
     mixins: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-mixins', 'master', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-sass-mixins', 'next', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING MIXINS!!', err);
           return cb(err);
