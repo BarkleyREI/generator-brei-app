@@ -21,11 +21,17 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			name: 'tag',
 			message: 'Parent tag (Default: div)',
 			default: 'div'
+		}, {
+			type: 'input',
+			name: 'aria',
+			message: 'ARIA role? (Default: none)',
+			default: ''
 		}];
 
 		this.prompt(prompts, function (props) {
 			var name = props.name;
 			var tag = props.tag;
+			var aria = props.aria;
 			var pretty = name;
 
 			name = util._format_input(name);
@@ -34,6 +40,7 @@ var BreiAppGenerator = yeoman.generators.Base.extend({
 			this.name = name;
 			this.pretty = pretty;
 			this.tag = tag;
+			this.aria = aria;
 
 			done();
 		}.bind(this));
