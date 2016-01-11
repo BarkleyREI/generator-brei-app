@@ -3,7 +3,7 @@
 'use strict';
 
 var util = require('../lib/utils.js');
-var assert = require('yeoman-generator').assert;
+var assert = require('yeoman-assert');
 var fs = require('fs');
 
 describe('Testing Util _format_input()', function() {

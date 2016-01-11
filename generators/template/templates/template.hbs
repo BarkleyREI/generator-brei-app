@@ -1,7 +1,12 @@
 ---
-title: <%= name %>
+title: <%= pretty %>
 template: true
 ---
-<div class="<%= name %>" data-template="<%= name %>">
-	<%= name %>
+
+<!-- template:<%= name %> -->
+<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">" %><% } else { %>
+<div class="<%= name %>">
+	<%= pretty %>
 </div>
+<% } %>
+<!-- end template:<%= name %> -->

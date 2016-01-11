@@ -3,8 +3,8 @@
 'use strict';
 
 var path = require('path');
-var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
+var assert = require('yeoman-assert');
+var helpers = require('yeoman-test');
 var os = require('os');
 var util = require('../lib/utils.js');
 
@@ -34,13 +34,17 @@ describe('Main Generator', function () {
     ]);
   });
 
-  it('Created Assemble Files', function() {
+  it('Created Assemble Files', function () {
     assert.file([
       'app/assemble/.gitkeep',
-      'app/assemble/README.md',
       'app/assemble/fixtures/.gitkeep',
       'app/assemble/helpers/.gitkeep',
       'app/assemble/home-page.hbs',
+      'app/assemble/includes/_css-main.hbs',
+      'app/assemble/includes/_fonts.hbs',
+      'app/assemble/includes/_js-main.hbs',
+      'app/assemble/includes/_js-modernizr.hbs',
+      'app/assemble/includes/_meta.hbs',
       'app/assemble/index.hbs',
       'app/assemble/layouts/.gitkeep',
       'app/assemble/layouts/default.hbs',
@@ -48,57 +52,59 @@ describe('Main Generator', function () {
       'app/assemble/layouts/module.hbs',
       'app/assemble/modules/.gitkeep',
       'app/assemble/partials/.gitkeep',
-      'app/assemble/includes/_css-main.hbs',
-      'app/assemble/includes/_fonts.hbs',
-      'app/assemble/includes/_js-main.hbs',
-      'app/assemble/includes/_js-modernizr.hbs',
-      'app/assemble/includes/_meta.hbs'
+      'app/assemble/README.md'
     ]);
   });
 
-  it('Created Helper Files', function() {
+  it('Created Helper Files', function () {
     assert.file([
-      'app/assemble/helpers/README.md',
       'app/assemble/helpers/helpers.js',
       'app/assemble/helpers/package.json',
+      'app/assemble/helpers/README.md',
       'app/assemble/helpers/updateScss.js'
     ]);
   });
 
-  it('Created SASS Files', function() {
+  it('Created SASS Files', function () {
     assert.file([
-      'app/sass/helpers/color-palette/_color-map.scss',
-      'app/sass/helpers/color-palette/_color.scss',
-      'app/sass/helpers/common/_body.scss',
-      'app/sass/helpers/common/_defaults.scss',
-      'app/sass/helpers/common/_forms.scss',
-      'app/sass/helpers/common/_headings.scss',
-      'app/sass/helpers/common/_hr.scss',
-      'app/sass/helpers/common/_images.scss',
-      'app/sass/helpers/common/_links.scss',
-      'app/sass/helpers/common/_lists.scss',
-      'app/sass/helpers/common/_selection.scss',
-      'app/sass/helpers/common/_tables.scss',
-      'app/sass/helpers/lib/_animate.scss',
-      'app/sass/helpers/lib/_normalize.scss',
+      'app/sass/common/_body.scss',
+      'app/sass/common/_defaults.scss',
+      'app/sass/common/_forms.scss',
+      'app/sass/common/_headings.scss',
+      'app/sass/common/_hr.scss',
+      'app/sass/common/_images.scss',
+      'app/sass/common/_links.scss',
+      'app/sass/common/_lists.scss',
+      'app/sass/common/_selection.scss',
+      'app/sass/common/_tables.scss',
       'app/sass/helpers/_access.scss',
-      'app/sass/helpers/_mixins.scss',
       'app/sass/helpers/_placeholders.scss',
       'app/sass/helpers/_theme-variables.scss',
-      'app/sass/helpers/mixins/_layout.scss',
+      'app/sass/helpers/color-palette/_color-map.scss',
+      'app/sass/helpers/color-palette/_color.scss',
+      'app/sass/helpers/lib/_animate.scss',
+      'app/sass/helpers/mixins/_mixins.scss',
+      'app/sass/icons/_style.scss',
+      'app/sass/icons/fonts/icomoon.eot',
+      'app/sass/icons/fonts/icomoon.svg',
+      'app/sass/icons/fonts/icomoon.ttf',
+      'app/sass/icons/fonts/icomoon.woff',
+      'app/sass/icons/fonts/icomoon.woff2',
+      'app/sass/icons/selection.json',
+      'app/sass/icons/style.css',
+      'app/sass/icons/variables.scss',
       'app/sass/layout/_layout.scss',
+      'app/sass/main.scss',
       'app/sass/modules/_assemble-modules.scss',
       'app/sass/modules/_global.scss',
-      'app/sass/partials/_assemble-partials.scss',
-      'app/sass/print/_default.scss',
-      'app/sass/templates/_assemble-templates.scss',
-      'app/sass/main.scss',
       'app/sass/package.json',
-      'app/sass/README.md'
+      'app/sass/partials/_assemble-partials.scss',
+      'app/sass/README.md',
+      'app/sass/templates/_assemble-templates.scss'
     ]);
   });
 
-  it('Created Grunt Configuration Files', function(){
+  it('Created Grunt Configuration Files', function () {
     assert.file([
       'grunt-config/assemble.js',
       'grunt-config/autoprefixer.js',
@@ -136,15 +142,15 @@ describe('Partial Sub-Generator - ', function () {
 });
 
 describe('Pattern Library Sub-Generator - ', function () {
-  describe('Import Partial Pattern', function() {
+  describe('Import Partial Pattern', function () {
     util._test_patterns('partial');
   });
 
-  describe('Import Module Pattern - ', function() {
+  describe('Import Module Pattern - ', function () {
     util._test_patterns('module');
   });
 
-  describe('Import Template Pattern', function() {
+  describe('Import Template Pattern', function () {
     util._test_patterns('template');
   });
 });

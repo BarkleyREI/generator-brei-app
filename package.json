@@ -1,6 +1,6 @@
 {
   "name": "generator-brei-app",
-  "version": "2.1.7",
+  "version": "3.0.0",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "generators/app/index.js",
@@ -24,6 +24,14 @@
     {
       "name": "Joseph Dillon",
       "url": "https://github.com/jdillon522"
+    },
+    {
+      "name": "Sean Stacho",
+      "url": "https://github.com/Sean-BREI"
+    },
+    {
+      "name": "Sarah Harissis",
+      "url": "https://github.com/sharissis"
     }
   ],
   "engines": {
@@ -57,6 +65,8 @@
     "underscore.string": "3.2.2",
     "wiredep": "^3.0.0",
     "yeoman-generator": "0.22.2",
+    "yeoman-test": "1.0.0",
+    "yeoman-assert": "2.1.1",
     "yosay": "1.1.0"
   },
   "devDependencies": {

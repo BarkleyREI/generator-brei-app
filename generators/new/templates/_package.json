@@ -20,6 +20,7 @@
     "grunt-open": "~0.2.3",
     "grunt-svgmin": "~2.0.0",
     "grunt-concurrent": "~1.0.0",
+    "grunt-scss-lint": "~0.3.8",
     "load-grunt-configs": "^0.4.2",
     "matchdep": "~0.3.0",
     "connect-livereload": "~0.5.1",
