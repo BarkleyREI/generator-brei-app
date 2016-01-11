@@ -3,14 +3,14 @@
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
-var BreiAppGenerator = yeoman.generators.Base.extend({
+var BreiAppGenerator = yeoman.Base.extend({
 	initializing: function () {
 		this.pkg = require('../../package.json');
 	},
 
 	prompting: function () {
 		this.log(yosay(
-			'Welcome to the BarkleyREI project generator!'
+			'Welcome to the BarkleyREI project generator!\nv' + this.pkg.version
 		));
 
 		this.prompt({

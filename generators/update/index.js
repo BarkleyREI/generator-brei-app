@@ -2,7 +2,7 @@
 
 var yeoman = require('yeoman-generator');
 
-var BreiAppGenerator = yeoman.generators.Base.extend({
+var BreiAppGenerator = yeoman.Base.extend({
 	initializing: function () {
 		this.pkg = require('../../package.json');
 	},
