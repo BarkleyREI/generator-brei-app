@@ -76,7 +76,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-grunt-config', 'next', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
           return cb(err);
@@ -93,7 +93,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-assemble-structure', 'next', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
           return cb(err);
@@ -108,7 +108,7 @@ module.exports = generators.Base.extend({
     helpers: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-assemble-helpers', 'next', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING HELPERS!!', err);
           return cb(err);
@@ -123,7 +123,7 @@ module.exports = generators.Base.extend({
     sass: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'next', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING SASS!!', err);
           return cb(err);
@@ -138,7 +138,7 @@ module.exports = generators.Base.extend({
     mixins: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-mixins', 'next', function (err, remote) {
+      this.remote('BarkleyREI', 'brei-sass-mixins', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING MIXINS!!', err);
           return cb(err);
