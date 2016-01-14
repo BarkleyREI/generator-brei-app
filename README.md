@@ -11,6 +11,13 @@ Install Yeoman
 ```bash
 npm install -g yo
 ```
+Install Ruby
+
+Install Compass, SASS, and SCSS_Lint
+````bash
+sudo gem install compass sass scss_lint
+````
+
 Install the BREI-App Generator
 
 ```bash
