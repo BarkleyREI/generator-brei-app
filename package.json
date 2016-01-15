@@ -62,7 +62,7 @@
     "generator-jasmine": "0.2.2",
     "generator-mocha": "0.2.0",
     "mkdirp": "0.5.1",
-    "underscore.string": "3.2.2",
+    "underscore.string": "3.2.3",
     "wiredep": "^3.0.0",
     "yeoman-generator": "0.22.3",
     "yeoman-test": "1.0.0",
