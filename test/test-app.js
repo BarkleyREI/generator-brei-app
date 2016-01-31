@@ -42,7 +42,7 @@ describe('Main Generator', function () {
       'app/assemble/home-page.hbs',
       'app/assemble/includes/_css-main.hbs',
       'app/assemble/includes/_fonts.hbs',
-      'app/assemble/includes/_js-angular',
+      'app/assemble/includes/_js-angular.hbs',
       'app/assemble/includes/_js-main.hbs',
       'app/assemble/includes/_js-modernizr.hbs',
       'app/assemble/includes/_meta.hbs',
