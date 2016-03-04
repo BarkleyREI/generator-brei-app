@@ -4,9 +4,7 @@ template: true
 ---
 
 <!-- template:<%= name %> -->
-<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">" %><% } else { %>
-<div class="<%= name %>">
+<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">" %><% } else { %><div class="<%= name %>">
 	<%= pretty %>
 </div>
-<% } %>
-<!-- end template:<%= name %> -->
+<% } %><!-- end template:<%= name %> -->
