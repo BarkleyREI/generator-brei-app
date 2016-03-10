@@ -90,7 +90,7 @@ describe('Main Generator', function () {
       'app/sass/icons/fonts/icomoon.woff2',
       'app/sass/icons/selection.json',
       'app/sass/icons/style.css',
-      'app/sass/icons/variables.scss',
+      'app/sass/icons/_variables.scss',
       'app/sass/layout/_layout.scss',
       'app/sass/main.scss',
       'app/sass/modules/_assemble-modules.scss',
