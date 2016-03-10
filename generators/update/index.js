@@ -1,6 +1,7 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
+var mkdirp = require('mkdirp');
 
 var BreiAppGenerator = yeoman.Base.extend({
 	initializing: function () {
@@ -8,81 +9,38 @@ var BreiAppGenerator = yeoman.Base.extend({
 	},
 
 	prompting: function () {
-		var done = this.async();
 
-		this.prompt({
-			type: 'list',
-			name: 'update',
-			message: 'What would you like to Update?',
-			default: 'Grunt Configuration Files',
-			choices: [
-				'Assemble Project Structure',
-				'Assemble Helper Files',
-				'Sass Boilerplate',
-				'Grunt Configuration Files'
-				]
-		}, function(answer) {
-
-			this.update = answer.update;
-			done();
-		}.bind(this));
 	},
 
 	writing: {
-		update: function() {
-			var cb = this.async();
-			var update = this.update;
-			switch (update) {
-				case 'Assemble Project Structure':
-					this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
-						if (err) {
-							console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-							return cb(err);
-						}
 
-						remote.directory('.', 'app/assemble');
+		staging: function () {
 
-						cb();
-					}, true);
-					break;
-				case 'Assemble Helper Files':
-					this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
-						if (err) {
-							console.log('--ERROR WHILE GETTING HELPERS!!', err);
-							return cb(err);
-						}
+			mkdirp('_update');
 
-						remote.directory('.', 'app/assemble/helpers');
+			mkdirp('_update/app');
+			// All the grunt configuration files
+			mkdirp('_update/grunt-config');
+			// Assembled HTML
+			mkdirp('_update/app/modules');
+			// Compiled CSS
+			mkdirp('_update/app/css');
+			// Your scripts
+			mkdirp('_update/app/js');
+			mkdirp('_update/app/js/plugins');
+			mkdirp('_update/app/js/modules');
+			mkdirp('_update/app/js/lib');
+			// Images
+			mkdirp('_update/app/img');
 
-						cb();
-					}, true);
-					break;
-				case 'Sass Boilerplate':
-					this.remote('BarkleyREI', 'sass_boilerplate', 'master', function (err, remote) {
-						if (err) {
-							console.log('--ERROR WHILE GETTING SASS!!', err);
-							return cb(err);
-						}
+			// this.fs.copy(this.destinationPath('app/lib/*'), this.destinationPath('_update/lib'));
 
-						remote.directory('.', 'app/sass');
+		},
 
-						cb();
-					}, true);
-					break;
-				default: // 'Grunt Configuration Files':
-					this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
-						if (err) {
-							console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
-							return cb(err);
-						}
+		update: function () {
 
-						remote.directory('grunt-config', 'grunt-config');
-						remote.src.copy('Gruntfile.js', 'Gruntfile.js');
 
-						cb();
-					}, true);
-					break;
-			}
+
 		}
 	}
 });

@@ -59,9 +59,7 @@ describe('Main Generator', function () {
   it('Created Helper Files', function () {
     assert.file([
       'app/assemble/helpers/helpers.js',
-      'app/assemble/helpers/package.json',
-      'app/assemble/helpers/README.md',
-      'app/assemble/helpers/updateScss.js'
+      'app/lib/updateScss.js'
     ]);
   });
 
@@ -108,10 +106,10 @@ describe('Main Generator', function () {
     assert.file([
       'grunt-config/assemble.js',
       'grunt-config/autoprefixer.js',
+      'grunt-config/browserSync.js',
       'grunt-config/clean.js',
       'grunt-config/compass.js',
       'grunt-config/concurrent.js',
-      'grunt-config/connect.js',
       'grunt-config/copy.js',
       'grunt-config/cssmin.js',
       'grunt-config/execute.js',
@@ -119,7 +117,6 @@ describe('Main Generator', function () {
       'grunt-config/imagemin.js',
       'grunt-config/jshint.js',
       'grunt-config/modernizr.js',
-      'grunt-config/open.js',
       'grunt-config/scsslint.js',
       'grunt-config/svgmin.js',
       'grunt-config/usemin.js',

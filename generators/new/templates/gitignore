@@ -5,3 +5,6 @@
 *.log*
 *.orig*
 *_assemble-*.scss
+dist
+app/*.html
+app/modules/*.html

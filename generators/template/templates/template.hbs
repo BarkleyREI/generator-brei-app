@@ -4,9 +4,9 @@ template: true
 ---
 
 <!-- template:<%= name %> -->
-<% if (tag != "div") { if (aria != "") { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\" role=\"" + aria + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %><% } else { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %><% }
-} else { %>{{#parseFixture '<%= name %>.json'}}
-<div class="<%= name %>"<% if (aria != "") { %> role="<%= aria %>"<% } %>>
+<% if (tag != "div") { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %>
+<% } else { %>{{#parseFixture '<%= name %>.json'}}
+<div class="<%= name %>">
 	<%= pretty %>
 </div>
 {{/parseFixture}}
