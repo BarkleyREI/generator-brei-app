@@ -6,11 +6,9 @@ module: true
 
 <!-- module:<%= name %> -->
 <% if (tag != "div") { if (aria != "") { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\" role=\"" + aria + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %><% } else { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %><% }
-} else { %>
-{{#parseFixture '<%= name %>.json'}}
+} else { %>{{#parseFixture '<%= name %>.json'}}
 <div class="<%= name %>"<% if (aria != "") { %> role="<%= aria %>"<% } %>>
 	<%= pretty %>
 </div>
 {{/parseFixture}}
-<% } %>
-<!-- end module:<%= name %> -->
+<% } %><!-- end module:<%= name %> -->

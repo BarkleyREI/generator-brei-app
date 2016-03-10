@@ -114,7 +114,8 @@ module.exports = generators.Base.extend({
           return cb(err);
         }
 
-        remote.directory('.', 'app/assemble/helpers');
+        remote.copy('./helpers.js', 'app/assemble/helpers/helpers.js');
+        remote.copy('./updateScss.js', 'app/lib/updateScss.js');
 
         cb();
       }, true);
