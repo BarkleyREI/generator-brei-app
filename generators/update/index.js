@@ -36,14 +36,15 @@ var BreiAppGenerator = yeoman.Base.extend({
 		this.log(yosay(
 			'The update generator does not overwrite your files. It checks out a fresh project ' +
 			'into a folder called _update in the static directory. It is up to you to do the file ' +
-			'comparison and copy over changes. Proceed at your own risk.'
+			'comparison and copy over changes. Proceed at your own risk.\n\n' +
+			'Type `y` to continue.'
 		));
 
 		var prompts = [{
 			type: 'confirm',
 			name: 'understand',
 			message: 'Do you wish to continue?',
-			default: 'n',
+			default: false,
 		}];
 
 		this.prompt(prompts, function (answers) {
