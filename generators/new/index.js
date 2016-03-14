@@ -3,11 +3,17 @@ var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var _s = require('underscore.string');
+var _brei = require('../../brei-config.json');
 
 module.exports = generators.Base.extend({
   constructor: function () {
 
     generators.Base.apply(this, arguments);
+
+    this.github = "BarkleyREI";
+    if (typeof _brei.github != 'undefined') {
+      this.github = _brei.github;
+    }
 
   },
 
@@ -76,7 +82,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-grunt-config', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
           return cb(err);
@@ -93,7 +99,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-assemble-structure', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
           return cb(err);
@@ -108,7 +114,7 @@ module.exports = generators.Base.extend({
     helpers: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-assemble-helpers', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING HELPERS!!', err);
           return cb(err);
@@ -124,7 +130,7 @@ module.exports = generators.Base.extend({
     sass: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-sass-boilerplate', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING SASS!!', err);
           return cb(err);
@@ -139,7 +145,7 @@ module.exports = generators.Base.extend({
     mixins: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-mixins', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-sass-mixins', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING MIXINS!!', err);
           return cb(err);
@@ -194,6 +200,18 @@ module.exports = generators.Base.extend({
       );
     },
 
+    breiJSON: function () {
+      this.fs.copyTpl(
+        this.templatePath('_brei-config.json'),
+        this.destinationPath('brei-config.json'),
+        {
+          appname: _s.slugify(this.appname),
+          appversion: this.appversion,
+          deployDirectory: this.deployDirectory
+        }
+      );
+    },
+
     git: function () {
       this.fs.copy(
         this.templatePath('gitignore'),
@@ -202,7 +220,7 @@ module.exports = generators.Base.extend({
     },
 
     bower: function () {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('_bower.json'),
         this.destinationPath('bower.json'),
         {
