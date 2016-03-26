@@ -1,5 +1,7 @@
 {
+	"generatorVersion": "<%= genver %>",
 	"deploy": "<%= deployDirectory %>",
 	"name": "<%= appname %>",
-	"version": "<%= appversion %>"
+	"version": "<%= appversion %>",
+	"debug": "<%= debug %>",
 }
