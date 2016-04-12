@@ -35,7 +35,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 
 		if (!this.options['skip-warning']) {
 
-			var packageCheck = require('package.json');
+			var packageCheck = require( this.destinationRoot() + '/package.json' );
 
 			this.log(yosay(
 				'The update generator does not overwrite your files. It checks out a fresh project ' +
