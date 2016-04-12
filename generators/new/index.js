@@ -160,6 +160,16 @@ module.exports = generators.Base.extend({
       }, true);
     },
 
+    modernizr: function () {
+
+      this.fs.copyTpl(
+        this.templatePath('modernizr.js'),
+        this.destinationPath('app/js/plugins/modernizr.js'),
+        {}
+      );
+
+    },
+
     projectFiles: function () {
       this.fs.copyTpl(
         this.templatePath('jshintrc'),
