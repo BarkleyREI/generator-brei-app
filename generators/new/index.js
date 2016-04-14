@@ -2,8 +2,9 @@
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
+var optional = require('optional');
 var _s = require('underscore.string');
-var _brei = require('../../brei-config.json');
+var _brei = optional('../../config/brei-config.json');
 
 module.exports = generators.Base.extend({
   constructor: function () {
@@ -11,8 +12,10 @@ module.exports = generators.Base.extend({
     generators.Base.apply(this, arguments);
 
     this.github = "BarkleyREI";
-    if (typeof _brei.github != 'undefined') {
-      this.github = _brei.github;
+    if (_brei != null) {
+      if (_brei.github != null) {
+        this.github = _brei.github;
+      }
     }
 
   },
