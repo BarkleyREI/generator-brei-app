@@ -1,6 +1,6 @@
 $palettes: map-merge($palettes, (
     '<%= name %>': (
-        'root': $black,
+        'core': $black,
         'background': $white
     )
 ));
