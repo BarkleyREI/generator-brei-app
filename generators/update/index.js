@@ -4,7 +4,7 @@ var optional = require('optional');
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var _s = require('underscore.string');
-var _brei = optional('../../config/brei-config.json');
+var _brei = require('../../config/brei-config.json');
 var yosay = require('yosay');
 
 var BreiAppGenerator = yeoman.Base.extend({
