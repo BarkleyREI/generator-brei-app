@@ -63,9 +63,9 @@
     "generator-mocha": "0.3.0",
     "mkdirp": "0.5.1",
     "underscore.string": "3.3.4",
-    "yeoman-generator": "0.22.5",
+    "yeoman-generator": "0.22.6",
     "yeoman-test": "1.1.0",
-    "yeoman-assert": "2.1.1",
+    "yeoman-assert": "2.2.0",
     "yosay": "1.1.1",
     "optional": "0.1.3"
   },
