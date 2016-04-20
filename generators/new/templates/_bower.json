@@ -2,9 +2,9 @@
 	"name": "<%= appname %>",
 	"version": "<%= appversion %>",
 	"dependencies": {
-		"modernizr": "2.8.3",
+		"modernizr": "~3.3.1",
 		"jquery": "~2.x",
-		"foundation-sites": "6.1.1"
+		"foundation-sites": "6.1.2"
 	},
 	"devDependencies": {}
 }

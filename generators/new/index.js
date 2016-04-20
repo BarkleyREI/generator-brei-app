@@ -4,19 +4,25 @@ var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var optional = require('optional');
 var _s = require('underscore.string');
-var _brei = optional('../../config/brei-config.json');
+var _brei = require('../../config/brei-config.json');
+var yosay = require('yosay');
 
 module.exports = generators.Base.extend({
   constructor: function () {
 
     generators.Base.apply(this, arguments);
 
+    this.pkg = require('../../package.json');
+
     this.github = "BarkleyREI";
+
     if (_brei != null) {
       if (_brei.github != null) {
         this.github = _brei.github;
       }
     }
+
+    debugger;
 
   },
 
@@ -160,6 +166,16 @@ module.exports = generators.Base.extend({
       }, true);
     },
 
+    modernizr: function () {
+
+      this.fs.copyTpl(
+        this.templatePath('modernizr.js'),
+        this.destinationPath('app/js/plugins/modernizr.js'),
+        {}
+      );
+
+    },
+
     projectFiles: function () {
       this.fs.copyTpl(
         this.templatePath('jshintrc'),
@@ -208,9 +224,11 @@ module.exports = generators.Base.extend({
         this.templatePath('_brei-config.json'),
         this.destinationPath('brei-config.json'),
         {
+          genver: this.pkg.version,
           appname: _s.slugify(this.appname),
           appversion: this.appversion,
-          deployDirectory: this.deployDirectory
+          deployDirectory: this.deployDirectory,
+          debug: "false"
         }
       );
     },
@@ -244,18 +262,19 @@ module.exports = generators.Base.extend({
 
   end: function () {
 
-    var howToInstall =
-      '\nAfter running ' +
-      chalk.yellow.bold('npm install & bower install') +
-      ', inject your' +
-      '\nfront end dependencies by running ' +
-      chalk.yellow.bold('grunt wiredep') +
-      '.';
-
     if (this.options['skip-install']) {
-      this.log(howToInstall);
-      return;
+      this.log(yosay(
+        'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
+        'Generated with v' + this.pkg.version
+      ));
+    } else {
+      this.log(yosay(
+        'Happy coding!\n\n' +
+        'Generated with v' + this.pkg.version
+      ));
     }
+
+    return;
 
   }
 });
