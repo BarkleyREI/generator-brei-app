@@ -4,7 +4,7 @@ var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var optional = require('optional');
 var _s = require('underscore.string');
-var _brei = optional('../../config/brei-config.json');
+var _brei = require('../../config/brei-config.json');
 var yosay = require('yosay');
 
 module.exports = generators.Base.extend({
@@ -15,11 +15,14 @@ module.exports = generators.Base.extend({
     this.pkg = require('../../package.json');
 
     this.github = "BarkleyREI";
+
     if (_brei != null) {
       if (_brei.github != null) {
         this.github = _brei.github;
       }
     }
+
+    debugger;
 
   },
 
