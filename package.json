@@ -66,7 +66,7 @@
     "wiredep": "^4.0.0",
     "yeoman-generator": "0.22.6",
     "yeoman-test": "1.1.0",
-    "yeoman-assert": "2.1.1",
+    "yeoman-assert": "2.2.0",
     "yosay": "1.1.1",
     "optional": "0.1.3"
   },
