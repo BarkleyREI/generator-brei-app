@@ -67,11 +67,6 @@ module.exports = generators.Base.extend({
       mkdirp('app/js/plugins');
       mkdirp('app/js/modules');
       mkdirp('app/js/lib');
-      mkdirp('app/js/angular');
-      mkdirp('app/js/angular/controllers');
-      mkdirp('app/js/angular/directives');
-      mkdirp('app/js/angular/filters');
-      mkdirp('app/js/angular/services');
       // Images
       mkdirp('app/img');
 
