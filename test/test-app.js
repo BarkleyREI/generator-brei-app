@@ -10,7 +10,7 @@ var util = require('../lib/utils.js');
 
 /**
  * Test basic file generation,
- * including that from brei-assemble-structure, brei-assemble-helpers, sass-boilerplate, and brei-grunt-configs.
+ * including that from brei-assemble-structure, brei-assemble-helpers, brei-sass-boilerplate, and brei-grunt-configs.
  */
 describe('Main Generator', function () {
   before(function mainGenerator(done) {
@@ -23,109 +23,54 @@ describe('Main Generator', function () {
   });
 
   it('Created Main Files', function () {
-    assert.file([
-      'bower.json',
-      'package.json',
-      '.jshintrc',
-      '.bowerrc',
-      '.gitignore',
-      'Gruntfile.js',
-      'README.md'
-    ]);
+    util._test_brei_main_files('');
   });
 
   it('Created Assemble Files', function () {
-    assert.file([
-      'app/assemble/.gitkeep',
-      'app/assemble/fixtures/.gitkeep',
-      'app/assemble/helpers/.gitkeep',
-      'app/assemble/home-page.hbs',
-      'app/assemble/includes/_css-main.hbs',
-      'app/assemble/includes/_fonts.hbs',
-      'app/assemble/includes/_js-main.hbs',
-      'app/assemble/includes/_js-modernizr.hbs',
-      'app/assemble/includes/_meta.hbs',
-      'app/assemble/index.hbs',
-      'app/assemble/layouts/.gitkeep',
-      'app/assemble/layouts/default.hbs',
-      'app/assemble/layouts/index.hbs',
-      'app/assemble/layouts/module.hbs',
-      'app/assemble/modules/.gitkeep',
-      'app/assemble/partials/.gitkeep',
-      'app/assemble/README.md'
-    ]);
+    util._test_brei_assemble_files('');
   });
 
   it('Created Helper Files', function () {
-    assert.file([
-      'app/assemble/helpers/helpers.js',
-      'app/assemble/helpers/package.json',
-      'app/assemble/helpers/README.md',
-      'app/assemble/helpers/updateScss.js'
-    ]);
+    util._test_brei_helper_files('');
   });
 
   it('Created SASS Files', function () {
-    assert.file([
-      'app/sass/common/_body.scss',
-      'app/sass/common/_defaults.scss',
-      'app/sass/common/_forms.scss',
-      'app/sass/common/_headings.scss',
-      'app/sass/common/_hr.scss',
-      'app/sass/common/_images.scss',
-      'app/sass/common/_links.scss',
-      'app/sass/common/_lists.scss',
-      'app/sass/common/_selection.scss',
-      'app/sass/common/_tables.scss',
-      'app/sass/helpers/_access.scss',
-      'app/sass/helpers/_placeholders.scss',
-      'app/sass/helpers/_theme-variables.scss',
-      'app/sass/helpers/color-palette/_color-map.scss',
-      'app/sass/helpers/color-palette/_color.scss',
-      'app/sass/helpers/lib/_animate.scss',
-      'app/sass/helpers/mixins/_mixins.scss',
-      'app/sass/icons/_style.scss',
-      'app/sass/icons/fonts/icomoon.eot',
-      'app/sass/icons/fonts/icomoon.svg',
-      'app/sass/icons/fonts/icomoon.ttf',
-      'app/sass/icons/fonts/icomoon.woff',
-      'app/sass/icons/fonts/icomoon.woff2',
-      'app/sass/icons/selection.json',
-      'app/sass/icons/style.css',
-      'app/sass/icons/variables.scss',
-      'app/sass/layout/_layout.scss',
-      'app/sass/main.scss',
-      'app/sass/modules/_assemble-modules.scss',
-      'app/sass/modules/_global.scss',
-      'app/sass/package.json',
-      'app/sass/partials/_assemble-partials.scss',
-      'app/sass/README.md',
-      'app/sass/templates/_assemble-templates.scss'
-    ]);
+    util._test_brei_sass_files('');
   });
 
   it('Created Grunt Configuration Files', function () {
-    assert.file([
-      'grunt-config/assemble.js',
-      'grunt-config/autoprefixer.js',
-      'grunt-config/clean.js',
-      'grunt-config/compass.js',
-      'grunt-config/concurrent.js',
-      'grunt-config/connect.js',
-      'grunt-config/copy.js',
-      'grunt-config/cssmin.js',
-      'grunt-config/execute.js',
-      'grunt-config/htmlmin.js',
-      'grunt-config/imagemin.js',
-      'grunt-config/jshint.js',
-      'grunt-config/modernizr.js',
-      'grunt-config/open.js',
-      'grunt-config/scsslint.js',
-      'grunt-config/svgmin.js',
-      'grunt-config/usemin.js',
-      'grunt-config/useminPrepare.js',
-      'grunt-config/watch.js'
-    ]);
+    util._test_brei_grunt_config_files('');
+  });
+});
+
+describe('Update Sub-Generator', function () {
+  before(function mainGenerator(done) {
+    helpers.run(path.join(__dirname, '../generators/update'))
+      .inDir(path.join(os.tmpdir(), './temp/static'))
+      .withOptions({
+        'skip-warning': true
+      })
+      .on('end', done);
+  });
+
+  it('Update - Created Main Files', function () {
+    util._test_brei_main_files('../_update/');
+  });
+
+  it('Update - Created Assemble Files', function () {
+    util._test_brei_assemble_files('../_update/');
+  });
+
+  it('Update - Created Helper Files', function () {
+    util._test_brei_helper_files('../_update/');
+  });
+
+  it('Update - Created SASS Files', function () {
+    util._test_brei_sass_files('../_update/');
+  });
+
+  it('Update - Created Grunt Configuration Files', function () {
+    util._test_brei_grunt_config_files('../_update/');
   });
 });
 
@@ -154,3 +99,5 @@ describe('Pattern Library Sub-Generator - ', function () {
     util._test_patterns('template');
   });
 });
+
+

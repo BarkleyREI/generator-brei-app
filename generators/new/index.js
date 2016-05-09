@@ -2,12 +2,27 @@
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
+var optional = require('optional');
 var _s = require('underscore.string');
+var _brei = require('../../config/brei-config.json');
+var yosay = require('yosay');
 
 module.exports = generators.Base.extend({
   constructor: function () {
 
     generators.Base.apply(this, arguments);
+
+    this.pkg = require('../../package.json');
+
+    this.github = "BarkleyREI";
+
+    if (_brei != null) {
+      if (_brei.github != null) {
+        this.github = _brei.github;
+      }
+    }
+
+    debugger;
 
   },
 
@@ -76,7 +91,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-grunt-config', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-grunt-config', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
           return cb(err);
@@ -93,7 +108,7 @@ module.exports = generators.Base.extend({
       var cb = this.async();
 
       // Directory Structure
-      this.remote('BarkleyREI', 'brei-assemble-structure', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-assemble-structure', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
           return cb(err);
@@ -108,13 +123,14 @@ module.exports = generators.Base.extend({
     helpers: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-assemble-helpers', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-assemble-helpers', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING HELPERS!!', err);
           return cb(err);
         }
 
-        remote.directory('.', 'app/assemble/helpers');
+        remote.copy('./helpers.js', 'app/assemble/helpers/helpers.js');
+        remote.copy('./updateScss.js', 'app/lib/updateScss.js');
 
         cb();
       }, true);
@@ -123,7 +139,7 @@ module.exports = generators.Base.extend({
     sass: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-boilerplate', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-sass-boilerplate', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING SASS!!', err);
           return cb(err);
@@ -138,7 +154,7 @@ module.exports = generators.Base.extend({
     mixins: function () {
       var cb = this.async();
 
-      this.remote('BarkleyREI', 'brei-sass-mixins', 'master', function (err, remote) {
+      this.remote(this.github, 'brei-sass-mixins', 'master', function (err, remote) {
         if (err) {
           console.log('--ERROR WHILE GETTING MIXINS!!', err);
           return cb(err);
@@ -148,6 +164,16 @@ module.exports = generators.Base.extend({
 
         cb();
       }, true);
+    },
+
+    modernizr: function () {
+
+      this.fs.copyTpl(
+        this.templatePath('modernizr.js'),
+        this.destinationPath('app/js/plugins/modernizr.js'),
+        {}
+      );
+
     },
 
     projectFiles: function () {
@@ -193,6 +219,20 @@ module.exports = generators.Base.extend({
       );
     },
 
+    breiJSON: function () {
+      this.fs.copyTpl(
+        this.templatePath('_brei-config.json'),
+        this.destinationPath('brei-config.json'),
+        {
+          genver: this.pkg.version,
+          appname: _s.slugify(this.appname),
+          appversion: this.appversion,
+          deployDirectory: this.deployDirectory,
+          debug: "false"
+        }
+      );
+    },
+
     git: function () {
       this.fs.copy(
         this.templatePath('gitignore'),
@@ -201,7 +241,7 @@ module.exports = generators.Base.extend({
     },
 
     bower: function () {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('_bower.json'),
         this.destinationPath('bower.json'),
         {
@@ -222,18 +262,19 @@ module.exports = generators.Base.extend({
 
   end: function () {
 
-    var howToInstall =
-      '\nAfter running ' +
-      chalk.yellow.bold('npm install & bower install') +
-      ', inject your' +
-      '\nfront end dependencies by running ' +
-      chalk.yellow.bold('grunt wiredep') +
-      '.';
-
     if (this.options['skip-install']) {
-      this.log(howToInstall);
-      return;
+      this.log(yosay(
+        'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
+        'Generated with v' + this.pkg.version
+      ));
+    } else {
+      this.log(yosay(
+        'Happy coding!\n\n' +
+        'Generated with v' + this.pkg.version
+      ));
     }
+
+    return;
 
   }
 });

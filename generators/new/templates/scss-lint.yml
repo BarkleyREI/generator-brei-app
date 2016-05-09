@@ -27,7 +27,7 @@ linters:
     enabled: true
 
   DeclarationOrder:
-    enabled: true
+    enabled: false # it doesn't like foundation's breakpoint mixin so we turned this off
 
   DisableLinterReason:
     enabled: false
@@ -174,7 +174,7 @@ linters:
     enabled: true
 
   SpaceAroundOperator:
-    enabled: true
+    enabled: false # because of sarah
     style: one_space # or 'no_space'
 
   SpaceBeforeBrace:

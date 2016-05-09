@@ -1,12 +1,13 @@
 ---
-title: <%= pretty %>
+title: "<%= pretty %>"
 template: true
 ---
 
 <!-- template:<%= name %> -->
-<% if (tag != "div") { %><%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">" %><% } else { %>
+<% if (tag != "div") { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %>
+<% } else { %>{{#parseFixture '<%= name %>.json'}}
 <div class="<%= name %>">
 	<%= pretty %>
 </div>
-<% } %>
-<!-- end template:<%= name %> -->
+{{/parseFixture}}
+<% } %><!-- end template:<%= name %> -->
