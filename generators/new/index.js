@@ -82,6 +82,11 @@ module.exports = generators.Base.extend({
       mkdirp('app/js/plugins');
       mkdirp('app/js/modules');
       mkdirp('app/js/lib');
+      // ES6 scripts
+      mkdirp('app/js/es6');
+      mkdirp('app/js/es6/plugins');
+      mkdirp('app/js/es6/modules');
+      mkdirp('app/js/es6/lib');
       // Images
       mkdirp('app/img');
 
