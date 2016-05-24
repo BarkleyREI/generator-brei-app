@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - '4.2.4'
+  - '4.4.4'
+  - '5.11.1'
+  - '6.2.0'
 before_install:
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-brei-app' ]; then cd .. && eval "mv $currentfolder generator-brei-app" && cd generator-brei-app; fi
+before_script:
+  - grunt
