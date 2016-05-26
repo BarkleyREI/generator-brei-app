@@ -7,6 +7,10 @@ var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var os = require('os');
 var util = require('../lib/utils.js');
+var exec = require('child_process').exec;
+var execOptions = {
+  cwd: path.join(os.tmpdir(), './temp')
+}
 
 /**
  * Test basic file generation,
@@ -19,7 +23,35 @@ describe('Main Generator', function () {
       .withOptions({
         'skip-install': true
       })
-      .on('end', done);
+      .on('end', function () {
+
+        console.log('helper has ended');
+        console.log('starting build');
+
+        exec('./node_modules/.bin/grunt build', execOptions, function (error, stdout) {
+
+          console.log(stdout);
+          console.log(error);
+
+          done();
+
+        });
+
+      });
+  });
+
+  describe('Run grunt', function () {
+
+    exec('./node_modules/.bin/grunt build', execOptions, function (error, stdout) {
+
+     it('Dist index exists', function () {
+       assert.file([
+         'dist/index.html'
+       ]);
+     });
+
+    };
+
   });
 
   it('Created Main Files', function () {
@@ -42,6 +74,7 @@ describe('Main Generator', function () {
     util._test_brei_grunt_config_files('');
   });
 });
+
 
 describe('Update Sub-Generator', function () {
   before(function mainGenerator(done) {
