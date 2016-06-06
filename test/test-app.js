@@ -1,6 +1,4 @@
-/*global describe, before, it*/
-
-'use strict';
+/*global describe, before, it, require, __dirname*/
 
 var path = require('path');
 var assert = require('yeoman-assert');
@@ -9,8 +7,8 @@ var os = require('os');
 var util = require('../lib/utils.js');
 var exec = require('child_process').exec;
 var execOptions = {
-  cwd: path.join(os.tmpdir(), './temp')
-}
+  cwd: path.join(__dirname)
+};
 
 /**
  * Test basic file generation,
@@ -18,20 +16,28 @@ var execOptions = {
  */
 describe('Main Generator', function () {
   before(function mainGenerator(done) {
+    var tdir = path.join(os.tmpdir(), './temp');
+    this.timeout(120000);
+
+    console.log('\n\n Running a generator with npm install. This might take a while...\n\n');
+
     helpers.run(path.join(__dirname, '../generators/new'))
-      .inDir(path.join(os.tmpdir(), './temp'))
+      .inDir(tdir)
       .withOptions({
-        'skip-install': true
+        'skip-install': false
+      })
+      .withPrompts({
+        'deployDirectory': 'web'
       })
       .on('end', function () {
 
-        console.log('helper has ended');
-        console.log('starting build');
+        console.log('\nRunning grunt and grunt deploy');
+        console.log('------------');
+        console.log('Buckle up, this might take 45 - 60 seconds\n');
 
-        exec('./node_modules/.bin/grunt build', execOptions, function (error, stdout) {
-
-          console.log(stdout);
-          console.log(error);
+        exec('grunt && grunt deploy', {
+          cwd: tdir
+        }, function (error, stdout) {
 
           done();
 
@@ -40,18 +46,29 @@ describe('Main Generator', function () {
       });
   });
 
-  describe('Run grunt', function () {
+  it('Ran grunt to build out directories', function () {
+   assert.file([
+     'app/index.html',
+     'app/home-page.html',
+     'dist/index.html',
+     'dist/home-page.html',
+     'dist/css/main.css',
+     'dist/js/main.js',
+     'dist/js/plugins/modernizr.optimized.js',
+     'web/index.html',
+     'web/home-page.html',
+     'web/css/main.css',
+     'web/js/main.js',
+     'web/js/plugins/modernizr.optimized.js'
+   ]);
+  });
 
-    exec('./node_modules/.bin/grunt build', execOptions, function (error, stdout) {
-
-     it('Dist index exists', function () {
-       assert.file([
-         'dist/index.html'
-       ]);
-     });
-
-    };
-
+  it('Grunt execute ran successfully', function () {
+    assert.file([
+     'app/sass/modules/_assemble-modules.scss',
+     'app/sass/partials/_assemble-partials.scss',
+     'app/sass/templates/_assemble-templates.scss'
+   ]);
   });
 
   it('Created Main Files', function () {
@@ -74,7 +91,6 @@ describe('Main Generator', function () {
     util._test_brei_grunt_config_files('');
   });
 });
-
 
 describe('Update Sub-Generator', function () {
   before(function mainGenerator(done) {
@@ -132,5 +148,3 @@ describe('Pattern Library Sub-Generator - ', function () {
     util._test_patterns('template');
   });
 });
-
-
