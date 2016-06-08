@@ -47,28 +47,11 @@ describe('Main Generator', function () {
   });
 
   it('Ran grunt to build out directories', function () {
-   assert.file([
-     'app/index.html',
-     'app/home-page.html',
-     'dist/index.html',
-     'dist/home-page.html',
-     'dist/css/main.css',
-     'dist/js/main.js',
-     'dist/js/plugins/modernizr.optimized.js',
-     'web/index.html',
-     'web/home-page.html',
-     'web/css/main.css',
-     'web/js/main.js',
-     'web/js/plugins/modernizr.optimized.js'
-   ]);
+    util._test_brei_grunt_built_files('');
   });
 
   it('Grunt execute ran successfully', function () {
-    assert.file([
-     'app/sass/modules/_assemble-modules.scss',
-     'app/sass/partials/_assemble-partials.scss',
-     'app/sass/templates/_assemble-templates.scss'
-   ]);
+    util._test_brei_grunt_execute_files('');
   });
 
   it('Created Main Files', function () {
