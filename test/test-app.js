@@ -47,30 +47,37 @@ describe('Main Generator', function () {
   });
 
   it('Ran grunt to build out directories', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_grunt_built_files(tdir);
   });
 
   it('Grunt execute ran successfully', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_grunt_execute_files(tdir);
   });
 
   it('Created Main Files', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_main_files(tdir);
   });
 
   it('Created Assemble Files', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_assemble_files(tdir);
   });
 
   it('Created Helper Files', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_helper_files(tdir);
   });
 
   it('Created SASS Files', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_sass_files(tdir);
   });
 
   it('Created Grunt Configuration Files', function () {
+    var tdir = path.join(os.tmpdir(), './temp');
     util._test_brei_grunt_config_files(tdir);
   });
 });
