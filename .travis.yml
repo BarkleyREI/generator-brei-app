@@ -4,6 +4,7 @@ node_js:
   - '5.11.1'
   - '6.2.0'
 before_install:
+  - npm install -g grunt-cli
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-brei-app' ]; then cd .. && eval "mv $currentfolder generator-brei-app" && cd generator-brei-app; fi
 before_script:
