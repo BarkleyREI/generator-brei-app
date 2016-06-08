@@ -7,5 +7,3 @@ before_install:
   - npm install -g grunt-cli
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-brei-app' ]; then cd .. && eval "mv $currentfolder generator-brei-app" && cd generator-brei-app; fi
-before_script:
-  - grunt
