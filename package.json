@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "grunt-cli": "1.2.0",
-    "mocha": "*",
+    "mocha": "2.5.0",
     "yeoman-assert": "2.1.2"
   },
   "peerDependencies": {
