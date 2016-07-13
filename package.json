@@ -77,6 +77,6 @@
   },
   "peerDependencies": {
     "yo": ">=1.0.0",
-    "generator-mocha": ">=0.1.1"
+    "generator-mocha": ">=0.3.1"
   }
 }
