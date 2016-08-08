@@ -36,7 +36,7 @@ describe('Main Generator', function () {
         console.log('Buckle up, this might take 45 - 60 seconds\n');
 
         console.log(tdir);
-        console.log($TRAVIS_BUILD_DIR);
+        console.log(process.env.TRAVIS_BUILD_DIR);
 
         exec('grunt && grunt deploy', {
           cwd: tdir
