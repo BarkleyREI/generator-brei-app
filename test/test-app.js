@@ -6,6 +6,7 @@ var helpers = require('yeoman-test');
 var os = require('os');
 var util = require('../lib/utils.js');
 var exec = require('child_process').exec;
+var glob = require('glob');
 var execOptions = {
   cwd: path.join(__dirname)
 };
@@ -35,12 +36,28 @@ describe('Main Generator', function () {
         console.log('------------');
         console.log('Buckle up, this might take 45 - 60 seconds\n');
 
-        console.log(tdir);
-        console.log(process.env.TRAVIS_BUILD_DIR);
+        // console.log(tdir);
+        // console.log(process.env.TRAVIS_BUILD_DIR);
 
-        exec('grunt && grunt deploy', {
+        exec('grunt build && grunt deploy', {
           cwd: tdir
         }, function (error, stdout) {
+
+          // console.log('----');
+          // console.log(error);
+          // console.log('----');
+          // console.log(stdout);
+          // console.log('----');
+
+          // console.log('dumping tdir');
+
+          // glob("*.html", {
+          //   cwd: tdir + '/app'
+          // }, function (er, files) {
+          //   console.log(files);
+          // });
+
+          // console.log('end dump');
 
           done();
 
