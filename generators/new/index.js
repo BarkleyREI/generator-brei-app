@@ -1,4 +1,3 @@
-'use strict';
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
@@ -16,13 +15,11 @@ module.exports = generators.Base.extend({
 
     this.github = "BarkleyREI";
 
-    if (_brei != null) {
-      if (_brei.github != null) {
+    if (_brei !== null) {
+      if (_brei.github !== null) {
         this.github = _brei.github;
       }
     }
-
-    debugger;
 
   },
 
