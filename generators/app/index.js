@@ -6,14 +6,18 @@ var yosay = require('yosay');
 var BreiAppGenerator = yeoman.Base.extend({
 	initializing: function () {
 		this.pkg = require('../../package.json');
+		this.answer = 'new';
 	},
 
 	prompting: function () {
+
+		var done = this.async();
+
 		this.log(yosay(
 			'Welcome to the BarkleyREI project generator!\nv' + this.pkg.version
 		));
 
-		this.prompt({
+		return this.prompt({
 			type: 'list',
 			name: 'command',
 			message: 'What would you like to do?',
@@ -25,31 +29,42 @@ var BreiAppGenerator = yeoman.Base.extend({
 				'Create a Template',
 				'Import a Pattern',
 				'Update Your Project']
-		}, function(answer) {
+		}).then(function(answer) {
 
 			switch (answer.command) {
 				case 'Create a Partial':
-					this.composeWith('brei-app:partial', {});
+					this.answer = 'partial';
+					// this.composeWith('brei-app:partial', {});
 					break;
 				case 'Create a Module':
-					this.composeWith('brei-app:module', {});
+					this.answer = 'module';
+					// this.composeWith('brei-app:module', {});
 					break;
 				case 'Create a Template':
-					this.composeWith('brei-app:template', {});
+					this.answer = 'template';
+					// this.composeWith('brei-app:template', {});
 					break;
 				case 'Import a Pattern':
-					this.composeWith('brei-app:pattern', {});
+					this.answer = 'pattern';
+					// this.composeWith('brei-app:pattern', {});
 					break;
 				case 'Update Your Project':
-					this.composeWith('brei-app:update', {});
+					this.answer = 'update';
+					// this.composeWith('brei-app:update', {});
 					break;
 				default: //'Create a New Project'
-					this.composeWith('brei-app:new', {});
+					// this.composeWith('brei-app:new');
 					break;
 			}
 
+			done();
+
 		}.bind(this));
 	},
+
+	install: function () {
+		this.composeWith('brei-app:' + this.answer);
+	}
 });
 
 module.exports = BreiAppGenerator;
