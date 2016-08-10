@@ -5,273 +5,289 @@ var optional = require('optional');
 var _s = require('underscore.string');
 var _brei = require('../../config/brei-config.json');
 var yosay = require('yosay');
+var remote = require('yeoman-remote');
+var path = require('path');
 
 module.exports = generators.Base.extend({
-  constructor: function () {
+	constructor: function () {
 
-    generators.Base.apply(this, arguments);
+		generators.Base.apply(this, arguments);
 
-    this.pkg = require('../../package.json');
+		this.pkg = require('../../package.json');
 
-    this.github = "BarkleyREI";
+		this.github = "BarkleyREI";
+		this.genver = this.pkg['version'];
+		this.debug = 'false';
 
-    if (_brei !== null) {
-      if (_brei.github !== null) {
-        this.github = _brei.github;
-      }
-    }
+		if (_brei !== null) {
+			if (_brei.github !== null) {
+				this.github = _brei.github;
+			}
+		}
 
-  },
+	},
 
-  askFor: function () {
-    var done = this.async();
+	askFor: function () {
+		var done = this.async();
 
-    var prompts = [{
-      type: 'input',
-      name: 'appname',
-      message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
-      default: 'static'
-    }, {
-      type: 'input',
-      name: 'appversion',
-      message: 'Version of App',
-      default: '0.0.1'
-    }, {
-      type: 'input',
-      name: 'deployDirectory',
-      message: 'Deploy directory (relative to current path)',
-      default: '../../web'
-    }];
+		var prompts = [{
+			type: 'input',
+			name: 'appname',
+			message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
+			default: 'static'
+		}, {
+			type: 'input',
+			name: 'appversion',
+			message: 'Version of App',
+			default: '0.0.1'
+		}, {
+			type: 'input',
+			name: 'deployDirectory',
+			message: 'Deploy directory (relative to current path)',
+			default: '../../web'
+		}];
 
-    this.prompt(prompts, function (answers) {
-      // var features = answers.features;
+		return this.prompt(prompts).then(function (answers) {
+			// var features = answers.features;
 
-      // function hasFeature(feat) {
-      //  return features && features.indexOf(feat) !== -1;
-      // }
+			// function hasFeature(feat) {
+			//  return features && features.indexOf(feat) !== -1;
+			// }
 
-      // this.includeSass = hasFeature('includeSass');
-      // this.includeBootstrap = hasFeature('includeBootstrap');
-      // this.includeModernizr = hasFeature('includeModernizr');
-      // this.includeJQuery = answers.includeJQuery;
+			// this.includeSass = hasFeature('includeSass');
+			// this.includeBootstrap = hasFeature('includeBootstrap');
+			// this.includeModernizr = hasFeature('includeModernizr');
+			// this.includeJQuery = answers.includeJQuery;
 
-      this.appname = answers.appname;
-      this.appversion = answers.appversion;
-      this.deployDirectory = answers.deployDirectory;
+			this.appname = answers.appname;
+			this.appversion = answers.appversion;
+			this.deployDirectory = answers.deployDirectory;
 
-      done();
-    }.bind(this));
-  },
+			done();
+		}.bind(this));
+	},
 
-  writing: {
+	writing: {
 
-    folders: function () {
+		folders: function () {
 
-      mkdirp('app');
-      // All the grunt configuration files
-      mkdirp('grunt-config');
-      // Assembled HTML
-      mkdirp('app/modules');
-      // Compiled CSS
-      mkdirp('app/css');
-      // Your scripts
-      mkdirp('app/js');
-      mkdirp('app/js/plugins');
-      mkdirp('app/js/modules');
-      mkdirp('app/js/lib');
-      // Images
-      mkdirp('app/img');
+			mkdirp('app');
+			// All the grunt configuration files
+			mkdirp('grunt-config');
+			// Assembled HTML
+			mkdirp('app/modules');
+			// Compiled CSS
+			mkdirp('app/css');
+			// Your scripts
+			mkdirp('app/js');
+			mkdirp('app/js/plugins');
+			mkdirp('app/js/modules');
+			mkdirp('app/js/lib');
+			// Images
+			mkdirp('app/img');
 
-    },
+		},
 
-    gruntConfig: function () {
-      var cb = this.async();
+		gruntConfig: function () {
+			var cb = this.async();
 
-      // Directory Structure
-      this.remote(this.github, 'brei-grunt-config', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
-          return cb(err);
-        }
+			// Directory Structure
+			remote(this.github, 'brei-grunt-config', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
+					return cb(err);
+				}
 
-        remote.directory('grunt-config', 'grunt-config');
-        remote.copy('Gruntfile.js', 'Gruntfile.js');
+				this.directory(path.join(cachePath, 'grunt-config'), 'grunt-config');
+				this.copy(
+					path.join(cachePath, 'Gruntfile.js'),
+					this.destinationPath('Gruntfile.js'),
+					{}
+				);
 
-        cb();
-      }, true);
-    },
+				cb();
+			}.bind(this));
+		},
 
-    assemble: function () {
-      var cb = this.async();
+		assemble: function () {
+			var cb = this.async();
 
-      // Directory Structure
-      this.remote(this.github, 'brei-assemble-structure', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-          return cb(err);
-        }
+			// Directory Structure
+			remote(this.github, 'brei-assemble-structure', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
+					return cb(err);
+				}
 
-        remote.directory('.', 'app/assemble');
+				this.directory(cachePath, 'app/assemble');
 
-        cb();
-      }, true);
-    },
+				cb();
+			}.bind(this));
+		},
 
-    helpers: function () {
-      var cb = this.async();
+		helpers: function () {
+			var cb = this.async();
 
-      this.remote(this.github, 'brei-assemble-helpers', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING HELPERS!!', err);
-          return cb(err);
-        }
+			remote(this.github, 'brei-assemble-helpers', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING HELPERS!!', err);
+					return cb(err);
+				}
 
-        remote.copy('./helpers.js', 'app/assemble/helpers/helpers.js');
-        remote.copy('./updateScss.js', 'app/lib/updateScss.js');
+				this.copy(
+					path.join(cachePath, 'helpers.js'),
+					this.destinationPath('app/assemble/helpers/helpers.js'),
+					{}
+				);
+				this.copy(
+					path.join(cachePath, 'updateScss.js'),
+					this.destinationPath('app/lib/updateScss.js'),
+					{}
+				);
 
-        cb();
-      }, true);
-    },
+				cb();
+			}.bind(this));
+		},
 
-    sass: function () {
-      var cb = this.async();
+		sass: function () {
+			var cb = this.async();
 
-      this.remote(this.github, 'brei-sass-boilerplate', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING SASS!!', err);
-          return cb(err);
-        }
+			remote(this.github, 'brei-sass-boilerplate', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING SASS!!', err);
+					return cb(err);
+				}
 
-        remote.directory('.', 'app/sass');
+				this.directory(cachePath, 'app/sass');
 
-        cb();
-      }, true);
-    },
+				cb();
+			}.bind(this));
+		},
 
-    mixins: function () {
-      var cb = this.async();
+		mixins: function () {
+			var cb = this.async();
 
-      this.remote(this.github, 'brei-sass-mixins', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING MIXINS!!', err);
-          return cb(err);
-        }
+			remote(this.github, 'brei-sass-mixins', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING MIXINS!!', err);
+					return cb(err);
+				}
 
-        remote.directory('.', 'app/sass/helpers/mixins');
+				this.directory(cachePath, 'app/sass/helpers/mixins');
 
-        cb();
-      }, true);
-    },
+				cb();
+			}.bind(this));
+		},
 
-    modernizr: function () {
+		modernizr: function () {
 
-      this.fs.copyTpl(
-        this.templatePath('modernizr.js'),
-        this.destinationPath('app/js/plugins/modernizr.js'),
-        {}
-      );
+			this.fs.copyTpl(
+				this.templatePath('modernizr.js'),
+				this.destinationPath('app/js/plugins/modernizr.js'),
+				{}
+			);
 
-    },
+		},
 
-    projectFiles: function () {
-      this.fs.copyTpl(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc'),
-        {}
-      );
+		projectFiles: function () {
+			this.fs.copyTpl(
+				this.templatePath('jshintrc'),
+				this.destinationPath('.jshintrc'),
+				{}
+			);
 
-      this.fs.copyTpl(
-        this.templatePath('bowerrc'),
-        this.destinationPath('.bowerrc'),
-        {}
-      );
+			this.fs.copyTpl(
+				this.templatePath('bowerrc'),
+				this.destinationPath('.bowerrc'),
+				{}
+			);
 
-      this.fs.copyTpl(
-        this.templatePath('scss-lint.yml'),
-        this.destinationPath('.scss-lint.yml'),
-        {}
-      );
-    },
+			this.fs.copyTpl(
+				this.templatePath('scss-lint.yml'),
+				this.destinationPath('.scss-lint.yml'),
+				{}
+			);
+		},
 
-    readme: function () {
+		readme: function () {
 
-      this.fs.copyTpl(
-        this.templatePath('README.md'),
-        this.destinationPath('README.md'),
-        {
-          appname: _s.slugify(this.appname)
-        }
-      );
+			this.fs.copyTpl(
+				this.templatePath('README.md'),
+				this.destinationPath('README.md'),
+				{
+					appname: _s.slugify(this.appname)
+				}
+			);
 
-    },
+		},
 
-    packageJSON: function () {
-      this.fs.copyTpl(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json'),
-        {
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion
-        }
-      );
-    },
+		packageJSON: function () {
+			this.fs.copyTpl(
+				this.templatePath('_package.json'),
+				this.destinationPath('package.json'),
+				{
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion
+				}
+			);
+		},
 
-    breiJSON: function () {
-      this.fs.copyTpl(
-        this.templatePath('_brei-config.json'),
-        this.destinationPath('brei-config.json'),
-        {
-          genver: this.pkg.version,
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion,
-          deployDirectory: this.deployDirectory,
-          debug: "false"
-        }
-      );
-    },
+		breiJSON: function () {
+			this.fs.copyTpl(
+				this.templatePath('_brei-config.json'),
+				this.destinationPath('brei-config.json'),
+				{
+					genver: this.genver,
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion,
+					deployDirectory: this.deployDirectory,
+					debug: this.debug
+				}
+			);
+		},
 
-    git: function () {
-      this.fs.copy(
-        this.templatePath('gitignore'),
-        this.destinationPath('.gitignore')
-      );
-    },
+		git: function () {
+			this.fs.copy(
+				this.templatePath('gitignore'),
+				this.destinationPath('.gitignore')
+			);
+		},
 
-    bower: function () {
-      this.fs.copyTpl(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json'),
-        {
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion
-        }
-      );
-    }
+		bower: function () {
+			this.fs.copyTpl(
+				this.templatePath('_bower.json'),
+				this.destinationPath('bower.json'),
+				{
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion
+				}
+			);
+		}
 
-  },
+	},
 
-  install: function () {
-    this.installDependencies({
-      skipInstall: this.options['skip-install'],
-      skipMessage: this.options['skip-install-message']
-    });
-  },
+	install: function () {
+		this.installDependencies({
+			skipInstall: this.options['skip-install'],
+			skipMessage: this.options['skip-install-message']
+		});
+	},
 
-  end: function () {
+	end: function () {
 
-    if (this.options['skip-install']) {
-      this.log(yosay(
-        'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
-        'Generated with v' + this.pkg.version
-      ));
-    } else {
-      this.log(yosay(
-        'Happy coding!\n\n' +
-        'Generated with v' + this.pkg.version
-      ));
-    }
+		if (this.options['skip-install']) {
+			this.log(yosay(
+				'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
+				'Generated with v' + this.pkg.version
+			));
+		} else {
+			this.log(yosay(
+				'Happy coding!\n\n' +
+				'Generated with v' + this.pkg.version
+			));
+		}
 
-    return;
+		return;
 
-  }
+	}
 });
