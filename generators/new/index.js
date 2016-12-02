@@ -189,6 +189,14 @@ module.exports = generators.Base.extend({
 
 		},
 
+		modernizrJSON: function () {
+			this.fs.copyTpl(
+				this.templatePath('_modernizr-config.json'),
+				this.destinationPath('modernizr-config.json'),
+				{}
+			);
+		},
+
 		projectFiles: function () {
 			this.fs.copyTpl(
 				this.templatePath('jshintrc'),
@@ -261,6 +269,14 @@ module.exports = generators.Base.extend({
 					appname: _s.slugify(this.appname),
 					appversion: this.appversion
 				}
+			);
+		},
+
+		shell: function () {
+			this.fs.copyTpl(
+				this.templatePath('postsh'),
+				this.destinationPath('post.sh'),
+				{}
 			);
 		}
 

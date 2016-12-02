@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -o errexit # Exit on error
+
+bower cache clean
+bower install
+grunt execute:target
+
+cd app/bower_components/modernizr
+npm install
+cd ../../bin
+bower_components/modernizr/bin/modernizr --config ./modernizr-config.json --dest ./js/plugins/modernizr-new.js
