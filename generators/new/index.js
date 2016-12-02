@@ -106,7 +106,7 @@ module.exports = generators.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		assemble: function () {
@@ -122,7 +122,7 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/assemble');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		helpers: function () {
@@ -146,7 +146,7 @@ module.exports = generators.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		sass: function () {
@@ -161,7 +161,7 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/sass');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		mixins: function () {
@@ -176,17 +176,7 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/sass/helpers/mixins');
 
 				cb();
-			}.bind(this));
-		},
-
-		modernizr: function () {
-
-			this.fs.copyTpl(
-				this.templatePath('modernizr.js'),
-				this.destinationPath('app/js/plugins/modernizr.js'),
-				{}
-			);
-
+			}.bind(this), true);
 		},
 
 		modernizrJSON: function () {

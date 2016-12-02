@@ -124,7 +124,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		assemble: function () {
@@ -140,7 +140,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 				this.directory(cachePath, 'app/assemble');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		helpers: function () {
@@ -164,7 +164,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		sass: function () {
@@ -179,7 +179,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 				this.directory(cachePath, 'app/sass');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		mixins: function () {
@@ -194,7 +194,15 @@ var BreiAppGenerator = yeoman.Base.extend({
 				this.directory(cachePath, 'app/sass/helpers/mixins');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
+		},
+
+		modernizrJSON: function () {
+			this.fs.copyTpl(
+				this.templatePath('../../new/templates/_modernizr-config.json'),
+				this.destinationPath('modernizr-config.json'),
+				{}
+			);
 		},
 
 		projectFiles: function () {
@@ -269,6 +277,14 @@ var BreiAppGenerator = yeoman.Base.extend({
 				appname: _s.slugify(this.appname),
 				appversion: this.appversion
 			}
+			);
+		},
+
+		shell: function () {
+			this.fs.copyTpl(
+				this.templatePath('../../new/templates/postsh'),
+				this.destinationPath('post.sh'),
+				{}
 			);
 		}
 
