@@ -106,7 +106,7 @@ module.exports = generators.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		assemble: function () {
@@ -122,7 +122,7 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/assemble');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		helpers: function () {
@@ -146,7 +146,7 @@ module.exports = generators.Base.extend({
 				);
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		sass: function () {
@@ -161,7 +161,7 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/sass');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
 		mixins: function () {
@@ -176,17 +176,15 @@ module.exports = generators.Base.extend({
 				this.directory(cachePath, 'app/sass/helpers/mixins');
 
 				cb();
-			}.bind(this));
+			}.bind(this), true);
 		},
 
-		modernizr: function () {
-
+		modernizrJSON: function () {
 			this.fs.copyTpl(
-				this.templatePath('modernizr.js'),
-				this.destinationPath('app/js/plugins/modernizr.js'),
+				this.templatePath('_modernizr-config.json'),
+				this.destinationPath('modernizr-config.json'),
 				{}
 			);
-
 		},
 
 		projectFiles: function () {
@@ -261,6 +259,14 @@ module.exports = generators.Base.extend({
 					appname: _s.slugify(this.appname),
 					appversion: this.appversion
 				}
+			);
+		},
+
+		shell: function () {
+			this.fs.copyTpl(
+				this.templatePath('postsh'),
+				this.destinationPath('post.sh'),
+				{}
 			);
 		}
 
