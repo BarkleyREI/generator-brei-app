@@ -6,7 +6,9 @@ bower cache clean
 bower install
 grunt execute:target
 
-cd app/bower_components/modernizr
+CURRENT=`pwd`
+
+cd "$CURRENT/app/bower_components/modernizr"
 npm install
-cd bin
-modernizr --config ../../../../modernizr-config.json --dest ../../../../app/js/plugins/modernizr.js
+cd "$CURRENT/app/bower_components/modernizr/bin"
+node modernizr --config ../../../../modernizr-config.json --dest ../../../../app/js/plugins/modernizr.js
