@@ -6,6 +6,8 @@ var mkdirp = require('mkdirp');
 var _s = require('underscore.string');
 var _brei = require('../../config/brei-config.json');
 var yosay = require('yosay');
+var remote = require('yeoman-remote');
+var path = require('path');
 
 var BreiAppGenerator = yeoman.Base.extend({
 	initializing: function () {
@@ -16,6 +18,9 @@ var BreiAppGenerator = yeoman.Base.extend({
 		if (typeof _brei.github != 'undefined') {
 			this.github = _brei.github;
 		}
+
+		this.genver = this.pkg['version'];
+		this.debug = 'false';
 
 		this.deployDirectory = "../../web";
 		this.appversion = "0.0.1";
@@ -51,7 +56,7 @@ var BreiAppGenerator = yeoman.Base.extend({
 				default: false,
 			}];
 
-			this.prompt(prompts, function (answers) {
+			return this.prompt(prompts).then(function (answers) {
 
 				this.understand = answers.understand;
 
@@ -105,142 +110,162 @@ var BreiAppGenerator = yeoman.Base.extend({
 			var cb = this.async();
 
 			// Directory Structure
-			this.remote(this.github, 'brei-grunt-config', 'master', function (err, remote) {
+			remote(this.github, 'brei-grunt-config', 'master', function (err, cachePath) {
 				if (err) {
 					console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
 					return cb(err);
 				}
 
-				remote.directory('grunt-config', 'grunt-config');
-				remote.copy('Gruntfile.js', 'Gruntfile.js');
+				this.directory(path.join(cachePath, 'grunt-config'), 'grunt-config');
+				this.copy(
+					path.join(cachePath, 'Gruntfile.js'),
+					this.destinationPath('Gruntfile.js'),
+					{}
+				);
 
 				cb();
-			}, true);
+			}.bind(this), true);
 		},
 
 		assemble: function () {
 			var cb = this.async();
 
 			// Directory Structure
-			this.remote(this.github, 'brei-assemble-structure', 'master', function (err, remote) {
-			if (err) {
-				console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-				return cb(err);
-			}
+			remote(this.github, 'brei-assemble-structure', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
+					return cb(err);
+				}
 
-			remote.directory('.', 'app/assemble');
+				this.directory(cachePath, 'app/assemble');
 
-			cb();
-			}, true);
+				cb();
+			}.bind(this), true);
 		},
 
 		helpers: function () {
 			var cb = this.async();
 
-			this.remote(this.github, 'brei-assemble-helpers', 'master', function (err, remote) {
-			if (err) {
-				console.log('--ERROR WHILE GETTING HELPERS!!', err);
-				return cb(err);
-			}
+			remote(this.github, 'brei-assemble-helpers', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING HELPERS!!', err);
+					return cb(err);
+				}
 
-			remote.copy('./helpers.js', 'app/assemble/helpers/helpers.js');
-			remote.copy('./updateScss.js', 'app/lib/updateScss.js');
+				this.copy(
+					path.join(cachePath, 'helpers.js'),
+					this.destinationPath('app/assemble/helpers/helpers.js'),
+					{}
+				);
+				this.copy(
+					path.join(cachePath, 'updateScss.js'),
+					this.destinationPath('app/lib/updateScss.js'),
+					{}
+				);
 
-			cb();
-			}, true);
+				cb();
+			}.bind(this), true);
 		},
 
 		sass: function () {
 			var cb = this.async();
 
-			this.remote(this.github, 'brei-sass-boilerplate', 'master', function (err, remote) {
-			if (err) {
-				console.log('--ERROR WHILE GETTING SASS!!', err);
-				return cb(err);
-			}
+			remote(this.github, 'brei-sass-boilerplate', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING SASS!!', err);
+					return cb(err);
+				}
 
-			remote.directory('.', 'app/sass');
+				this.directory(cachePath, 'app/sass');
 
-			cb();
-			}, true);
+				cb();
+			}.bind(this), true);
 		},
 
 		mixins: function () {
 			var cb = this.async();
 
-			this.remote(this.github, 'brei-sass-mixins', 'master', function (err, remote) {
-			if (err) {
-				console.log('--ERROR WHILE GETTING MIXINS!!', err);
-				return cb(err);
-			}
+			remote(this.github, 'brei-sass-mixins', 'master', function (err, cachePath) {
+				if (err) {
+					console.log('--ERROR WHILE GETTING MIXINS!!', err);
+					return cb(err);
+				}
 
-			remote.directory('.', 'app/sass/helpers/mixins');
+				this.directory(cachePath, 'app/sass/helpers/mixins');
 
-			cb();
-			}, true);
+				cb();
+			}.bind(this), true);
+		},
+
+		modernizrJSON: function () {
+			this.fs.copyTpl(
+				this.templatePath('../../new/templates/_modernizr-config.json'),
+				this.destinationPath('modernizr-config.json'),
+				{}
+			);
 		},
 
 		projectFiles: function () {
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/jshintrc'),
-			this.destinationPath('.jshintrc'),
-			{}
+				this.templatePath('../../new/templates/jshintrc'),
+				this.destinationPath('.jshintrc'),
+				{}
 			);
 
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/bowerrc'),
-			this.destinationPath('.bowerrc'),
-			{}
+				this.templatePath('../../new/templates/bowerrc'),
+				this.destinationPath('.bowerrc'),
+				{}
 			);
 
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/scss-lint.yml'),
-			this.destinationPath('.scss-lint.yml'),
-			{}
+				this.templatePath('../../new/templates/scss-lint.yml'),
+				this.destinationPath('.scss-lint.yml'),
+				{}
 			);
 		},
 
 		readme: function () {
 
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/README.md'),
-			this.destinationPath('README.md'),
-			{
-				appname: _s.slugify(this.appname)
-			}
+				this.templatePath('../../new/templates/README.md'),
+				this.destinationPath('README.md'),
+				{
+					appname: _s.slugify(this.appname)
+				}
 			);
 
 		},
 
 		packageJSON: function () {
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/_package.json'),
-			this.destinationPath('package.json'),
-			{
-				appname: _s.slugify(this.appname),
-				appversion: this.appversion
-			}
+				this.templatePath('../../new/templates/_package.json'),
+				this.destinationPath('package.json'),
+				{
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion
+				}
 			);
 		},
 
 		breiJSON: function () {
 			this.fs.copyTpl(
-			this.templatePath('../../new/templates/_brei-config.json'),
-			this.destinationPath('brei-config.json'),
-			{
-				genver: this.pkg.version,
-				appname: _s.slugify(this.appname),
-				appversion: this.appversion,
-				deployDirectory: this.deployDirectory,
-				debug: "false"
-			}
+				this.templatePath('../../new/templates/_brei-config.json'),
+				this.destinationPath('brei-config.json'),
+				{
+					genver: this.genver,
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion,
+					deployDirectory: this.deployDirectory,
+					debug: this.debug
+				}
 			);
 		},
 
 		git: function () {
 			this.fs.copy(
-			this.templatePath('../../new/templates/gitignore'),
-			this.destinationPath('.gitignore')
+				this.templatePath('../../new/templates/gitignore'),
+				this.destinationPath('.gitignore')
 			);
 		},
 
@@ -252,6 +277,14 @@ var BreiAppGenerator = yeoman.Base.extend({
 				appname: _s.slugify(this.appname),
 				appversion: this.appversion
 			}
+			);
+		},
+
+		shell: function () {
+			this.fs.copyTpl(
+				this.templatePath('../../new/templates/postsh'),
+				this.destinationPath('post.sh'),
+				{}
 			);
 		}
 
