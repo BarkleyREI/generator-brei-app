@@ -11,4 +11,4 @@ CURRENT=`pwd`
 cd "$CURRENT/app/bower_components/modernizr"
 npm install
 cd "$CURRENT/app/bower_components/modernizr/bin"
-modernizr --config ../../../../modernizr-config.json --dest ../../../../app/js/plugins/modernizr.js
+node modernizr --config ../../../../modernizr-config.json --dest ../../../../app/js/plugins/modernizr.js
