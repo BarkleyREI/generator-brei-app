@@ -1,6 +1,6 @@
 {
   "name": "generator-brei-app",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "generators/app/index.js",
@@ -72,7 +72,8 @@
     "glob": "7.0.5",
     "yeoman-remote": "1.0.1",
     "yeoman-test": "1.6.0",
-    "yosay": "2.0.0"
+    "yosay": "2.0.0",
+	  "update-notifier": "2.0.0"
   },
   "devDependencies": {
     "grunt-cli": "1.2.0",
