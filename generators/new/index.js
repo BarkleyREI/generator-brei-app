@@ -9,7 +9,7 @@ var remote = require('yeoman-remote');
 var path = require('path');
 
 module.exports = generators.Base.extend({
-<<<<<<< HEAD
+
   constructor: function () {
 
     generators.Base.apply(this, arguments);
@@ -285,6 +285,8 @@ module.exports = generators.Base.extend({
 
   }
 =======
+=======
+>>>>>>> BarkleyREI/master
 	constructor: function () {
 
 		generators.Base.apply(this, arguments);
@@ -572,5 +574,5 @@ module.exports = generators.Base.extend({
 		return;
 
 	}
->>>>>>> BarkleyREI/master
+	
 });
