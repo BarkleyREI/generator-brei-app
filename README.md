@@ -43,6 +43,7 @@ What would you like to do? (Use arrow keys)
 Just follow the promps and off you go!
 
 ## Sub-Generators
+
 #### All Sub-Generators install the properly formatted .hbs and .scss file. All according to conventions. Woot.
 
 #### Note: you can either run `yo brei-app` and select the desired sub generator task, or you can use the following commands to do it manually.
