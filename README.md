@@ -91,7 +91,6 @@ yo brei-app:update
  - Tips: when a conflict occurs, hit "d" to see a diff of changes, hit "y" to overwrite, hit "n" to not overwrite.
 
 ## Testing
-#### This generator has git pre-commit hook that will forcefully run the tests and jshint whenever you seek to make a commit
 
 Prerequisites:
 
