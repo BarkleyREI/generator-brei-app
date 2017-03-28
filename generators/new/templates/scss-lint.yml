@@ -96,7 +96,7 @@ linters:
 
   NestingDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 4 # Do not increase this. Make your CSS better. -Ian
     ignore_parent_selectors: false
 
   PlaceholderInExtend:
@@ -150,7 +150,7 @@ linters:
 
   Shorthand:
     enabled: true
-    allowed_shorthands: [1, 2, 3]
+    allowed_shorthands: [1, 2, 3, 4]
 
   SingleLinePerProperty:
     enabled: true
