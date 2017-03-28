@@ -1,17 +1,23 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var yosay = require('yosay');
 var updateNotifier = require('update-notifier');
 var pkg = require('../../package.json');
 
-var BreiAppGenerator = yeoman.Base.extend({
-	initializing: function () {
+module.exports = class extends Generator {
+
+	constructor(args, opts) {
+    // Calling the super constructor is important so our generator is correctly set up
+    	super(args, opts);
+	}
+
+	initializing() {
 		this.pkg = require('../../package.json');
 		this.answer = 'new';
-	},
+	}
 
-	prompting: function () {
+	prompting() {
 
 		var done = this.async();
 
@@ -45,9 +51,10 @@ var BreiAppGenerator = yeoman.Base.extend({
 					'Create a New Project',
 					'Create a Partial',
 					'Create a Module',
-					'Create a Template',
-					'Import a Pattern',
-					'Update Your Project']
+					'Create a Template'
+					// 'Import a Pattern',
+					// 'Update Your Project'
+				]
 			}).then(function(answer) {
 
 				switch (answer.command) {
@@ -63,14 +70,14 @@ var BreiAppGenerator = yeoman.Base.extend({
 						this.answer = 'template';
 						// this.composeWith('brei-app:template', {});
 						break;
-					case 'Import a Pattern':
-						this.answer = 'pattern';
+					// case 'Import a Pattern':
+						// this.answer = 'pattern';
 						// this.composeWith('brei-app:pattern', {});
-						break;
-					case 'Update Your Project':
-						this.answer = 'update';
+						// break;
+					// case 'Update Your Project':
+						// this.answer = 'update';
 						// this.composeWith('brei-app:update', {});
-						break;
+						// break;
 					default: //'Create a New Project'
 						// this.composeWith('brei-app:new');
 						break;
@@ -81,11 +88,9 @@ var BreiAppGenerator = yeoman.Base.extend({
 			}.bind(this));
 
 		}
-	},
-
-	install: function () {
-		this.composeWith('brei-app:' + this.answer);
 	}
-});
 
-module.exports = BreiAppGenerator;
+	install() {
+		this.composeWith('brei-next:' + this.answer);
+	}
+};
