@@ -1,4 +1,4 @@
 node_modules/
-*.sass_cache*
+.sass_cache
 dist
-*.log*
+.log
