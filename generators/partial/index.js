@@ -1,14 +1,20 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var util = require('../../lib/utils.js');
 
-var BreiAppGenerator = yeoman.Base.extend({
-	initializing: function () {
-		this.pkg = require('../../package.json');
-	},
+module.exports = class extends Generator {
 
-	prompting: function () {
+	constructor(args, opts) {
+
+		// Calling the super constructor is important so our generator is correctly set up
+	    super(args, opts);
+
+		this.pkg = require('../../package.json');
+
+	}
+
+	prompting() {
 		var done = this.async();
 
 		var prompts = [{
@@ -44,17 +50,29 @@ var BreiAppGenerator = yeoman.Base.extend({
 
 			done();
 		}.bind(this));
-	},
-
-	writing: {
-		hbs: function () {
-			this.template('partial.hbs', 'app/assemble/partials/' + this.name + '.hbs');
-		},
-
-		scss: function () {
-			this.template('partial.scss', 'app/sass/partials/_' + this.name + '.scss');
-		}
 	}
-});
 
-module.exports = BreiAppGenerator;
+	writing() {
+		this.fs.copyTpl(
+			this.templatePath('partial.hbs'),
+			this.destinationPath('app/assemble/partials/' + this.name + '.hbs'),
+			{
+				aria: this.aria,
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('partial.scss'),
+			this.destinationPath('app/sass/partials/_' + this.name + '.scss'),
+			{
+				aria: this.aria,
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+	}
+};
