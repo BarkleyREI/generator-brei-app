@@ -91,6 +91,6 @@ module.exports = class extends Generator {
 	}
 
 	install() {
-		this.composeWith('brei-next:' + this.answer);
+		this.composeWith('brei-app:' + this.answer);
 	}
 };
