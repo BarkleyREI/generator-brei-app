@@ -1,282 +1,295 @@
-var generators = require('yeoman-generator');
+'use strict';
+
+var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var optional = require('optional');
 var _s = require('underscore.string');
-var _brei = require('../../config/brei-config.json');
 var yosay = require('yosay');
+var path = require('path');
 
-module.exports = generators.Base.extend({
-  constructor: function () {
+module.exports = class extends Generator {
 
-    generators.Base.apply(this, arguments);
+	constructor(args, opts) {
 
-    this.pkg = require('../../package.json');
+		// Calling the super constructor is important so our generator is correctly set up
+	    super(args, opts);
 
-    this.github = "BarkleyREI";
+		this.pkg = require('../../package.json');
 
-    if (_brei !== null) {
-      if (_brei.github !== null) {
-        this.github = _brei.github;
-      }
-    }
+		this.genver = this.pkg['version'];
+		this.debug = 'false';
 
-  },
+	}
 
-  askFor: function () {
-    var done = this.async();
+	prompting() {
+		var done = this.async();
 
-    var prompts = [{
-      type: 'input',
-      name: 'appname',
-      message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
-      default: 'static'
-    }, {
-      type: 'input',
-      name: 'appversion',
-      message: 'Version of App',
-      default: '0.0.1'
-    }, {
-      type: 'input',
-      name: 'deployDirectory',
-      message: 'Deploy directory (relative to current path)',
-      default: '../../web'
-    }];
+		var prompts = [{
+			type: 'input',
+			name: 'appname',
+			message: 'Name of Client (e.g. NOVA, Corpus, Times Square NYC)',
+			default: 'static'
+		}, {
+			type: 'input',
+			name: 'appversion',
+			message: 'Version of App',
+			default: '0.0.1'
+		}, {
+			type: 'input',
+			name: 'deployDirectory',
+			message: 'Deploy directory (relative to current path)',
+			default: '../../web'
+		}];
 
-    this.prompt(prompts, function (answers) {
-      // var features = answers.features;
+		return this.prompt(prompts).then(function (answers) {
+			this.appname = answers.appname;
+			this.appversion = answers.appversion;
+			this.deployDirectory = answers.deployDirectory;
 
-      // function hasFeature(feat) {
-      //  return features && features.indexOf(feat) !== -1;
-      // }
+			done();
+		}.bind(this));
+	}
 
-      // this.includeSass = hasFeature('includeSass');
-      // this.includeBootstrap = hasFeature('includeBootstrap');
-      // this.includeModernizr = hasFeature('includeModernizr');
-      // this.includeJQuery = answers.includeJQuery;
+	writing() {
 
-      this.appname = answers.appname;
-      this.appversion = answers.appversion;
-      this.deployDirectory = answers.deployDirectory;
+		mkdirp('app');
+		// All the grunt configuration files
+		mkdirp('grunt-config');
+		// Assembled HTML
+		mkdirp('app/modules');
+		// Compiled CSS
+		mkdirp('app/css');
+		// Your scripts
+		mkdirp('app/js');
+		mkdirp('app/js/plugins');
+		mkdirp('app/js/modules');
+		mkdirp('app/js/lib');
+		// Images
+		mkdirp('app/img');
 
-      done();
-    }.bind(this));
-  },
+		// modernizrJSON() {
+			this.fs.copyTpl(
+				this.templatePath('_modernizr-config.json'),
+				this.destinationPath('modernizr-config.json'),
+				{}
+			);
+		// },
 
-  writing: {
+		// projectFiles() {
+			this.fs.copyTpl(
+				this.templatePath('jshintrc'),
+				this.destinationPath('.jshintrc'),
+				{}
+			);
 
-    folders: function () {
+			this.fs.copyTpl(
+				this.templatePath('bowerrc'),
+				this.destinationPath('.bowerrc'),
+				{}
+			);
 
-      mkdirp('app');
-      // All the grunt configuration files
-      mkdirp('grunt-config');
-      // Assembled HTML
-      mkdirp('app/modules');
-      // Compiled CSS
-      mkdirp('app/css');
-      // Your scripts
-      mkdirp('app/js');
-      mkdirp('app/js/plugins');
-      mkdirp('app/js/modules');
-      mkdirp('app/js/lib');
-      // ES6 scripts
-      mkdirp('app/js/es6');
-      mkdirp('app/js/es6/plugins');
-      mkdirp('app/js/es6/modules');
-      mkdirp('app/js/es6/lib');
-      // Images
-      mkdirp('app/img');
+			this.fs.copyTpl(
+				this.templatePath('scss-lint.yml'),
+				this.destinationPath('.scss-lint.yml'),
+				{}
+			);
+		// },
 
-    },
+		// packageJSON() {
+			this.fs.copyTpl(
+				this.templatePath('_package.json'),
+				this.destinationPath('package.json'),
+				{
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion
+				}
+			);
+		// },
 
-    gruntConfig: function () {
-      var cb = this.async();
+		// breiJSON() {
+			this.fs.copyTpl(
+				this.templatePath('_brei-config.json'),
+				this.destinationPath('brei-config.json'),
+				{
+					genver: this.genver,
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion,
+					deployDirectory: this.deployDirectory,
+					debug: this.debug
+				}
+			);
+		// },
 
-      // Directory Structure
-      this.remote(this.github, 'brei-grunt-config', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING GRUNT CONFIGS!!', err);
-          return cb(err);
-        }
+		// git() {
+			this.fs.copy(
+				this.templatePath('gitignore'),
+				this.destinationPath('.gitignore')
+			);
+		// },
 
-        remote.directory('grunt-config', 'grunt-config');
-        remote.copy('Gruntfile.js', 'Gruntfile.js');
+		// bower() {
+			this.fs.copyTpl(
+				this.templatePath('_bower.json'),
+				this.destinationPath('bower.json'),
+				{
+					appname: _s.slugify(this.appname),
+					appversion: this.appversion
+				}
+			);
+		// },
 
-        cb();
-      }, true);
-    },
+		// shell() {
+			this.fs.copyTpl(
+				this.templatePath('postsh'),
+				this.destinationPath('post.sh'),
+				{}
+			);
+		// }
 
-    assemble: function () {
-      var cb = this.async();
+		// Copy over the BarkleyREI stuff
+		this.log('Now we copy over all the BarkleyREI sub-repos...');
 
-      // Directory Structure
-      this.remote(this.github, 'brei-assemble-structure', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING ASSEMBLE STRUCTURE!!', err);
-          return cb(err);
-        }
+		// this.sourceRoot('../../../node_modules/');
 
-        remote.directory('.', 'app/assemble');
+		// brei-sass-boilerplate
+		var sassJson = this.fs.readJSON(
+			this.templatePath('../../../node_modules/brei-sass-boilerplate/package.json')
+		);
+		this.sassversion = sassJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-sass-boilerplate/**/*'),
+			this.destinationPath('app/sass/'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
 
-        cb();
-      }, true);
-    },
+		// brei-sass-mixins
+		var mixinJson = this.fs.readJSON(
+			this.templatePath('../../../node_modules/brei-sass-mixins/package.json')
+		);
+		this.mixinversion = mixinJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-sass-mixins/*.scss'),
+			this.destinationPath('app/sass/helpers/mixins/'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
 
-    helpers: function () {
-      var cb = this.async();
+		// brei-grunt-config
+		var gruntJson = this.fs.readJSON(
+			this.templatePath('../../../node_modules/brei-grunt-config/package.json')
+		);
+		this.gruntversion = gruntJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-grunt-config/Gruntfile.js'),
+			this.destinationPath('Gruntfile.js')
+		);
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-grunt-config/grunt-config/*.js'),
+			this.destinationPath('./grunt-config/'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
 
-      this.remote(this.github, 'brei-assemble-helpers', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING HELPERS!!', err);
-          return cb(err);
-        }
+		// brei-assemble-structure
+		var assembleJson = this.fs.readJSON(
+			this.templatePath('../../../node_modules/brei-assemble-structure/package.json')
+		);
+		this.assembleversion = assembleJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-assemble-structure/**/*'),
+			this.destinationPath('app/assemble/'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
 
-        remote.copy('./helpers.js', 'app/assemble/helpers/helpers.js');
-        remote.copy('./updateScss.js', 'app/lib/updateScss.js');
+		// brei-assemble-helpers
+		var helpersJson = this.fs.readJSON(
+			this.templatePath('../../../node_modules/brei-assemble-helpers/package.json')
+		);
+		this.helperversion = helpersJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-assemble-helpers/helpers.js'),
+			this.destinationPath('app/assemble/helpers/helpers.js'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-assemble-helpers/updateScss.js'),
+			this.destinationPath('app/lib/updateScss.js'),
+			{
+				globOptions: {
+					'dot': true
+				}
+			}
+		);
 
-        cb();
-      }, true);
-    },
+		// Delete crap we don't need
+		this.fs.delete(this.destinationPath('app/sass/README.md'));
+		this.fs.delete(this.destinationPath('app/sass/package.json'));
+		this.fs.delete(this.destinationPath('app/assemble/README.md'));
+		this.fs.delete(this.destinationPath('app/assemble/package.json'));
+		this.fs.delete(this.destinationPath('app/assemble/**/*/.gitkeep'),
+		{
+			globOptions: {
+				'nodir': true
+			}
+		});
 
-    sass: function () {
-      var cb = this.async();
+		this.fs.copyTpl(
+			this.templatePath('README.md'),
+			this.destinationPath('README.md'),
+			{
+				appname: _s.slugify(this.appname),
+				sassversion: this.sassversion,
+				mixinversion: this.mixinversion,
+				gruntversion: this.gruntversion,
+				assembleversion: this.assembleversion,
+				helperversion: this.helperversion
+			}
+		);
 
-      this.remote(this.github, 'brei-sass-boilerplate', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING SASS!!', err);
-          return cb(err);
-        }
+	}
 
-        remote.directory('.', 'app/sass');
+	install() {
+		this.installDependencies({
+			skipInstall: this.options['skip-install'],
+			skipMessage: this.options['skip-install-message'],
+			bower: false
+		});
+	}
 
-        cb();
-      }, true);
-    },
+	end() {
 
-    mixins: function () {
-      var cb = this.async();
+		if (this.options['skip-install']) {
+			this.log(yosay(
+				'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
+				'Generated with v' + this.pkg.version
+			));
+		} else {
+			this.log(yosay(
+				'Happy coding!\n\n' +
+				'Generated with v' + this.pkg.version
+			));
+		}
 
-      this.remote(this.github, 'brei-sass-mixins', 'master', function (err, remote) {
-        if (err) {
-          console.log('--ERROR WHILE GETTING MIXINS!!', err);
-          return cb(err);
-        }
+		return;
 
-        remote.directory('.', 'app/sass/helpers/mixins');
-
-        cb();
-      }, true);
-    },
-
-    modernizr: function () {
-
-      this.fs.copyTpl(
-        this.templatePath('modernizr.js'),
-        this.destinationPath('app/js/plugins/modernizr.js'),
-        {}
-      );
-
-    },
-
-    projectFiles: function () {
-      this.fs.copyTpl(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc'),
-        {}
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('bowerrc'),
-        this.destinationPath('.bowerrc'),
-        {}
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss-lint.yml'),
-        this.destinationPath('.scss-lint.yml'),
-        {}
-      );
-    },
-
-    readme: function () {
-
-      this.fs.copyTpl(
-        this.templatePath('README.md'),
-        this.destinationPath('README.md'),
-        {
-          appname: _s.slugify(this.appname)
-        }
-      );
-
-    },
-
-    packageJSON: function () {
-      this.fs.copyTpl(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json'),
-        {
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion
-        }
-      );
-    },
-
-    breiJSON: function () {
-      this.fs.copyTpl(
-        this.templatePath('_brei-config.json'),
-        this.destinationPath('brei-config.json'),
-        {
-          genver: this.pkg.version,
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion,
-          deployDirectory: this.deployDirectory,
-          debug: "false"
-        }
-      );
-    },
-
-    git: function () {
-      this.fs.copy(
-        this.templatePath('gitignore'),
-        this.destinationPath('.gitignore')
-      );
-    },
-
-    bower: function () {
-      this.fs.copyTpl(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json'),
-        {
-          appname: _s.slugify(this.appname),
-          appversion: this.appversion
-        }
-      );
-    }
-
-  },
-
-  install: function () {
-    this.installDependencies({
-      skipInstall: this.options['skip-install'],
-      skipMessage: this.options['skip-install-message']
-    });
-  },
-
-  end: function () {
-
-    if (this.options['skip-install']) {
-      this.log(yosay(
-        'Make sure to run `npm install` and `bower install` to install all your dependencies! Happy coding!\n\n' +
-        'Generated with v' + this.pkg.version
-      ));
-    } else {
-      this.log(yosay(
-        'Happy coding!\n\n' +
-        'Generated with v' + this.pkg.version
-      ));
-    }
-
-    return;
-
-  }
-});
+	}
+};
