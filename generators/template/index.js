@@ -1,14 +1,20 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var util = require('../../lib/utils.js');
 
-var BreiAppGenerator = yeoman.Base.extend({
-	initializing: function () {
-		this.pkg = require('../../package.json');
-	},
+module.exports = class extends Generator {
 
-	prompting: function () {
+	constructor(args, opts) {
+
+		// Calling the super constructor is important so our generator is correctly set up
+	    super(args, opts);
+
+		this.pkg = require('../../package.json');
+
+	}
+
+	prompting() {
 		var done = this.async();
 
 		var prompts = [{
@@ -37,21 +43,37 @@ var BreiAppGenerator = yeoman.Base.extend({
 
 			done();
 		}.bind(this));
-	},
-
-	writing: {
-		hbs: function () {
-			this.template('template.hbs', 'app/assemble/' + this.name + '.hbs');
-		},
-
-		scss: function () {
-			this.template('template.scss', 'app/sass/templates/_' + this.name + '.scss');
-		},
-
-		fixture: function () {
-			this.template('template.json', 'app/assemble/fixtures/' + this.name + '.json');
-		}
 	}
-});
 
-module.exports = BreiAppGenerator;
+	writing() {
+		this.fs.copyTpl(
+			this.templatePath('template.hbs'),
+			this.destinationPath('app/assemble/' + this.name + '.hbs'),
+			{
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('template.scss'),
+			this.destinationPath('app/sass/templates/_' + this.name + '.scss'),
+			{
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('template.json'),
+			this.destinationPath('app/assemble/fixtures/' + this.name + '.json'),
+			{
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+	}
+};

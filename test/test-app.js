@@ -33,9 +33,36 @@ describe('Main Generator', function () {
         console.log('------------');
         console.log('Buckle up, this might take 45 - 60 seconds\n');
 
+<<<<<<< HEAD
+        // console.log(tdir);
+        // console.log(process.env.TRAVIS_BUILD_DIR);
+
         exec('grunt build && grunt deploy', {
           cwd: tdir
         }, function () {
+        // }, function (error, stdout) {
+
+          // console.log('----');
+          // console.log(error);
+          // console.log('----');
+          // console.log(stdout);
+          // console.log('----');
+
+          // console.log('dumping tdir');
+
+          // glob("*.html", {
+          //   cwd: tdir + '/app'
+          // }, function (er, files) {
+          //   console.log(files);
+          // });
+
+          // console.log('end dump');
+
+=======
+        exec('grunt build && grunt deploy', {
+          cwd: tdir
+        }, function () {
+>>>>>>> origin/master
           done();
         });
 
@@ -80,6 +107,31 @@ describe('Main Generator', function () {
 
 describe('Check Generator Files', function () {
   'use strict';
+<<<<<<< HEAD
+
+  it('Generator self check', function () {
+    var dir = path.join(__dirname, '../');
+    util._test_brei_generator_files(dir);
+  });
+});
+
+describe('Update Sub-Generator', function () {
+  'use strict';
+
+  before(function mainGenerator(done) {
+    helpers.run(path.join(__dirname, '../generators/update'))
+      .inDir(path.join(os.tmpdir(), './temp/static'))
+      .withOptions({
+        'skip-warning': true
+      })
+      .on('end', done);
+  });
+
+  it('Update - Created Main Files', function () {
+    util._test_brei_main_files('../_update/');
+  });
+=======
+>>>>>>> origin/master
 
   it('Generator self check', function () {
     var dir = path.join(__dirname, '../');
@@ -135,6 +187,22 @@ describe('Partial Sub-Generator - ', function () {
   util._test_sub_generators('partial');
 });
 
+<<<<<<< HEAD
+describe('Pattern Library Sub-Generator - ', function () {
+  'use strict';
+  describe('Import Partial Pattern', function () {
+    util._test_patterns('partial');
+  });
+
+  describe('Import Module Pattern - ', function () {
+    util._test_patterns('module');
+  });
+
+  describe('Import Template Pattern', function () {
+    util._test_patterns('template');
+  });
+});
+=======
 // describe('Pattern Library Sub-Generator - ', function () {
 //   'use strict';
 //   describe('Import Partial Pattern', function () {
@@ -149,3 +217,4 @@ describe('Partial Sub-Generator - ', function () {
 //     util._test_patterns('template');
 //   });
 // });
+>>>>>>> origin/master
