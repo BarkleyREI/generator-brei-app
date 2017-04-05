@@ -1,82 +1,76 @@
 {
-  "name": "generator-brei-app",
-  "version": "3.2.4",
-  "description": "Yeoman generator",
-  "license": "MIT",
-  "main": "generators/app/index.js",
-  "repository": "BarkleyREI/generator-brei-app",
-  "bugs": "https://github.com/BarkleyREI/generator-brei-app/issues",
-  "author": {
-    "name": "Ian Moffitt",
-    "email": "nessthehero@gmail.com",
-    "url": "https://github.com/nessthehero"
-  },
-  "contributors": [
-    {
-      "name": "Ian Moffitt",
-      "email": "nessthehero@gmail.com",
-      "url": "https://github.com/nessthehero"
-    },
-    {
-      "name": "Ryan Sprake",
-      "url": "https://github.com/eightdotthree"
-    },
-    {
-      "name": "Joseph Dillon",
-      "url": "https://github.com/jdillon522"
-    },
-    {
-      "name": "Sean Stacho",
-      "url": "https://github.com/Sean-BREI"
-    },
-    {
-      "name": "Sarah Harissis",
-      "url": "https://github.com/sharissis"
-    }
-  ],
-  "engines": {
-    "node": ">= 4",
-    "npm": ">=1.2.10"
-  },
-  "scripts": {
-    "test": "mocha",
-    "jshintG": "jshint ./generators/**/*.js",
-    "jshintT": "jshint ./test/test-app.js"
-  },
-  "pre-commit": [
-    "jshintG",
-    "jshintT",
-    "test"
-  ],
-  "files": [
-    "generators",
-    "lib",
-    "config"
-  ],
-  "keywords": [
-    "yeoman-generator",
-    "barkleyrei",
-    "brei"
-  ],
-  "dependencies": {
-    "chalk": "1.1.3",
-    "generator-jasmine": "0.2.2",
-    "generator-mocha": "0.3.1",
-    "mkdirp": "0.5.1",
-    "underscore.string": "3.3.4",
-    "yeoman-generator": "0.24.1",
-    "yeoman-assert": "3.0.0",
-    "optional": "0.1.3",
-    "mocha": "3.0.2",
-    "grunt": "1.0.1",
-    "glob": "7.0.5",
-    "yeoman-remote": "1.0.1",
-    "yeoman-test": "1.6.0",
-    "yosay": "2.0.0",
-	  "update-notifier": "2.0.0"
-  },
-  "devDependencies": {
-    "grunt-cli": "1.2.0",
-    "yo": "1.8.4"
-  }
+	"name": "generator-brei-app",
+	"version": "3.3.2",
+	"description": "Yeoman generator",
+	"license": "MIT",
+	"main": "generators/app/index.js",
+	"repository": "BarkleyREI/generator-brei-app",
+	"bugs": "https://github.com/BarkleyREI/generator-brei-app/issues",
+	"author": {
+		"name": "Ian Moffitt",
+		"email": "nessthehero@gmail.com",
+		"url": "https://github.com/nessthehero"
+	},
+	"contributors": [{
+			"name": "Ian Moffitt",
+			"email": "nessthehero@gmail.com",
+			"url": "https://github.com/nessthehero"
+		},
+		{
+			"name": "Sean Stacho",
+			"url": "https://github.com/Sean-BREI"
+		},
+		{
+			"name": "Sarah Harissis",
+			"url": "https://github.com/sharissis-brei"
+		}
+	],
+	"engines": {
+		"node": ">= 4",
+		"npm": ">=1.2.10"
+	},
+	"scripts": {
+		"test": "mocha",
+		"jshintG": "jshint ./generators/**/*.js",
+		"jshintT": "jshint ./test/test-app.js"
+	},
+	"pre-commit": [
+		"jshintG",
+		"jshintT",
+		"test"
+	],
+	"files": [
+		"generators",
+		"lib",
+		"config"
+	],
+	"keywords": [
+		"yeoman-generator",
+		"barkleyrei",
+		"brei"
+	],
+	"dependencies": {
+		"chalk": "1.1.3",
+		"generator-mocha": "0.3.1",
+		"mkdirp": "0.5.1",
+		"underscore.string": "3.3.4",
+		"yeoman-assert": "3.0.0",
+		"yeoman-generator": "1.1.1",
+		"optional": "0.1.3",
+		"mocha": "3.0.2",
+		"grunt": "1.0.1",
+		"glob": "7.0.5",
+		"yeoman-test": "1.6.0",
+		"yosay": "2.0.0",
+		"update-notifier": "2.0.0",
+		"brei-sass-boilerplate": "github:barkleyrei/brei-sass-boilerplate#2.0.6",
+		"brei-assemble-structure": "github:barkleyrei/brei-assemble-structure#1.0.2",
+		"brei-assemble-helpers": "github:barkleyrei/brei-assemble-helpers#1.0.7",
+		"brei-grunt-config": "github:barkleyrei/brei-grunt-config#1.0.5",
+		"brei-sass-mixins": "github:barkleyrei/brei-sass-mixins#1.0.1"
+	},
+	"devDependencies": {
+		"grunt-cli": "1.2.0",
+		"yo": "1.8.4"
+	}
 }
