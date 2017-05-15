@@ -1,4 +1,6 @@
 # generator-brei-app
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/BarkleyREI/generator-brei-app.svg)](https://greenkeeper.io/)
 [![Version npm][version]](http://browsenpm.org/package/generator-brei-app)
 [![Build Status](https://travis-ci.org/BarkleyREI/generator-brei-app.svg?branch=master)](https://travis-ci.org/BarkleyREI/generator-brei-app)
 
