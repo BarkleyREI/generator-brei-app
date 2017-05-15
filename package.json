@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "3.3.2",
+	"version": "3.3.3",
 	"description": "Yeoman generator",
 	"license": "MIT",
 	"main": "generators/app/index.js",
@@ -66,7 +66,7 @@
 		"brei-sass-boilerplate": "github:barkleyrei/brei-sass-boilerplate#2.0.6",
 		"brei-assemble-structure": "github:barkleyrei/brei-assemble-structure#1.0.2",
 		"brei-assemble-helpers": "github:barkleyrei/brei-assemble-helpers#1.0.7",
-		"brei-grunt-config": "github:barkleyrei/brei-grunt-config#1.0.5",
+		"brei-grunt-config": "github:barkleyrei/brei-grunt-config#1.0.6",
 		"brei-sass-mixins": "github:barkleyrei/brei-sass-mixins#1.0.1"
 	},
 	"devDependencies": {

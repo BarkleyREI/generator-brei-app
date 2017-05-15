@@ -1,10 +1,11 @@
-$palettes: map-merge($palettes, (
-    '<%= name %>': (
-        'core': $black,
-        'background': $white
-    )
-));
-
 .<%= name %> {
-	// Awesome styles
+
+	// Variables
+	$this: &;
+	$color: $black;
+	$background-color: $white;
+
+	// Styles
+
+
 }
