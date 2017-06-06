@@ -62,7 +62,7 @@
 		"glob": "7.1.1",
 		"yeoman-test": "1.6.0",
 		"yosay": "2.0.0",
-		"update-notifier": "2.1.0",
+		"update-notifier": "2.2.0",
 		"brei-sass-boilerplate": "github:barkleyrei/brei-sass-boilerplate#2.0.8",
 		"brei-assemble-structure": "github:barkleyrei/brei-assemble-structure#1.0.2",
 		"brei-assemble-helpers": "github:barkleyrei/brei-assemble-helpers#1.0.7",
