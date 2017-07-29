@@ -61,7 +61,7 @@
 		"grunt": "1.0.1",
 		"glob": "7.1.1",
 		"yeoman-test": "1.7.0",
-		"yosay": "2.0.0",
+		"yosay": "2.0.1",
 		"update-notifier": "2.2.0",
 		"brei-sass-boilerplate": "github:barkleyrei/brei-sass-boilerplate#2.0.8",
 		"brei-assemble-structure": "github:barkleyrei/brei-assemble-structure#1.0.2",
