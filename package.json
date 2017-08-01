@@ -51,7 +51,7 @@
 	],
 	"dependencies": {
 		"chalk": "2.0.0",
-		"generator-mocha": "0.3.1",
+		"generator-mocha": "2.0.0",
 		"mkdirp": "0.5.1",
 		"underscore.string": "3.3.4",
 		"yeoman-assert": "3.0.0",
