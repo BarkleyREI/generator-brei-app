@@ -41,9 +41,15 @@ describe('Main Generator', function () {
         exec('grunt check && grunt build && grunt deploy', {
           cwd: tdir
 	    }, function (error, stdout, stderr) {
-		  build_error_code = error;
-		  build_error_msg = error.message;
-		  build_error_stdout = stdout;
+			if (error !== null) {
+			  if (error.code !== null) {
+				  if ('0' !== error.code.toString()) {
+				  	build_error_code = error.code;
+					build_error_msg = error.message;
+					build_error_stdout = stdout;
+				  }
+			  }
+		  }
 
           done();
         });
@@ -52,14 +58,14 @@ describe('Main Generator', function () {
 
   it('Build finished with an error code of 0', function () {
 
-	if ('0' !== build_error_code.code.toString()) {
+	if ('0' !== build_error_code.toString()) {
 		console.log('\n\n -- ERROR --\n');
 		console.error(build_error_msg);
 		console.log(build_error_stdout);
 		console.log('\n -- /ERROR --\n\n');
   	}
 
-  	assert.textEqual('0', build_error_code.code.toString());
+  	assert.textEqual('0', build_error_code.toString());
   });
 
   it('Ran grunt to build out directories', function () {
