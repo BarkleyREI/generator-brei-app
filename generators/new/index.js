@@ -88,12 +88,6 @@ module.exports = class extends Generator {
 				this.destinationPath('.bowerrc'),
 				{}
 			);
-
-			this.fs.copyTpl(
-				this.templatePath('scss-lint.yml'),
-				this.destinationPath('.scss-lint.yml'),
-				{}
-			);
 		// },
 
 		// packageJSON() {
@@ -150,13 +144,15 @@ module.exports = class extends Generator {
 		// Copy over the BarkleyREI stuff
 		this.log('Now we copy over all the BarkleyREI sub-repos...');
 
-		// this.sourceRoot('../../../node_modules/');
-
 		// brei-sass-boilerplate
 		var sassJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-sass-boilerplate/package.json')
 		);
 		this.sassversion = sassJson.version;
+		this.fs.copy(
+			this.templatePath('../../../node_modules/brei-sass-boilerplate/.scss-lint.yml'),
+			this.destinationPath('.scss-lint.yml')
+		);
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-sass-boilerplate/**/*'),
 			this.destinationPath('app/sass/'),
@@ -243,6 +239,8 @@ module.exports = class extends Generator {
 		// Delete crap we don't need
 		this.fs.delete(this.destinationPath('app/sass/README.md'));
 		this.fs.delete(this.destinationPath('app/sass/package.json'));
+		this.fs.delete(this.destinationPath('app/sass/.travis.yml'));
+		this.fs.delete(this.destinationPath('app/sass/.scss-lint.yml'));
 		this.fs.delete(this.destinationPath('app/assemble/README.md'));
 		this.fs.delete(this.destinationPath('app/assemble/package.json'));
 		this.fs.delete(this.destinationPath('app/assemble/**/*/.gitkeep'),
