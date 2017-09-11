@@ -5,6 +5,12 @@ var helpers = require('yeoman-test');
 var os = require('os');
 var util = require('../lib/utils.js');
 var exec = require('child_process').exec;
+var assert = require('yeoman-assert');
+
+// Global vars
+var build_error_code = 0;
+var build_error_msg = '';
+var build_error_stdout = '';
 
 /**
  * Test basic file generation,
@@ -28,18 +34,32 @@ describe('Main Generator', function () {
         'deployDirectory': 'web'
       })
       .on('end', function () {
-
         console.log('\nRunning grunt and grunt deploy');
         console.log('------------');
         console.log('Buckle up, this might take 45 - 60 seconds\n');
 
-        exec('grunt build && grunt deploy', {
+        exec('grunt check && grunt build && grunt deploy', {
           cwd: tdir
-        }, function () {
+	    }, function (error, stdout, stderr) {
+		  build_error_code = error;
+		  build_error_msg = error.message;
+		  build_error_stdout = stdout;
+
           done();
         });
-
       });
+  });
+
+  it('Build finished with an error code of 0', function () {
+
+	if ('0' !== build_error_code.code.toString()) {
+		console.log('\n\n -- ERROR --\n');
+		console.error(build_error_msg);
+		console.log(build_error_stdout);
+		console.log('\n -- /ERROR --\n\n');
+  	}
+
+  	assert.textEqual('0', build_error_code.code.toString());
   });
 
   it('Ran grunt to build out directories', function () {
@@ -87,39 +107,6 @@ describe('Check Generator Files', function () {
   });
 });
 
-// describe('Update Sub-Generator', function () {
-//   'use strict';
-//
-//   before(function mainGenerator(done) {
-//     helpers.run(path.join(__dirname, '../generators/update'))
-//       .inDir(path.join(os.tmpdir(), './temp/static'))
-//       .withOptions({
-//         'skip-warning': true
-//       })
-//       .on('end', done);
-//   });
-//
-//   it('Update - Created Main Files', function () {
-//     util._test_brei_main_files('../_update/');
-//   });
-//
-//   it('Update - Created Assemble Files', function () {
-//     util._test_brei_assemble_files('../_update/');
-//   });
-//
-//   it('Update - Created Helper Files', function () {
-//     util._test_brei_helper_files('../_update/');
-//   });
-//
-//   it('Update - Created SASS Files', function () {
-//     util._test_brei_sass_files('../_update/');
-//   });
-//
-//   it('Update - Created Grunt Configuration Files', function () {
-//     util._test_brei_grunt_config_files('../_update/');
-//   });
-// });
-
 describe('Template Sub-Generator', function () {
   'use strict';
   util._test_sub_generators('template');
@@ -134,18 +121,3 @@ describe('Partial Sub-Generator - ', function () {
   'use strict';
   util._test_sub_generators('partial');
 });
-
-// describe('Pattern Library Sub-Generator - ', function () {
-//   'use strict';
-//   describe('Import Partial Pattern', function () {
-//     util._test_patterns('partial');
-//   });
-//
-//   describe('Import Module Pattern - ', function () {
-//     util._test_patterns('module');
-//   });
-//
-//   describe('Import Template Pattern', function () {
-//     util._test_patterns('template');
-//   });
-// });
