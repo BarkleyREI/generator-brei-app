@@ -64,11 +64,11 @@
 		"yeoman-test": "1.7.0",
 		"yosay": "2.0.1",
 		"update-notifier": "2.2.0",
-		"brei-sass-boilerplate": "github:barkleyrei/brei-sass-boilerplate#2.1.0",
-		"brei-assemble-structure": "github:barkleyrei/brei-assemble-structure#1.0.2",
-		"brei-assemble-helpers": "github:barkleyrei/brei-assemble-helpers#1.0.7",
-		"brei-grunt-config": "github:barkleyrei/brei-grunt-config#1.0.6",
-		"brei-sass-mixins": "github:barkleyrei/brei-sass-mixins#1.0.1"
+		"brei-sass-boilerplate": "2.1.0",
+		"brei-assemble-structure": "1.0.2",
+		"brei-assemble-helpers": "1.0.7",
+		"brei-grunt-config": "1.0.6",
+		"brei-sass-mixins": "1.0.1"
 	},
 	"devDependencies": {
 		"grunt-cli": "1.2.0",
