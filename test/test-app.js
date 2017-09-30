@@ -23,7 +23,7 @@ describe('Main Generator', function () {
     var tdir = path.join(os.tmpdir(), './temp');
     this.timeout(240000);
 
-    console.log('\n\n Running a generator with npm install. This might take a while...\n\n');
+    console.log('\nRunning a generator with npm install. This might take a while...\n\n');
 
     helpers.run(path.join(__dirname, '../generators/new'))
       .inDir(tdir)
