@@ -13,6 +13,12 @@ describe('Testing Util _format_input()', function() {
       assert.textEqual(input, 'test-name');
     });
   });
+  context('Test Name With More Words', function() {
+    it('= test-name-with-more-words', function() {
+      var input = util._format_input('Test Name With More Words');
+      assert.textEqual(input, 'test-name-with-more-words');
+    });
+  });
   context('test_name', function() {
     it('= test-name', function() {
       var input = util._format_input('test_name');
