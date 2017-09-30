@@ -21,7 +21,7 @@ deploy:
   provider: npm
   email: nessthehero@gmail.com
   api_key:
-    secure: iSXsx0lctUfxVvwxTdpcYlo/QLIDmky6zC3ZeE5Gi/XHFwDLidC4iM0rOpnTgcS83Wt+xkAZ9GwvKi5XpQARSspeaDnvwOQxUTCOeTSuYiepfDbuEtqSFdD6k85PH4EeqJpr0eeZ1Is1E1PT1pLDfLEG+AS/AeCqX1FIPGzG478=
+    secure: PW2nKCrW27DaGn9PREJDLmJcuecpUPFP2lgZ+9AcgQv9qF3v8QdZ675akj4xdfOCCQ1BAk2g1kyZkeXmLR7P5Fs7JnGY1UqjfoBn2BnbOMO1/I1Mt9Z0rRYXT2oUIYV2w4zFLrK9nEkjLX4pmZEneroyRxNy1Z8B31mO12ZJ+fU=
   on:
     tags: true
     repo: BarkleyREI/generator-brei-app
