@@ -68,7 +68,7 @@
 		"brei-assemble-structure": "1.1.1",
 		"brei-assemble-helpers": "1.1.1",
 		"brei-grunt-config": "1.1.0",
-		"brei-sass-mixins": "1.0.1"
+		"brei-sass-mixins": "1.1.1"
 	},
 	"devDependencies": {
 		"grunt-cli": "1.2.0",
