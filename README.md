@@ -8,10 +8,10 @@
 
 ## Getting Started
 
-Install Yeoman
+Install Yeoman, Bower, and JSHint
 
 ```bash
-npm install -g yo
+npm install -g yo bower jshint
 ```
 Install Ruby
 
@@ -42,7 +42,7 @@ What would you like to do? (Use arrow keys)
   Import a Pattern
   Update Your Project
   ```
-Just follow the promps and off you go!
+Just follow the prompts and off you go!
 
 ## Sub-Generators
 
@@ -75,23 +75,6 @@ yo brei-app:partial
 
 #  @param {String} the name of your partial
 ```
-
-Add a pattern from the [BREI Pattern Library](https://github.com/BarkleyREI/brei-pattern-library)
-```bash
-yo brei-app:pattern
-
-#  @param {String} The type of pattern (template, module, partial)
-#  @param {String} The name of the pattern (the pattern must exists)
-```
-- You will be provided a list of available patterns, so long as the library's `pattern.json` is up to date.
-This will help prevent issues of spelling the name wrong.
-
-Update part of your project
-```bash
-yo brei-app:update
-```
-- This will provide you with options on which segment of the project you would like to update.
- - Tips: when a conflict occurs, hit "d" to see a diff of changes, hit "y" to overwrite, hit "n" to not overwrite.
 
 ## Testing
 
