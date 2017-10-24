@@ -63,7 +63,7 @@
 		"glob": "7.1.1",
 		"yeoman-test": "1.7.0",
 		"yosay": "2.0.1",
-		"update-notifier": "2.2.0",
+		"update-notifier": "2.3.0",
 		"brei-sass-boilerplate": "2.2.1",
 		"brei-assemble-structure": "1.1.3",
 		"brei-assemble-helpers": "1.1.2",
