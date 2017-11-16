@@ -7,9 +7,7 @@ template: true
 <% if (tag != "div") { %><%- "{{#parseFixture '" + name + ".json'}}\n<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n{{/parseFixture}}" %>
 <% } else { %>{{#parseFixture '<%= name %>.json'}}
 <main id="main" class="main">
-	<div class="<%= name %>">
-		<%= pretty %>
-	</div>
+	<%= pretty %>
 </main>
 {{/parseFixture}}
 <% } %><!-- end template:<%= name %> -->
