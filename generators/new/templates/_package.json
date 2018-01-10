@@ -35,6 +35,6 @@
 		"node": ">=4.0.0"
 	},
 	"scripts": {
-		"postinstall": "sh post.sh"
+		"postinstall": "bower cache clean && bower install && grunt execute:target && cd ./app/bower_components/modernizr && npm install && cd bin && node modernizr --config ../../../../modernizr-config.json --dest ../../../../app/js/plugins/modernizr.js"
 	}
 }
