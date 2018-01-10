@@ -2,3 +2,4 @@ node_modules/
 .sass_cache
 dist
 .log
+.idea
