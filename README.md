@@ -6,14 +6,15 @@
 
 [version]: http://img.shields.io/npm/v/generator-brei-app.svg?style=flat-square
 
-## Getting Started
+## Getting Started with a Project
 
-Install Yeoman, Bower, and JSHint
+Install Yeoman, Bower, Grunt CLI, and JSHint
 
 ```bash
-npm install -g yo bower jshint
+npm install -g yo bower jshint grunt-cli
 ```
 Install Ruby
+- Use a version lower than 2.5 (as of 1/10/2018)
 
 Install Compass, SASS, and SCSS_Lint
 ````bash
@@ -44,9 +45,13 @@ What would you like to do? (Use arrow keys)
   ```
 Just follow the prompts and off you go!
 
+### Dropbox
+
+- Do not stage the project (run npm install or other dependency managers) from Dropbox. The dependency folders, especially `node_modules`, contain thousands of files and directories, and Dropbox can freeze the disk or cause permissions errors while it syncs.
+
 ## Sub-Generators
 
-#### All Sub-Generators install the properly formatted .hbs and .scss file. All according to conventions. Woot.
+#### All Sub-Generators install the properly formatted .hbs and .scss file according to BarkleyREI front-end coding standard conventions.
 
 #### Note: you can either run `yo brei-app` and select the desired sub generator task, or you can use the following commands to do it manually.
 
@@ -58,25 +63,21 @@ yo brei-app:new
 Create a new Template:
 ```bash
 yo brei-app:template
-
-#  @param {String} the name of your template
 ```
 
 Create a new Module
 ```bash
 yo brei-app:module
-
-#  @param {String} the name of your module
 ```
 
 Create a new Partial
 ```bash
 yo brei-app:partial
-
-#  @param {String} the name of your partial
 ```
 
-## Testing
+## Testing the Generator
+
+This only needs run if you are locally modifying the generator files in this repo, not a project created with it.
 
 Prerequisites:
 
@@ -88,3 +89,5 @@ To Test:
 ```bash
 npm test
 ```
+
+The test takes about 10-12 minutes to run.
