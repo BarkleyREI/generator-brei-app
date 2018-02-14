@@ -1,8 +1,9 @@
 language: node_js
 node_js:
-  - '5.12.0'
-  - '6.10.1'
-  - '7.8.0'
+  - '7'
+  - '8'
+  - 'lts/*'
+  - 'node'
 before_install:
   - npm install -g grunt-cli bower yo
   - currentfolder=${PWD##*/}
