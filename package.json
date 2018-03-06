@@ -51,7 +51,7 @@
 		"brei"
 	],
 	"dependencies": {
-		"chalk": "2.3.1",
+		"chalk": "2.3.2",
 		"generator-mocha": "2.0.0",
 		"mkdirp": "0.5.1",
 		"underscore.string": "3.3.4",
@@ -64,8 +64,8 @@
 		"yeoman-test": "1.7.0",
 		"yosay": "2.0.1",
 		"update-notifier": "2.3.0",
-		"brei-sass-boilerplate": "2.3.0",
-		"brei-assemble-structure": "1.2.1",
+		"brei-sass-boilerplate": "2.4.0",
+		"brei-assemble-structure": "1.3.0",
 		"brei-assemble-helpers": "1.2.0",
 		"brei-grunt-config": "1.1.1",
 		"brei-sass-mixins": "1.1.1"
