@@ -57,17 +57,19 @@ describe('Testing Util _format_input()', function() {
   });
 });
 
-describe('Test updateScss.js', function() {
-  it('Created no-scss.scss', function() {
-    fs.writeFile('app/assemble/no-scss.hbs', 'no-scss', function(err) {
-      if (err) { throw err; }
-
-      assert.file([
-        'app/assemble/no-scss.hbs',
-        'app/sass/templates/_no-scss.scss'
-      ]);
-
-      assert.fileContent('app/sass/templates/_assemble-templates.scss', /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
-    });
-  });
-});
+// I honestly have no idea how this is running or if it is even doing anything?
+//
+// describe('Test updateScss.js', function() {
+//   it('Created no-scss.scss', function() {
+//     fs.writeFile('app/assemble/no-scss.hbs', 'no-scss', function(err) {
+//       if (err) { throw err; }
+//
+//       assert.file([
+//         'app/assemble/no-scss.hbs',
+//         'app/sass/templates/_no-scss.scss'
+//       ]);
+//
+//       assert.fileContent('app/sass/templates/_assemble-templates.scss', /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
+//     });
+//   });
+// });
