@@ -51,7 +51,7 @@
 		"brei"
 	],
 	"dependencies": {
-		"chalk": "2.3.2",
+		"chalk": "2.4.0",
 		"generator-mocha": "2.0.1",
 		"mkdirp": "0.5.1",
 		"underscore.string": "3.3.4",
