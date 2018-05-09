@@ -61,7 +61,7 @@
 		"optional": "0.1.4",
 		"grunt": "1.0.2",
 		"glob": "7.1.1",
-		"yeoman-test": "1.7.0",
+		"yeoman-test": "1.7.1",
 		"update-notifier": "2.4.0",
 		"yosay": "2.0.2",
 		"brei-sass-boilerplate": "2.4.0",
