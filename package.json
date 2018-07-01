@@ -57,7 +57,7 @@
 		"underscore.string": "3.3.4",
 		"yeoman-assert": "3.1.1",
 		"mocha": "5.2.0",
-		"yeoman-generator": "2.0.4",
+		"yeoman-generator": "3.0.0",
 		"optional": "0.1.4",
 		"grunt": "1.0.3",
 		"glob": "7.1.1",
