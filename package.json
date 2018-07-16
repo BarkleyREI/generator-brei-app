@@ -72,6 +72,6 @@
 	},
 	"devDependencies": {
 		"grunt-cli": "1.2.0",
-		"yo": "2.0.2"
+		"yo": "2.0.3"
 	}
 }
