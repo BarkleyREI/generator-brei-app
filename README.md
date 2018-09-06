@@ -40,8 +40,6 @@ What would you like to do? (Use arrow keys)
   Create a Partial
   Create a Module
   Create a Template
-  Import a Pattern
-  Update Your Project
   ```
 Just follow the prompts and off you go!
 
