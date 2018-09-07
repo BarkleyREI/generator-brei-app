@@ -75,7 +75,7 @@ yo brei-app:partial
 
 ## Testing the Generator
 
-This only needs run if you are locally modifying the generator files in this repo, not a project created with it.
+**This only needs run if you are locally modifying the generator files in this repo, not a project created with it.**
 
 Prerequisites:
 
