@@ -40,8 +40,6 @@ What would you like to do? (Use arrow keys)
   Create a Partial
   Create a Module
   Create a Template
-  Import a Pattern
-  Update Your Project
   ```
 Just follow the prompts and off you go!
 
@@ -77,7 +75,7 @@ yo brei-app:partial
 
 ## Testing the Generator
 
-This only needs run if you are locally modifying the generator files in this repo, not a project created with it.
+**This only needs run if you are locally modifying the generator files in this repo, not a project created with it.**
 
 Prerequisites:
 

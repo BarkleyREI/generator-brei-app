@@ -76,6 +76,28 @@ module.exports = class extends Generator {
 		);
 
 		this.fs.copyTpl(
+			this.templatePath('partial.hbs'),
+			this.destinationPath('app/assemble/partials/' + this.name + '.hbs'),
+			{
+				aria: this.aria,
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('partial.scss'),
+			this.destinationPath('app/sass/partials/_' + this.name + '.scss'),
+			{
+				aria: this.aria,
+				tag: this.tag,
+				pretty: this.pretty,
+				name: this.name
+			}
+		);
+
+		this.fs.copyTpl(
 			this.templatePath('module.json'),
 			this.destinationPath('app/assemble/fixtures/' + this.name + '.json'),
 			{
