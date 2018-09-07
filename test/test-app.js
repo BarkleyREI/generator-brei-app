@@ -17,113 +17,113 @@ var build_error_stdout = '';
  * including that from brei-assemble-structure, brei-assemble-helpers, brei-sass-boilerplate, and brei-grunt-configs.
  */
 describe('Main Generator', function () {
-  'use strict';
+	'use strict';
 
-  before(function mainGenerator(done) {
-    var tdir = path.join(os.tmpdir(), './temp');
-    this.timeout(240000);
+	before(function mainGenerator(done) {
+		var tdir = path.join(os.tmpdir(), './temp');
+		this.timeout(240000);
 
-    console.log('\nRunning a generator with npm install. This might take a while...\n\n');
+		console.log('\nRunning a generator with npm install. This might take a while...\n\n');
 
-    helpers.run(path.join(__dirname, '../generators/new'))
-      .inDir(tdir)
-      .withOptions({
-        'skip-install': false
-      })
-      .withPrompts({
-        'deployDirectory': 'web'
-      })
-      .on('end', function () {
-        console.log('\nRunning grunt and grunt deploy');
-        console.log('------------');
-        console.log('Buckle up, this might take 45 - 60 seconds\n');
+		helpers.run(path.join(__dirname, '../generators/new'))
+			.inDir(tdir)
+			.withOptions({
+				'skip-install': false
+			})
+			.withPrompts({
+				'deployDirectory': 'web'
+			})
+			.on('end', function () {
+				console.log('\nRunning grunt and grunt deploy');
+				console.log('------------');
+				console.log('Buckle up, this might take 45 - 60 seconds\n');
 
-        exec('grunt check && grunt build && grunt deploy', {
-          cwd: tdir
-	    }, function (error, stdout, stderr) {
-			if (error !== null) {
-			  if (error.code !== null) {
-				  if ('0' !== error.code.toString()) {
-				  	build_error_code = error.code;
-					build_error_msg = error.message;
-					build_error_stdout = stdout;
-				  }
-			  }
-		  }
+				exec('grunt check && grunt build && grunt deploy', {
+					cwd: tdir
+				}, function (error, stdout, stderr) {
+					if (error !== null) {
+						if (error.code !== null) {
+							if ('0' !== error.code.toString()) {
+								build_error_code = error.code;
+								build_error_msg = error.message;
+								build_error_stdout = stdout;
+							}
+						}
+					}
 
-          done();
-        });
-      });
-  });
+					done();
+				});
+			});
+	});
 
-  it('Build finished with an error code of 0', function () {
+	it('Build finished with an error code of 0', function () {
 
-	if ('0' !== build_error_code.toString()) {
-		console.log('\n\n -- ERROR --\n');
-		console.error(build_error_msg);
-		console.log(build_error_stdout);
-		console.log('\n -- /ERROR --\n\n');
-  	}
+		if ('0' !== build_error_code.toString()) {
+			console.log('\n\n -- ERROR --\n');
+			console.error(build_error_msg);
+			console.log(build_error_stdout);
+			console.log('\n -- /ERROR --\n\n');
+		}
 
-  	assert.textEqual('0', build_error_code.toString());
-  });
+		assert.textEqual('0', build_error_code.toString());
+	});
 
-  it('Ran grunt to build out directories', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_grunt_built_files(tdir);
-  });
+	it('Ran grunt to build out directories', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_grunt_built_files(tdir);
+	});
 
-  it('Grunt execute ran successfully', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_grunt_execute_files(tdir);
-  });
+	it('Grunt execute ran successfully', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_grunt_execute_files(tdir);
+	});
 
-  it('Created Main Files', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_main_files(tdir);
-  });
+	it('Created Main Files', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_main_files(tdir);
+	});
 
-  it('Created Assemble Files', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_assemble_files(tdir);
-  });
+	it('Created Assemble Files', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_assemble_files(tdir);
+	});
 
-  it('Created Helper Files', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_helper_files(tdir);
-  });
+	it('Created Helper Files', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_helper_files(tdir);
+	});
 
-  it('Created SASS Files', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_sass_files(tdir);
-  });
+	it('Created SASS Files', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_sass_files(tdir);
+	});
 
-  it('Created Grunt Configuration Files', function () {
-    var tdir = path.join(os.tmpdir(), './temp/');
-    util._test_brei_grunt_config_files(tdir);
-  });
+	it('Created Grunt Configuration Files', function () {
+		var tdir = path.join(os.tmpdir(), './temp/');
+		util._test_brei_grunt_config_files(tdir);
+	});
 });
 
 describe('Check Generator Files', function () {
-  'use strict';
+	'use strict';
 
-  it('Generator self check', function () {
-    var dir = path.join(__dirname, '../');
-    util._test_brei_generator_files(dir);
-  });
+	it('Generator self check', function () {
+		var dir = path.join(__dirname, '../');
+		util._test_brei_generator_files(dir);
+	});
 });
 
 describe('Template Sub-Generator', function () {
-  'use strict';
-  util._test_sub_generators('template');
+	'use strict';
+	util._test_sub_generators('template');
 });
 
 describe('Module Sub-Generator - ', function () {
-  'use strict';
-  util._test_sub_generators('module');
+	'use strict';
+	util._test_sub_generators('module');
 });
 
 describe('Partial Sub-Generator - ', function () {
-  'use strict';
-  util._test_sub_generators('partial');
+	'use strict';
+	util._test_sub_generators('partial');
 });

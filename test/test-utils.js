@@ -6,55 +6,55 @@ var util = require('../lib/utils.js');
 var assert = require('yeoman-assert');
 var fs = require('fs');
 
-describe('Testing Util _format_input()', function() {
-  context('test name', function() {
-    it('= test-name', function() {
-      var input = util._format_input('test name');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('Test Name With More Words', function() {
-    it('= test-name-with-more-words', function() {
-      var input = util._format_input('Test Name With More Words');
-      assert.textEqual(input, 'test-name-with-more-words');
-    });
-  });
-  context('test_name', function() {
-    it('= test-name', function() {
-      var input = util._format_input('test_name');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('_test_name', function() {
-    it('= test-name', function() {
-      var input = util._format_input('_test_name');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('--test-name.hbs', function() {
-    it('= test-name', function() {
-      var input = util._format_input('--test-name.hbs');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('__test-name.hbs', function() {
-    it('= test-name', function() {
-      var input = util._format_input('__test-name.hbs');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('__test-name.hbs--', function() {
-    it('= test-name', function() {
-      var input = util._format_input('__test-name.hbs--');
-      assert.textEqual(input, 'test-name');
-    });
-  });
-  context('__test-name.hbs -- kd', function() {
-    it('= test-name', function() {
-      var input = util._format_input('__test-name.hbs -- kd');
-      assert.textEqual(input, 'test-name');
-    });
-  });
+describe('Testing Util _format_input()', function () {
+	context('test name', function () {
+		it('= test-name', function () {
+			var input = util._format_input('test name');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('Test Name With More Words', function () {
+		it('= test-name-with-more-words', function () {
+			var input = util._format_input('Test Name With More Words');
+			assert.textEqual(input, 'test-name-with-more-words');
+		});
+	});
+	context('test_name', function () {
+		it('= test-name', function () {
+			var input = util._format_input('test_name');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('_test_name', function () {
+		it('= test-name', function () {
+			var input = util._format_input('_test_name');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('--test-name.hbs', function () {
+		it('= test-name', function () {
+			var input = util._format_input('--test-name.hbs');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('__test-name.hbs', function () {
+		it('= test-name', function () {
+			var input = util._format_input('__test-name.hbs');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('__test-name.hbs--', function () {
+		it('= test-name', function () {
+			var input = util._format_input('__test-name.hbs--');
+			assert.textEqual(input, 'test-name');
+		});
+	});
+	context('__test-name.hbs -- kd', function () {
+		it('= test-name', function () {
+			var input = util._format_input('__test-name.hbs -- kd');
+			assert.textEqual(input, 'test-name');
+		});
+	});
 });
 
 // I honestly have no idea how this is running or if it is even doing anything?
