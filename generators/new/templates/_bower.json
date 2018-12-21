@@ -4,7 +4,7 @@
 	"dependencies": {
 		"modernizr": "~3.3.1",
 		"jquery": "~2.x",
-		"foundation-sites": "6.3.1"
+		"foundation-sites": "zurb/foundation-sites#9bdf0817e70fec15b1df643d6651ecdd5fe0ad02"
 	},
 	"devDependencies": {}
 }

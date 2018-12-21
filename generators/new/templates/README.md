@@ -4,7 +4,7 @@ CMS:
 
 JIRA Project:
 
-Epic:
+Epic Ticket:
 
 ##Project Info:
 
@@ -25,7 +25,6 @@ Epic:
 Setup:
 - Install Node Modules and Bower Components.
     - `npm install`
-    - `bower install`
 
 Coding, testing:
 - Spins up a server, starts compass, auto refreshes on save.
@@ -39,5 +38,5 @@ Build:
 	- `grunt`
 
 Deploy:
-- Deploys the built code to deploy/site/\_files
+- Deploys the built code to web/
 	- `grunt deploy`
