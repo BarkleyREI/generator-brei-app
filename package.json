@@ -74,7 +74,7 @@
 		"yosay": "2.0.2",
 		"brei-sass-boilerplate": "2.5.0",
 		"brei-assemble-structure": "1.4.0",
-		"brei-assemble-helpers": "1.3.0",
+		"brei-assemble-helpers": "1.3.1",
 		"brei-grunt-config": "1.2.0",
 		"brei-sass-mixins": "1.2.0"
 	},
