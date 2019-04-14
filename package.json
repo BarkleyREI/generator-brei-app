@@ -80,6 +80,6 @@
 	},
 	"devDependencies": {
 		"grunt-cli": "1.3.2",
-		"yo": "2.0.5"
+		"yo": "2.0.6"
 	}
 }
