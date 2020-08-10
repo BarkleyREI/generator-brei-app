@@ -1,6 +1,6 @@
 # generator-brei-app
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/BarkleyREI/generator-brei-app.svg)](https://greenkeeper.io/)
+
 [![Version npm][version]](http://browsenpm.org/package/generator-brei-app)
 [![Build Status](https://travis-ci.org/BarkleyREI/generator-brei-app.svg?branch=master)](https://travis-ci.org/BarkleyREI/generator-brei-app)
 
@@ -8,38 +8,36 @@
 
 ## Getting Started with a Project
 
-Install Yeoman, Bower, Grunt CLI, and JSHint
+Install Yeoman
 
 ```bash
-npm install -g yo bower jshint grunt-cli
+npm install -g yo
 ```
-Install Ruby
-- Use a version lower than 2.5 (as of 1/10/2018)
 
-Install Compass, SASS, and SCSS_Lint
-````bash
-sudo gem install compass sass scss_lint
-````
-
-Install the BREI-App Generator
+Install the BREI App Generator
 
 ```bash
 npm install -g generator-brei-app
 ```
 
-Finally, initiate the generator:
+Finally, initiate the generator in an empty directory:
 
 ```bash
 yo brei-app
 ```
 
-From here you will be presented with a series of options:
+From here you will be presented with a series of options. The options will differ depending on the contents of the directory.
+
 ```bash
 What would you like to do? (Use arrow keys)
-❯ Create a New Project
+❯ Create a New Modern Project
+  Create a New Pattern Library (Alpha)
+  Create a Template
+  Create an Organism
+  Create a Molecule
+  Create an Atom
   Create a Partial
   Create a Module
-  Create a Template
   ```
 Just follow the prompts and off you go!
 
@@ -53,9 +51,14 @@ Just follow the prompts and off you go!
 
 #### Note: you can either run `yo brei-app` and select the desired sub generator task, or you can use the following commands to do it manually.
 
-Create a new Project:
+Create a new Modern Project:
 ```bash
 yo brei-app:new
+```
+
+Create a new Pattern Library Project:
+```bash
+yo brei-app:pattern
 ```
 
 Create a new Template:
@@ -63,29 +66,38 @@ Create a new Template:
 yo brei-app:template
 ```
 
-Create a new Module
+Create a new Organism
 ```bash
-yo brei-app:module
+yo brei-app:organism
 ```
 
-Create a new Partial
+Create a new Molecule
 ```bash
 yo brei-app:partial
+```
+
+Create a new Atom
+```bash
+yo brei-app:partial
+```
+
+Create a new Partial (LEGACY)
+```bash
+yo brei-app:partial
+```
+
+Create a new Module (LEGACY)
+```bash
+yo brei-app:module
 ```
 
 ## Testing the Generator
 
 **This only needs run if you are locally modifying the generator files in this repo, not a project created with it.**
 
-Prerequisites:
-
-```bash
-npm install -g jshint
-```
-
 To Test:
 ```bash
 npm test
 ```
 
-The test takes about 10-12 minutes to run.
+The test takes about 3-4 minutes to run.

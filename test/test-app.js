@@ -1,27 +1,30 @@
 /*global describe, before, it, require, __dirname*/
 
-var path = require('path');
-var helpers = require('yeoman-test');
-var os = require('os');
-var util = require('../lib/utils.js');
-var exec = require('child_process').exec;
-var assert = require('yeoman-assert');
+const path = require('path');
+const helpers = require('yeoman-test');
+const os = require('os');
+const util = require('../lib/utils.js');
+const exec = require('child_process').exec;
+const assert = require('yeoman-assert');
+const fs = require('fs');
 
 // Global vars
-var build_error_code = 0;
-var build_error_msg = '';
-var build_error_stdout = '';
+let build_error_code = 0;
+let build_error_msg = '';
+let build_error_stdout = '';
 
 /**
  * Test basic file generation,
- * including that from brei-assemble-structure, brei-assemble-helpers, brei-sass-boilerplate, and brei-grunt-configs.
+ * including that from brei-assemble-structure, brei-handlebars-helpers, brei-sass-boilerplate.
  */
-describe('Main Generator', function () {
+
+describe('Generator Functionality', function () {
 	'use strict';
 
+	let tdir = path.join(os.tmpdir(), './temp');
+
 	before(function mainGenerator(done) {
-		var tdir = path.join(os.tmpdir(), './temp');
-		this.timeout(240000);
+		this.timeout(150000);
 
 		console.log('\nRunning a generator with npm install. This might take a while...\n\n');
 
@@ -34,11 +37,11 @@ describe('Main Generator', function () {
 				'deployDirectory': 'web'
 			})
 			.on('end', function () {
-				console.log('\nRunning grunt and grunt deploy');
+				console.log('\nRunning npm run build and npm run deploy');
 				console.log('------------');
 				console.log('Buckle up, this might take 45 - 60 seconds\n');
 
-				exec('grunt check && grunt build && grunt deploy', {
+				exec('npm run build && npm run deploy', {
 					cwd: tdir
 				}, function (error, stdout, stderr) {
 					if (error !== null) {
@@ -57,7 +60,6 @@ describe('Main Generator', function () {
 	});
 
 	it('Build finished with an error code of 0', function () {
-
 		if ('0' !== build_error_code.toString()) {
 			console.log('\n\n -- ERROR --\n');
 			console.error(build_error_msg);
@@ -68,62 +70,96 @@ describe('Main Generator', function () {
 		assert.textEqual('0', build_error_code.toString());
 	});
 
-	it('Ran grunt to build out directories', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_grunt_built_files(tdir);
+	it('Template Sub-Generator', function () {
+		util._test_sub_generators('template', tdir);
 	});
 
-	it('Grunt execute ran successfully', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_grunt_execute_files(tdir);
+	it('Organism Sub-Generator', function () {
+		util._test_sub_generators('organism', tdir);
 	});
 
-	it('Created Main Files', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_main_files(tdir);
+	it('Molecule Sub-Generator', function () {
+		util._test_sub_generators('molecule', tdir);
 	});
 
-	it('Created Assemble Files', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_assemble_files(tdir);
+	it('Atom Sub-Generator', function () {
+		util._test_sub_generators('atom', tdir);
 	});
 
-	it('Created Helper Files', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_helper_files(tdir);
+	// We can't run these tests since everything is geared around the modern generator, not legacy.
+	//
+	// it('Partial (Legacy) Sub-Generator', function () {
+	// 	util._test_sub_generators('partial', tdir);
+	// });
+	//
+	// it('Module (Legacy) Sub-Generator', function () {
+	// 	util._test_sub_generators('module', tdir);
+	// });
+
+	it('Test updateScss.js', function (done) {
+		let filePath = path.join(tdir, 'app/assemble/no-scss.hbs');
+
+		fs.writeFile(filePath, 'no-scss', function (err) {
+			if (err) {
+				throw err;
+			}
+
+			exec('npm run assemble:execute', {
+				cwd: tdir
+			}, function (error, stdout, stderr) {
+				if (error !== null) {
+					if (error.code !== null) {
+						if ('0' !== error.code.toString()) {
+
+							assert.file([
+								path.join(tdir, 'app/assemble/no-scss.hbs'),
+								path.join(tdir, 'app/sass/templates/_no-scss.scss')
+							]);
+
+							assert.fileContent(path.join(tdir, 'app/sass/templates/_assemble-templates.scss'), /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
+
+						}
+					}
+				}
+
+				done();
+			});
+
+		});
 	});
 
-	it('Created SASS Files', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_sass_files(tdir);
+	it('Test copy.js capturing extraneous files', function (done) {
+
+		let randoFile = Math.random().toString(36).substring(2, 15) + '.txt';
+		let randoDir = Math.random().toString(36).substring(2, 15);
+
+		let writeDir = path.join(tdir, randoDir);
+
+		fs.writeFile(writeDir, 'test random file', function (err) {
+			if (err) {
+				throw err;
+			}
+
+			exec('npm run copy', {
+				cwd: tdir
+			}, function (error, stdout, stderr) {
+				if (error !== null) {
+					if (error.code !== null) {
+						if ('0' !== error.code.toString()) {
+
+							assert.file([
+								path.join(tdir, 'dist/' + randoDir + '/' + randoFile)
+							]);
+
+						}
+					}
+				}
+
+				done();
+			});
+		});
+
 	});
 
-	it('Created Grunt Configuration Files', function () {
-		var tdir = path.join(os.tmpdir(), './temp/');
-		util._test_brei_grunt_config_files(tdir);
-	});
 });
 
-describe('Check Generator Files', function () {
-	'use strict';
-
-	it('Generator self check', function () {
-		var dir = path.join(__dirname, '../');
-		util._test_brei_generator_files(dir);
-	});
-});
-
-describe('Template Sub-Generator', function () {
-	'use strict';
-	util._test_sub_generators('template');
-});
-
-describe('Module Sub-Generator - ', function () {
-	'use strict';
-	util._test_sub_generators('module');
-});
-
-describe('Partial Sub-Generator - ', function () {
-	'use strict';
-	util._test_sub_generators('partial');
-});

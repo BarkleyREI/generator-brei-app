@@ -21,7 +21,7 @@ module.exports = class extends Generator {
 			{
 				type: 'input',
 				name: 'name',
-				message: 'Module name ("_global-slider", "news-feed")',
+				message: 'Molecule name ("green-button", "header-logo")',
 				default: ''
 			}, {
 				type: 'input',
@@ -31,8 +31,8 @@ module.exports = class extends Generator {
 			}
 		]);
 
-		var name = this.answers.name;
-		var tag = this.answers.tag;
+		let name = this.answers.name;
+		let tag = this.answers.tag;
 
 		if (tag === '' || typeof tag === 'undefined') {
 			tag = 'div';
@@ -46,8 +46,8 @@ module.exports = class extends Generator {
 
 	writing() {
 		this.fs.copyTpl(
-			this.templatePath('module.hbs'),
-			this.destinationPath('app/assemble/modules/_' + this.safename + '.hbs'),
+			this.templatePath('molecule.hbs'),
+			this.destinationPath('app/assemble/molecules/' + this.safename + '.hbs'),
 			{
 				tag: this.tag,
 				pretty: this.prettyname,
@@ -56,36 +56,10 @@ module.exports = class extends Generator {
 		);
 
 		this.fs.copyTpl(
-			this.templatePath('module.scss'),
-			this.destinationPath('app/sass/modules/_' + this.safename + '.scss'),
+			this.templatePath('molecule.scss'),
+			this.destinationPath('app/scss/molecules/_' + this.safename + '.scss'),
 			{
 				name: this.safename
-			}
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('partial.hbs'),
-			this.destinationPath('app/assemble/partials/' + this.safename + '.hbs'),
-			{
-				tag: this.tag,
-				pretty: this.prettyname,
-				name: this.safename
-			}
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('partial.scss'),
-			this.destinationPath('app/sass/partials/_' + this.safename + '.scss'),
-			{
-				name: this.safename
-			}
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('module.json'),
-			this.destinationPath('app/assemble/fixtures/' + this.safename + '.json'),
-			{
-				pretty: this.prettyname
 			}
 		);
 	}

@@ -1,5 +1,3 @@
 <!-- partial:<%= name %> -->
-<% if (tag != "div") { if (aria != "") { %><%- "<" + tag + " class=\"" + name + "\" role=\"" + aria + "\">\n    " + pretty + "\n</" + tag + ">\n" %><% } else { %><%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n" %><% } } else { %><div class="<%= name %>"<% if (aria != "") { %> role="<%= aria %>"<% } %>>
-	<%= pretty %>
-</div>
-<% } %><!-- end partial:<%= name %> -->
+<%- "<" + tag + " class=\"" + name + "\">\n    " + pretty + "\n</" + tag + ">\n" %>
+<!-- end partial:<%= name %> -->

@@ -21,7 +21,7 @@ module.exports = class extends Generator {
 			{
 				type: 'input',
 				name: 'name',
-				message: 'Partial name ("_green-button", "header-logo")',
+				message: 'Atom name ("logo", "button")',
 				default: ''
 			}, {
 				type: 'input',
@@ -33,21 +33,23 @@ module.exports = class extends Generator {
 
 		let name = this.answers.name;
 		let tag = this.answers.tag;
+		let pretty = name;
 
 		if (tag === '' || typeof tag === 'undefined') {
 			tag = 'div';
 		}
 
 		this.safename = util._format_input(name);
-		this.prettyname = _.startCase(name);
+		this.prettyname = _.startCase(pretty);
 		this.tag = _.lowerCase(tag);
 
 	}
 
 	writing() {
+
 		this.fs.copyTpl(
-			this.templatePath('partial.hbs'),
-			this.destinationPath('app/assemble/partials/' + this.safename + '.hbs'),
+			this.templatePath('atom.hbs'),
+			this.destinationPath('app/assemble/atoms/' + this.safename + '.hbs'),
 			{
 				tag: this.tag,
 				pretty: this.prettyname,
@@ -56,11 +58,13 @@ module.exports = class extends Generator {
 		);
 
 		this.fs.copyTpl(
-			this.templatePath('partial.scss'),
-			this.destinationPath('app/sass/partials/_' + this.safename + '.scss'),
+			this.templatePath('atom.scss'),
+			this.destinationPath('app/scss/atoms/_' + this.safename + '.scss'),
 			{
 				name: this.safename
 			}
 		);
+
 	}
+	
 };

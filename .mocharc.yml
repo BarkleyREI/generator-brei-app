@@ -1,0 +1,4 @@
+bail: true
+inline-diffs: true
+reporter: list
+timeout: 16000
