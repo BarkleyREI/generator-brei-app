@@ -1,10 +1,10 @@
 ---
 title: "<%= pretty %>"
-layout: module.hbs
+layout: component.hbs
 module: true
 ---
 
-<!-- module:<%= name %> -->
+<!-- organism:<%= name %> -->
 {{#if mode}}
 	{{#parseFixture '<%= name %>.json' this }}
 		{{> <%= name %> mode }}
@@ -14,4 +14,4 @@ module: true
 		{{> <%= name %> default }}
 	{{/parseFixture}}
 {{/if}}
-<!-- end module:<%= name %> -->
+<!-- end organism:<%= name %> -->

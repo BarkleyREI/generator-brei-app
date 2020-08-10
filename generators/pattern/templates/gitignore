@@ -17,21 +17,15 @@ node_modules
 *.orig*
 
 # Generated directories and files
-app/css/*.css
-app/css/*.map
-app/js
-app/modules
-app/*.html
-dist
+public/css
+public/js
+public/img
 
 # Icomoon
-app/scss/icons/demo-files
-app/scss/icons/*.html
-app/scss/icons/Read Me.txt
-app/scss/icons/*.js
+assets/scss/icons/demo-files
+assets/scss/icons/*.html
+assets/scss/icons/Read Me.txt
+assets/scss/icons/*.js
 
 # Lock
 package-lock.json
-
-# Travis
-.travis.yml

@@ -2,74 +2,56 @@
 
 'use strict';
 
-var util = require('../lib/utils.js');
-var assert = require('yeoman-assert');
-var fs = require('fs');
+const util = require('../lib/utils.js');
+const assert = require('yeoman-assert');
 
 describe('Testing Util _format_input()', function () {
 	context('test name', function () {
 		it('= test-name', function () {
-			var input = util._format_input('test name');
+			let input = util._format_input('test name');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('Test Name With More Words', function () {
 		it('= test-name-with-more-words', function () {
-			var input = util._format_input('Test Name With More Words');
+			let input = util._format_input('Test Name With More Words');
 			assert.textEqual(input, 'test-name-with-more-words');
 		});
 	});
 	context('test_name', function () {
 		it('= test-name', function () {
-			var input = util._format_input('test_name');
+			let input = util._format_input('test_name');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('_test_name', function () {
 		it('= test-name', function () {
-			var input = util._format_input('_test_name');
+			let input = util._format_input('_test_name');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('--test-name.hbs', function () {
 		it('= test-name', function () {
-			var input = util._format_input('--test-name.hbs');
+			let input = util._format_input('--test-name.hbs');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('__test-name.hbs', function () {
 		it('= test-name', function () {
-			var input = util._format_input('__test-name.hbs');
+			let input = util._format_input('__test-name.hbs');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('__test-name.hbs--', function () {
 		it('= test-name', function () {
-			var input = util._format_input('__test-name.hbs--');
+			let input = util._format_input('__test-name.hbs--');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 	context('__test-name.hbs -- kd', function () {
 		it('= test-name', function () {
-			var input = util._format_input('__test-name.hbs -- kd');
+			let input = util._format_input('__test-name.hbs -- kd');
 			assert.textEqual(input, 'test-name');
 		});
 	});
 });
-
-// I honestly have no idea how this is running or if it is even doing anything?
-//
-// describe('Test updateScss.js', function() {
-//   it('Created no-scss.scss', function() {
-//     fs.writeFile('app/assemble/no-scss.hbs', 'no-scss', function(err) {
-//       if (err) { throw err; }
-//
-//       assert.file([
-//         'app/assemble/no-scss.hbs',
-//         'app/sass/templates/_no-scss.scss'
-//       ]);
-//
-//       assert.fileContent('app/sass/templates/_assemble-templates.scss', /@import\s+"home-page";\n@import\s+"test-template.scss";\n@import\s+"no-scss";/);
-//     });
-//   });
-// });
