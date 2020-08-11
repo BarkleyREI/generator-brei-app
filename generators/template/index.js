@@ -3,6 +3,9 @@
 const Generator = require('yeoman-generator');
 const util = require('../../lib/utils.js');
 const _ = require('lodash');
+const fs = require('fs');
+
+const theCwd = process.cwd();
 
 module.exports = class extends Generator {
 
@@ -13,6 +16,26 @@ module.exports = class extends Generator {
 
 		this.pkg = require('../../package.json');
 
+	}
+
+	initializing() {
+		this.mode = 'new';
+
+		if (fs.existsSync(theCwd + '/_config/_brei.json')) {
+			this.mode = 'modern';
+			this.testCfg = require(theCwd + '/_config/_brei.json');
+			if (typeof this.testCfg.type !== 'undefined') {
+				this.mode = this.testCfg.type;
+			}
+		} else if (fs.existsSync(theCwd + '/brei-config.json')) {
+			this.mode = 'legacy';
+		}
+
+		this.sassDir = 'scss';
+
+		if (this.mode === 'legacy') {
+			this.sassDir = 'sass';
+		}
 	}
 
 	async prompting() {
@@ -45,7 +68,7 @@ module.exports = class extends Generator {
 
 		this.fs.copyTpl(
 			this.templatePath('template.scss'),
-			this.destinationPath('app/scss/templates/_' + this.safename + '.scss'),
+			this.destinationPath('app/' + this.sassDir + '/templates/_' + this.safename + '.scss'),
 			{
 				name: this.safename
 			}

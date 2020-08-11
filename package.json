@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"description": "Bootstrap client projects at BarkleyREI",
 	"license": "MIT",
 	"main": "generators/app/index.js",
