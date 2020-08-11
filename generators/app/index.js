@@ -82,8 +82,9 @@ module.exports = class extends Generator {
 					theType = 'This is a legacy project.';
 					theDefault = 'Create a Partial';
 					theChoices = [
-						'Create a Partial',
-						'Create a Module'
+						'Create a Template',
+						'Create a Module',
+						'Create a Partial'
 					];
 					break;
 				default:
