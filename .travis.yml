@@ -17,8 +17,8 @@ deploy:
   provider: npm
   email: nessthehero@gmail.com
   api_key:
-    secure: PwkyOqQKIesn2cTsXS3LLHyExZtY66+Huhx3nTU9CDATiBgrG/9P0KmUxDIZwUaHLF0HWJ0IgyW27GvxRgdm/ICDRaHFE1TV3eIhKQ1MH4UQKmHGA+kCmqpX+9yLgmzMQTfmSZplSAizG5zSL3WyGz3eN6kVL0NaWRy3qfkmiCQyZvVZfDuusQThLfxJLZhxJbEUPCl9SDp6tlEgzxtcxhuC7I9UliGXn5k9eKZDWvRGXBPZf4W/Z1JrbokWPZQAS3xlgdhHq9NoEb7QHVSU0kGn5MsLVNa6s3Lnyc/vgeYYr/WdYz8bEsipR2jeQvhnT4sP5YwjH/T4VFrhydVQZtcmJLr8R2hIEPV59CuBFBMlqRYqRwy/E3kucq3AbrIuvakQmVy3WAROEtvLeuLA0snDO/nO8Pj0joHbLDmELB0/qy6Vz9ZzsBQ+q4uWc59gJf1ob4nEvN8C7uhkZkleZQ9YsNPfzf2LtCY+OVKcdAIOiR7IASKxMLXNa3Kph29tXzeYlu2eTSLtLlFqgCTRKsXhFoSsnEUwg+vdV4tBA0Z7mN4W8lmL3slZZrtyOvL8irCV5E1RXnrBWNVwZh6mvvT05P4u2bPBcyPb+gbAjDQ7h1lJiOfr6AHgXUaqKqQVtt0vMYjvG9zm4O/rpU2Dimc45jVEdYnh6qwdYGFf4vw=
+    secure: Vbn/ueDq7l354U0AEI69KxdKI8LaVoja+SEYYlVQWqj+lInYNVrLVJ7oZsUMDmmd4QxjcQptdoi6xLwI9OsmDmUo5iq2mHXHhM299sOecpFBsWR9qACiBAD1Id8uNURd0Igrs2dcggWNwZp9VGR+K1nlzHaRJSBtCAzuiW1rbZE=
   on:
-    branch: master
+    tags: true
     repo: BarkleyREI/generator-brei-app
   skip_cleanup: 'true'
