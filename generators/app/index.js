@@ -8,6 +8,17 @@ const fs = require('fs');
 
 const theCwd = process.cwd();
 
+let choiceAnswers = {
+	'partial': 'Create a Partial',
+	'module': 'Create a Module',
+	'template': 'Create a Template',
+	'atom': 'Create an Atom',
+	'molecule': 'Create a Molecule',
+	'organism': 'Create an Organism',
+	'pattern': 'Create a New Pattern Library (Alpha)',
+	'new': 'Create a New Modern Project'
+};
+
 module.exports = class extends Generator {
 
 	constructor(args, opts) {
@@ -67,12 +78,12 @@ module.exports = class extends Generator {
 			switch (this.mode) {
 				case 'modern':
 					theType = 'This is a modern project.';
-					theDefault = 'Create an Atom';
+					theDefault = choiceAnswers.atom;
 					theChoices = [
-						'Create a Template',
-						'Create an Organism',
-						'Create a Molecule',
-						'Create an Atom'
+						choiceAnswers.template,
+						choiceAnswers.organism,
+						choiceAnswers.molecule,
+						choiceAnswers.atom
 					];
 					break;
 				case 'pattern':
@@ -80,20 +91,20 @@ module.exports = class extends Generator {
 					break;
 				case 'legacy':
 					theType = 'This is a legacy project.';
-					theDefault = 'Create a Partial';
+					theDefault = choiceAnswers.partial;
 					theChoices = [
-						'Create a Template',
-						'Create a Module',
-						'Create a Partial'
+						choiceAnswers.template,
+						choiceAnswers.module,
+						choiceAnswers.partial
 					];
 					break;
 				default:
 				case 'new':
 					theType = 'Looks like you need a project!';
-					theDefault = 'Create a New Modern Project';
+					theDefault = choiceAnswers.new;
 					theChoices = [
-						'Create a New Modern Project',
-						'Create a New Pattern Library (Alpha)'
+						choiceAnswers.new,
+						choiceAnswers.pattern
 					];
 					break;
 			}
@@ -113,25 +124,25 @@ module.exports = class extends Generator {
 				});
 
 				switch (this.answers.command) {
-					case 'Create a Partial':
+					case choiceAnswers.partial:
 						this.answer = 'partial';
 						break;
-					case 'Create a Module':
+					case choiceAnswers.module:
 						this.answer = 'module';
 						break;
-					case 'Create a Template':
+					case choiceAnswers.template:
 						this.answer = 'template';
 						break;
-					case 'Create an Organism':
+					case choiceAnswers.organism:
 						this.answer = 'organism';
 						break;
-					case 'Create a Molecule':
+					case choiceAnswers.molecule:
 						this.answer = 'molecule';
 						break;
-					case 'Create an Atom':
+					case choiceAnswers.atom:
 						this.answer = 'atom';
 						break;
-					case 'Create a New Pattern Library':
+					case choiceAnswers.pattern:
 						this.answer = 'pattern';
 						break;
 					default:
@@ -140,9 +151,19 @@ module.exports = class extends Generator {
 
 			} else {
 
-				this.log(yosay(
-					'There is already a project here and I cannot do anything with it!\n\nI either do not recognize it or have no options yet.\nv' + this.pkg.version
-				));
+				if (this.mode === 'pattern') {
+
+					this.log(yosay(
+						'No generation options exist for pattern libraries yet, so I cannot help you. Sorry!\nv' + this.pkg.version
+					));
+
+				} else {
+
+					this.log(yosay(
+						'There is already a project here and I cannot do anything with it!\n\nI either do not recognize it or have no options yet.\nv' + this.pkg.version
+					));
+
+				}
 
 			}
 
