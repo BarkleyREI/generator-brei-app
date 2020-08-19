@@ -216,15 +216,19 @@ module.exports = class extends Generator {
 		// Delete crap we don't need
 		this.fs.delete(this.destinationPath('.github/'));
 		this.fs.delete(this.destinationPath('.travis.yml'));
-		this.fs.delete(this.destinationPath('assets/scss/README.md'));
-		this.fs.delete(this.destinationPath('assets/scss/package.json'));
-		this.fs.delete(this.destinationPath('assets/scss/.travis.yml'));
+		this.fs.delete(this.destinationPath('assets/scss/.github/'));
 		this.fs.delete(this.destinationPath('assets/scss/.gitkeep'));
-		this.fs.delete(this.destinationPath('assets/scss/icons/.gitkeep'));
+		this.fs.delete(this.destinationPath('assets/scss/.snyk/'));
 		this.fs.delete(this.destinationPath('assets/scss/.stylelintignore'));
 		this.fs.delete(this.destinationPath('assets/scss/.stylelintrc.json'));
-		this.fs.delete(this.destinationPath('assets/scss/.github/'));
+		this.fs.delete(this.destinationPath('assets/scss/.travis.yml'));
+		this.fs.delete(this.destinationPath('assets/scss/icons/.gitkeep'));
+		this.fs.delete(this.destinationPath('assets/scss/node_modules'));
+		this.fs.delete(this.destinationPath('assets/scss/package.json'));
+		this.fs.delete(this.destinationPath('assets/scss/README.md'));
 		this.fs.delete(this.destinationPath('assets/scss/test/'));
+		this.fs.delete(this.destinationPath('public/.gitkeep'));
+		this.fs.delete(this.destinationPath('test/'));
 
 	}
 
