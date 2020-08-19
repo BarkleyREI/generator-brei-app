@@ -83,6 +83,7 @@ module.exports = class extends Generator {
 		this.newPJ.set('author', this.scaffoldPJ.get('author'));
 		this.newPJ.set('license', this.scaffoldPJ.get('license'));
 		this.newPJ.set('browserslist', this.scaffoldPJ.get('browserslist'));
+		this.newPJ.set('eslintConfig', this.scaffoldPJ.get('eslintConfig'));
 		this.newPJ.set('dependencies', this.scaffoldPJ.get('dependencies'));
 		this.newPJ.set('devDependencies', this.scaffoldPJ.get('devDependencies'));
 		this.newPJ.set('scripts', this.scaffoldPJ.get('scripts'));
@@ -98,6 +99,7 @@ module.exports = class extends Generator {
 		// I use this for a command line thing and like keeping custom stuff out of the package.json. - Ian
 		// This also identifies the type of project to the generator.
 		this.breiJ = editjson(this.destinationPath('.') + '/_config/_brei.json');
+		this.breiJ.set('title', this.appname);
 		this.breiJ.set('generatorVersion', this.genver);
 		this.breiJ.set('type', 'pattern');
 		this.breiJ.set('app', 'app');
@@ -214,15 +216,19 @@ module.exports = class extends Generator {
 		// Delete crap we don't need
 		this.fs.delete(this.destinationPath('.github/'));
 		this.fs.delete(this.destinationPath('.travis.yml'));
-		this.fs.delete(this.destinationPath('assets/scss/README.md'));
-		this.fs.delete(this.destinationPath('assets/scss/package.json'));
-		this.fs.delete(this.destinationPath('assets/scss/.travis.yml'));
+		this.fs.delete(this.destinationPath('assets/scss/.github/'));
 		this.fs.delete(this.destinationPath('assets/scss/.gitkeep'));
-		this.fs.delete(this.destinationPath('assets/scss/icons/.gitkeep'));
+		this.fs.delete(this.destinationPath('assets/scss/.snyk/'));
 		this.fs.delete(this.destinationPath('assets/scss/.stylelintignore'));
 		this.fs.delete(this.destinationPath('assets/scss/.stylelintrc.json'));
-		this.fs.delete(this.destinationPath('assets/scss/.github/'));
+		this.fs.delete(this.destinationPath('assets/scss/.travis.yml'));
+		this.fs.delete(this.destinationPath('assets/scss/icons/.gitkeep'));
+		this.fs.delete(this.destinationPath('assets/scss/node_modules'));
+		this.fs.delete(this.destinationPath('assets/scss/package.json'));
+		this.fs.delete(this.destinationPath('assets/scss/README.md'));
 		this.fs.delete(this.destinationPath('assets/scss/test/'));
+		this.fs.delete(this.destinationPath('public/.gitkeep'));
+		this.fs.delete(this.destinationPath('test/'));
 
 	}
 
