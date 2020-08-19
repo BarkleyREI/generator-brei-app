@@ -83,6 +83,7 @@ module.exports = class extends Generator {
 		this.newPJ.set('author', this.scaffoldPJ.get('author'));
 		this.newPJ.set('license', this.scaffoldPJ.get('license'));
 		this.newPJ.set('browserslist', this.scaffoldPJ.get('browserslist'));
+		this.newPJ.set('eslintConfig', this.scaffoldPJ.get('eslintConfig'));
 		this.newPJ.set('dependencies', this.scaffoldPJ.get('dependencies'));
 		this.newPJ.set('devDependencies', this.scaffoldPJ.get('devDependencies'));
 		this.newPJ.set('scripts', this.scaffoldPJ.get('scripts'));
