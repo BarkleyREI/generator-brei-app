@@ -2,8 +2,6 @@
 
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
-const updateNotifier = require('update-notifier');
-const pkg = require('../../package.json');
 const fs = require('fs');
 
 const theCwd = process.cwd();
@@ -35,23 +33,6 @@ module.exports = class extends Generator {
 		this.answer = 'new';
 
 		this.selfName = this.pkg['name'];
-
-		let notifier = updateNotifier({
-			pkg,
-			updateCheckInterval: 1
-		});
-
-		if (notifier.update) {
-			this.log(yosay(
-				'I say, there seems to be an update to the generator! Go and fetch it!'
-			));
-
-			notifier.notify();
-
-			notifier = null;
-
-			return true;
-		}
 	}
 
 	async prompting() {
