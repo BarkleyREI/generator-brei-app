@@ -24,7 +24,7 @@ describe('Generator Functionality', function () {
 	let tdir = path.join(os.tmpdir(), './temp');
 
 	before(function mainGenerator(done) {
-		this.timeout(150000);
+		this.timeout(300000);
 
 		console.log('\nRunning a generator with npm install. This might take a while...\n\n');
 
