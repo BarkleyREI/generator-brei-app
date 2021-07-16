@@ -38,6 +38,7 @@ module.exports = class extends Generator {
 	async prompting() {
 
 		this.composeOptions = {};
+		this.buildable = true;
 
 		if (typeof this.options.name === 'undefined' || this.options.name === '') {
 
@@ -146,6 +147,8 @@ module.exports = class extends Generator {
 
 				}
 
+				this.buildable = false;
+
 			}
 
 		} else {
@@ -185,6 +188,8 @@ module.exports = class extends Generator {
 	}
 
 	install() {
-		this.composeWith(require.resolve(this.selfName + '/generators/' + this.answer), this.composeOptions);
+		if (this.buildable) {
+			this.composeWith(require.resolve(this.selfName + '/generators/' + this.answer), this.composeOptions);
+		}
 	}
 };

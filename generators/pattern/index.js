@@ -244,6 +244,9 @@ module.exports = class extends Generator {
 			skipMessage: this.options['skip-install-message'],
 			bower: false
 		});
+
+		this.spawnCommand('npm', ['run', 'scaffold']);
+
 	}
 
 	end() {
