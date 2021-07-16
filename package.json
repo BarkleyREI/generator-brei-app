@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "4.0.3",
+	"version": "4.0.4",
 	"description": "Bootstrap client projects at BarkleyREI",
 	"license": "MIT",
 	"main": "generators/app/index.js",
@@ -59,7 +59,7 @@
 	"dependencies": {
 		"brei-assemble-structure": "~2.0.0",
 		"brei-handlebars-helpers": "~2.0.0",
-		"brei-pattern-scaffold": "~0.0.1",
+		"brei-pattern-scaffold": "~0.1.0",
 		"brei-project-scaffold": "~1.0.0",
 		"brei-sass-boilerplate": "~3.0.0",
 		"brei-sass-mixins": "~2.0.0",
