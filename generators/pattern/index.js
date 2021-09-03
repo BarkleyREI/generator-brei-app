@@ -245,8 +245,6 @@ module.exports = class extends Generator {
 			bower: false
 		});
 
-		this.spawnCommand('npm', ['run', 'scaffold']);
-
 	}
 
 	end() {
