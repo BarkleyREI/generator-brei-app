@@ -87,6 +87,7 @@ module.exports = class extends Generator {
 		this.newPJ.set('dependencies', this.scaffoldPJ.get('dependencies'));
 		this.newPJ.set('devDependencies', this.scaffoldPJ.get('devDependencies'));
 		this.newPJ.set('scripts', this.scaffoldPJ.get('scripts'));
+		this.newPJ.set('scripts.postinstall', 'npm run init');
 
 		if (this.stash !== '') {
 			this.newPJ.set('repository', {
