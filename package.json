@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "4.0.5",
+	"version": "4.0.6",
 	"description": "Bootstrap client projects at BarkleyREI",
 	"license": "MIT",
 	"main": "generators/app/index.js",
@@ -70,11 +70,10 @@
 		"glob": "~7.1.6",
 		"lodash": "~4.17.15",
 		"mkdirp": "~1.0.3",
-		"mocha": "~8.2.1",
+		"mocha": "~8.3.0",
 		"optional": "~0.1.4",
 		"snyk": "^1.371.0",
 		"underscore.string": "~3.3.5",
-		"update-notifier": "~4.1.0",
 		"yeoman-assert": "~3.1.1",
 		"yeoman-generator": "~4.12.0",
 		"yeoman-test": "~2.7.0",
@@ -84,7 +83,7 @@
 		"stylelint": "~13.2.0",
 		"stylelint-scss": "~3.14.2",
 		"stylelint-selector-bem-pattern": "~2.1.0",
-		"yo": "~3.1.1"
+		"yo": "^4.3.0"
 	},
 	"snyk": true
 }
