@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "4.0.7",
+	"version": "4.1.0",
 	"description": "Bootstrap client projects at BarkleyREI",
 	"license": "MIT",
 	"main": "generators/app/index.js",
@@ -35,13 +35,13 @@
 		}
 	],
 	"engines": {
-		"node": ">=10 <=15",
+		"node": ">=14",
 		"npm": ">=6"
 	},
 	"scripts": {
 		"test": "mocha",
 		"snyk-protect": "snyk protect",
-		"prepublish": "npm run snyk-protect"
+		"prepublishOnly": "npm test && npm run snyk-protect"
 	},
 	"pre-commit": [
 		"test"
@@ -57,33 +57,35 @@
 		"brei"
 	],
 	"dependencies": {
-		"brei-assemble-structure": "~2.0.0",
-		"brei-handlebars-helpers": "~2.0.0",
-		"brei-pattern-scaffold": "~0.1.0",
-		"brei-project-scaffold": "~1.0.0",
-		"brei-sass-boilerplate": "~3.0.0",
-		"brei-sass-mixins": "~2.0.0",
-		"brei-util": "^1.0.0",
-		"chalk": "~2.4.2",
-		"edit-json-file": "~1.5.0",
+		"brei-assemble-structure": "~2.1.0",
+		"brei-handlebars-helpers": "~2.1.0",
+		"brei-pattern-scaffold": "~0.2.0",
+		"brei-project-scaffold": "~1.1.0",
+		"brei-sass-boilerplate": "~3.1.0",
+		"brei-sass-mixins": "~2.1.0",
+		"brei-util": "^1.0.10",
+		"chalk": "~5.0.0",
 		"generator-mocha": "~2.0.4",
-		"glob": "~7.1.6",
-		"lodash": "~4.17.15",
-		"mkdirp": "~1.0.3",
-		"mocha": "~8.3.0",
+		"glob": "~7.2.0",
+		"lodash": "~4.17.21",
+		"mkdirp": "~1.0.4",
 		"optional": "~0.1.4",
-		"snyk": "^1.371.0",
-		"underscore.string": "~3.3.5",
+		"underscore.string": "~3.3.6",
+		"update-notifier": "~5.1.0",
 		"yeoman-assert": "~3.1.1",
-		"yeoman-generator": "~4.12.0",
-		"yeoman-test": "~2.7.0",
-		"yosay": "~2.0.2"
+		"yeoman-generator": "~5.6.1",
+		"yeoman-environment": "~3.9.1",
+		"yeoman-test": "~6.3.0",
+		"yosay": "~2.0.2",
+		"yo": "~4.3.0"
 	},
 	"devDependencies": {
-		"stylelint": "~13.2.0",
-		"stylelint-scss": "~3.14.2",
-		"stylelint-selector-bem-pattern": "~2.1.0",
-		"yo": "^4.3.0"
+		"snyk": "~1.844.0",
+		"mocha": "~9.2.0",
+		"stylelint": "~14.3.0",
+		"stylelint-scss": "~4.1.0",
+		"postcss-scss": "~4.0.3",
+		"stylelint-formatter-pretty": "^3.1.0"
 	},
 	"snyk": true
 }

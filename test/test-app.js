@@ -15,6 +15,11 @@ let build_error_stdout = '';
 let pbuild_error_code = 0;
 let pbuild_error_msg = '';
 let pbuild_error_stdout = '';
+let tmdir = '';
+let tpdir = '';
+
+let randoFile = Math.random().toString(36).substring(2, 15) + '.txt';
+let randoDir = Math.random().toString(36).substring(2, 15);
 
 /**
  * Test basic file generation,
@@ -24,30 +29,44 @@ let pbuild_error_stdout = '';
 describe('Generator Functionality', function () {
 	'use strict';
 
-	let tmdir = path.join(os.tmpdir(), './temp/brei-gen-modern');
-	let tpdir = path.join(os.tmpdir(), './temp/brei-gen-pattern');
-
 	before(function mainGenerator(done) {
 		this.timeout(300000);
 
 		console.log('\nRunning a generator with npm install. This might take a while...\n\n');
 
 		helpers.run(path.join(__dirname, '../generators/new'))
-			.inDir(tmdir)
 			.withOptions({
 				'skip-install': false
 			})
 			.withPrompts({
 				'deployDirectory': 'web'
 			})
-			.on('end', function () {
+			.then(function (e) {
+
 				console.log('\nRunning npm run build and npm run deploy');
 				console.log('------------');
 				console.log('Buckle up, this might take 45 - 60 seconds\n');
 
+				tmdir = e.env.cwd;
+
+				let writeDir = path.join(tmdir, 'app/', randoDir);
+
+				fs.mkdir(writeDir, { recursive: true }, function (err) {
+					console.log('[Modern] Random directory created: ' + writeDir + '\n');
+					if (err) {
+						throw err;
+					}
+					fs.writeFile(path.join(writeDir, randoFile), 'test random file', function (err) {
+						console.log('[Modern] Random file created: ' + path.join(writeDir, randoFile) + '\n');
+						if (err) {
+							throw err;
+						}
+					});
+				});
+
 				exec('npm run build && npm run deploy', {
-					cwd: tmdir
-				}, function (error, stdout, stderr) {
+					cwd: e.env.cwd
+				}, function (error, stdout) {
 					if (error !== null) {
 						if (error.code !== null) {
 							if ('0' !== error.code.toString()) {
@@ -61,6 +80,7 @@ describe('Generator Functionality', function () {
 					done();
 				});
 			});
+
 	});
 
 	it('Build finished with an error code of 0', function () {
@@ -80,27 +100,44 @@ describe('Generator Functionality', function () {
 		console.log('\nRunning a pattern generator with npm install. This might take a while...\n\n');
 
 		helpers.run(path.join(__dirname, '../generators/pattern'))
-			.inDir(tpdir)
 			.withOptions({
 				'skip-install': false
 			})
 			.withPrompts({
 				'deployDirectory': 'web'
 			})
-			.on('end', function () {
+			.then(function (e) {
+
 				console.log('\nRunning npm run scaffold and npm run build');
 				console.log('------------');
 				console.log('Buckle up, this might take 45 - 60 seconds\n');
 
+				tpdir = e.env.cwd;
+
+				let writeDir = path.join(tpdir, 'public/', randoDir);
+
+				fs.mkdir(writeDir, { recursive: true }, function (err) {
+					console.log('[Pattern] Random directory created: ' + writeDir + '\n');
+					if (err) {
+						throw err;
+					}
+					fs.writeFile(path.join(writeDir, randoFile), 'test random file', function (err) {
+						console.log('[Pattern] Random file created: ' + path.join(writeDir, randoFile) + '\n');
+						if (err) {
+							throw err;
+						}
+					});
+				});
+
 				exec('npm run scaffold && npm run build', {
-					cwd: tpdir
-				}, function (error, stdout, stderr) {
+					cwd: e.env.cwd
+				}, function (error, stdout) {
 					if (error !== null) {
 						if (error.code !== null) {
 							if ('0' !== error.code.toString()) {
-								pbuild_error_code = error.code;
-								pbuild_error_msg = error.message;
-								pbuild_error_stdout = stdout;
+								build_error_code = error.code;
+								build_error_msg = error.message;
+								build_error_stdout = stdout;
 							}
 						}
 					}
@@ -153,16 +190,6 @@ describe('Generator Functionality', function () {
 		util._test_sub_generators('atom', tpdir);
 	});
 
-	// We can't run these tests since everything is geared around the modern generator, not legacy.
-	//
-	// it('Partial (Legacy) Sub-Generator', function () {
-	// 	util._test_sub_generators('partial', tdir);
-	// });
-	//
-	// it('Module (Legacy) Sub-Generator', function () {
-	// 	util._test_sub_generators('module', tdir);
-	// });
-
 	it('[Modern] Test updateScss.js', function (done) {
 		let filePath = path.join(tmdir, 'app/assemble/no-scss.hbs');
 
@@ -173,7 +200,7 @@ describe('Generator Functionality', function () {
 
 			exec('npm run assemble:execute', {
 				cwd: tmdir
-			}, function (error, stdout, stderr) {
+			}, function (error) {
 				if (error !== null) {
 					if (error.code !== null) {
 						if ('0' !== error.code.toString()) {
@@ -195,71 +222,21 @@ describe('Generator Functionality', function () {
 		});
 	});
 
-	// it('[Modern] Test copy.js capturing extraneous files', function (done) {
-	//
-	// 	let randoFile = Math.random().toString(36).substring(2, 15) + '.txt';
-	// 	let randoDir = Math.random().toString(36).substring(2, 15);
-	//
-	// 	let writeDir = path.join(tmdir, randoDir);
-	//
-	// 	fs.writeFile(writeDir, 'test random file', function (err) {
-	// 		if (err) {
-	// 			throw err;
-	// 		}
-	//
-	// 		exec('npm run copy', {
-	// 			cwd: tmdir
-	// 		}, function (error, stdout, stderr) {
-	// 			if (error !== null) {
-	// 				if (error.code !== null) {
-	// 					if ('0' !== error.code.toString()) {
-	//
-	// 						assert.file([
-	// 							path.join(tmdir, 'dist/' + randoDir + '/' + randoFile)
-	// 						]);
-	//
-	// 					}
-	// 				}
-	// 			}
-	//
-	// 			done();
-	// 		});
-	// 	});
-	//
-	// });
-	//
-	// it('[Pattern] Test copy.js capturing extraneous files', function (done) {
-	//
-	// 	let randoFile = Math.random().toString(36).substring(2, 15) + '.txt';
-	// 	let randoDir = Math.random().toString(36).substring(2, 15);
-	//
-	// 	let writeDir = path.join(tpdir, randoDir);
-	//
-	// 	fs.writeFile(writeDir, 'test random file', function (err) {
-	// 		if (err) {
-	// 			throw err;
-	// 		}
-	//
-	// 		exec('npm run copy', {
-	// 			cwd: tpdir
-	// 		}, function (error, stdout, stderr) {
-	// 			if (error !== null) {
-	// 				if (error.code !== null) {
-	// 					if ('0' !== error.code.toString()) {
-	//
-	// 						assert.file([
-	// 							path.join(tpdir, 'dist/' + randoDir + '/' + randoFile)
-	// 						]);
-	//
-	// 					}
-	// 				}
-	// 			}
-	//
-	// 			done();
-	// 		});
-	// 	});
-	//
-	// });
+	it('[Modern] Test build capturing extraneous files', function (done) {
+		assert.file([
+			path.join(tmdir, 'dist/' + randoDir + '/' + randoFile)
+		]);
+
+		done();
+	});
+
+	it('[Pattern] Test build capturing extraneous files', function (done) {
+		assert.file([
+			path.join(tmdir, 'web/' + randoDir + '/' + randoFile)
+		]);
+
+		done();
+	});
 
 });
 

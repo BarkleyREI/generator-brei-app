@@ -3,7 +3,6 @@
 const Generator = require('yeoman-generator');
 const _s = require('underscore.string');
 const yosay = require('yosay');
-const editjson = require('edit-json-file');
 
 module.exports = class extends Generator {
 
@@ -73,38 +72,40 @@ module.exports = class extends Generator {
 		//
 
 		// Grab reference to the project scaffold package.json
-		this.scaffoldPJ = editjson(this.templatePath('../../../node_modules/brei-project-scaffold/package.json'));
+		this.scaffoldPJ = require(this.templatePath('../../../node_modules/brei-project-scaffold/package.json'));
 
 		// Build out new package.json using scaffold values, plus new stuff if we need any.
-		this.newPJ = editjson(this.destinationPath('.') + '/package.json');
-		this.newPJ.set('name', this.appslug);
-		this.newPJ.set('version', '1.0.0');
-		this.newPJ.set('description', this.scaffoldPJ.get('description'));
-		this.newPJ.set('author', this.scaffoldPJ.get('author'));
-		this.newPJ.set('license', this.scaffoldPJ.get('license'));
-		this.newPJ.set('browserslist', this.scaffoldPJ.get('browserslist'));
-		this.newPJ.set('eslintConfig', this.scaffoldPJ.get('eslintConfig'));
-		this.newPJ.set('dependencies', this.scaffoldPJ.get('dependencies'));
-		this.newPJ.set('devDependencies', this.scaffoldPJ.get('devDependencies'));
-		this.newPJ.set('scripts', this.scaffoldPJ.get('scripts'));
+		this.newPJ = {
+			'name': this.appslug,
+			'version': '1.0.0',
+			'description': this.scaffoldPJ.description,
+			'author': this.scaffoldPJ.author,
+			'license': this.scaffoldPJ.license,
+			'browserslist': this.scaffoldPJ.browserslist,
+			'eslintConfig': this.scaffoldPJ.eslintConfig,
+			'dependencies': this.scaffoldPJ.dependencies,
+			'devDependencies': this.scaffoldPJ.devDependencies,
+			'scripts': this.scaffoldPJ.scripts
+		};
 
 		if (this.stash !== '') {
-			this.newPJ.set('repository', {
+			this.newPJ.repository = {
 				'type': 'git',
 				'url': this.stash
-			});
+			};
 		}
 
 		// Basic brei config with values we need for various things.
 		// I use this for a command line thing and like keeping custom stuff out of the package.json. - Ian
 		// This also identifies the type of project to the generator.
-		this.breiJ = editjson(this.destinationPath('.') + '/_config/_brei.json');
-		this.breiJ.set('title', this.appname);
-		this.breiJ.set('generatorVersion', this.genver);
-		this.breiJ.set('type', 'modern');
-		this.breiJ.set('app', 'app');
-		this.breiJ.set('dist', 'dist');
-		this.breiJ.set('deploy', this.deployDirectory);
+		this.breiJ = {
+			'title': this.appname,
+			'generatorVersion': this.genver,
+			'type': 'modern',
+			'app': 'app',
+			'dist': 'dist',
+			'deploy': this.deployDirectory
+		};
 
 	}
 
@@ -121,7 +122,7 @@ module.exports = class extends Generator {
 		let scaffoldJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-project-scaffold/package.json')
 		);
-		this.breiJ.set('brei-project-scaffold', scaffoldJson.version);
+		this.breiJ['brei-project-scaffold'] = scaffoldJson.version;
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-project-scaffold/**/*'),
 			this.destinationPath('.'),
@@ -139,7 +140,7 @@ module.exports = class extends Generator {
 		let sassJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-sass-boilerplate/package.json')
 		);
-		this.breiJ.set('brei-sass-boilerplate', sassJson.version);
+		this.breiJ['brei-sass-boilerplate'] = sassJson.version;
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-sass-boilerplate/**/*'),
 			this.destinationPath('app/scss/'),
@@ -172,7 +173,7 @@ module.exports = class extends Generator {
 		let mixinJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-sass-mixins/package.json')
 		);
-		this.breiJ.set('brei-sass-mixins', mixinJson.version);
+		this.breiJ['brei-sass-mixins'] = mixinJson.version;
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-sass-mixins/*.scss'),
 			this.destinationPath('app/scss/helpers/mixins/'),
@@ -190,7 +191,7 @@ module.exports = class extends Generator {
 		let assembleJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-assemble-structure/package.json')
 		);
-		this.breiJ.set('brei-assemble-structure', assembleJson.version);
+		this.breiJ['brei-assemble-structure'] = assembleJson.version;
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-assemble-structure/**/*'),
 			this.destinationPath('app/assemble/'),
@@ -219,7 +220,7 @@ module.exports = class extends Generator {
 		let helpersJson = this.fs.readJSON(
 			this.templatePath('../../../node_modules/brei-handlebars-helpers/package.json')
 		);
-		this.breiJ.set('brei-handlebars-helpers', helpersJson.version);
+		this.breiJ['brei-handlebars-helpers'] = helpersJson.version;
 		this.fs.copy(
 			this.templatePath('../../../node_modules/brei-handlebars-helpers/helpers.js'),
 			this.destinationPath('app/assemble/helpers/helpers.js'),
@@ -267,20 +268,11 @@ module.exports = class extends Generator {
 		this.fs.delete(this.destinationPath('app/assemble/test/'));
 		this.fs.delete(this.destinationPath('app/assemble/**/*/.gitkeep'));
 
-	}
+		// console.log(this.destinationPath('.'));
 
-	install() {
+		this.fs.writeJSON(this.destinationPath('_config/_brei.json'), this.breiJ);
+		this.fs.writeJSON(this.destinationPath('package.json'), this.newPJ);
 
-		// Installations are run
-
-		this.newPJ.save();
-		this.breiJ.save();
-
-		this.installDependencies({
-			skipInstall: this.options['skip-install'],
-			skipMessage: this.options['skip-install-message'],
-			bower: false
-		});
 	}
 
 	end() {
