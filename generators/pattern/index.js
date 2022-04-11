@@ -104,8 +104,8 @@ module.exports = class extends Generator {
 			'title': this.appname,
 			'generatorVersion': this.genver,
 			'type': 'pattern',
-			'app': 'app',
-			'dist': 'dist',
+			'app': 'assets',
+			'dist': 'public',
 			'deploy': this.deployDirectory
 		};
 
