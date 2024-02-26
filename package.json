@@ -1,6 +1,6 @@
 {
 	"name": "generator-brei-app",
-	"version": "4.2.2",
+	"version": "4.2.3",
 	"description": "Bootstrap client projects at BarkleyREI",
 	"license": "MIT",
 	"main": "generators/app/index.js",
@@ -13,9 +13,18 @@
 	},
 	"contributors": [
 		{
+			"name": "David White",
+			"email": "dwhite@barkleyus.com",
+			"url": "https://github.com/dwhiterei"
+		},
+		{
 			"name": "Ian Moffitt",
 			"email": "nessthehero@gmail.com",
 			"url": "https://github.com/nessthehero"
+		},
+		{
+			"name": "Sean Stacho",
+			"url": "https://github.com/Sean-BREI"
 		},
 		{
 			"name": "Ryan Sprake",
@@ -24,10 +33,6 @@
 		{
 			"name": "Joseph Dillon",
 			"url": "https://github.com/jdillon522"
-		},
-		{
-			"name": "Sean Stacho",
-			"url": "https://github.com/Sean-BREI"
 		},
 		{
 			"name": "Sarah Harissis",
@@ -59,7 +64,7 @@
 	"dependencies": {
 		"brei-assemble-structure": "~2.1.0",
 		"brei-handlebars-helpers": "~2.1.0",
-		"brei-pattern-scaffold": "~0.4.0",
+		"brei-pattern-scaffold": "~0.4.1",
 		"brei-project-scaffold": "~1.2.0",
 		"brei-sass-boilerplate": "~3.1.0",
 		"brei-sass-mixins": "~2.1.0",
